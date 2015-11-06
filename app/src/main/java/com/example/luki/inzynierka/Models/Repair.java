@@ -1,7 +1,6 @@
 package com.example.luki.inzynierka.Models;
 
 import java.util.Date;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
