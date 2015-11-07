@@ -6,38 +6,75 @@
     android:layout_margin="8dp">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/imageViewVehicleIcon"
-            android:background="@drawable/car_placeholder"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="90dp"
+                android:id="@+id/imageViewVehicleIcon"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marka"
+                    android:id="@+id/textViewVehicleBrand"
+                    android:textSize="33sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Model"
+                    android:id="@+id/textViewVehicleModel"
+                    android:textSize="25sp" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Marka Model"
-                android:id="@+id/textViewVehicleTitle"
-                android:textSize="30sp" />
+                android:text="Sedan"
+                android:textSize="20sp"
+                android:id="@+id/textViewBodyType"
+                android:layout_weight="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pojemnosc silnika"
-                android:id="@+id/textViewVehicleDescription"
+                android:text="2.0"
+                android:paddingRight="5dp"
+                android:id="@+id/textViewEngineCapacity"
                 android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Benzyna + gaz"
+                android:textSize="20sp"
+                android:id="@+id/textViewEngineType" />
         </LinearLayout>
 
     </LinearLayout>
