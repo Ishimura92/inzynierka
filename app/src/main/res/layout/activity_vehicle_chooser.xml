@@ -31,6 +31,18 @@
             app:layout_behavior="com.example.luki.inzynierka.Utils.FabHideBehavior" />
     </android.support.design.widget.CoordinatorLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewNoVehicles"
+        android:text="Brak zapisanych pojazdów\nUżyj ikonki plusa, aby dodać nowy"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="30sp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+
     <ScrollView
         android:id="@+id/vehicleAddLayout"
         android:layout_width="match_parent"
@@ -255,7 +267,7 @@
                                 android:id="@+id/textDialogEngineCapacity"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Pojemność"
+                                android:hint="Pojemność (l.)"
                                 android:inputType="phone"
                                 android:textSize="30sp"
                                 android:maxLength="3"/>

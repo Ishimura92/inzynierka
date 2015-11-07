@@ -1,20 +1,23 @@
 package com.example.luki.inzynierka;
 
 import android.app.DatePickerDialog;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.luki.inzynierka.Adapters.VehicleListAdapter;
 import com.example.luki.inzynierka.Models.Refueling;
@@ -22,6 +25,7 @@ import com.example.luki.inzynierka.Models.Repair;
 import com.example.luki.inzynierka.Models.Service;
 import com.example.luki.inzynierka.Models.Vehicle;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -69,6 +73,8 @@ public class VehicleChooser extends AppCompatActivity{
     Button buttonCancelAdd;
     @ViewById
     Button buttonConfirmAdd;
+    @ViewById
+    TextView textViewNoVehicles;
 
     @ViewById
     CoordinatorLayout coordinatorLayout;
@@ -86,9 +92,10 @@ public class VehicleChooser extends AppCompatActivity{
     private String vehicleModel;
     private Float engineCapacity;
     private Float odometer;
-    private String productionDate;
+    private Date productionDate;
     private String top;
     private String engine;
+    private String tempOdometer, tempEngineCapacity, tempProductionDate;
 
     private RealmList<Refueling> refuelings = new RealmList<>();
     private RealmList<Repair> repairs = new RealmList<>();
@@ -98,7 +105,7 @@ public class VehicleChooser extends AppCompatActivity{
     void init(){
         setRealm();
         vehicleList = new ArrayList<>();
-        generateVehiclesToTest();
+        //generateVehiclesToTest();
         setSpinners();
         getVehicleListFromRealm();
         setAdapter();
@@ -139,30 +146,156 @@ public class VehicleChooser extends AppCompatActivity{
 
     @Click(R.id.buttonConfirmAdd)
     void onConfirmClick(){
+        disableAllErrors();
+
+        getVehicleDataFromDialogs();
+
+        if(validateVehicleData()) {
+            odometer = Float.valueOf(tempOdometer);
+            engineCapacity = Float.valueOf(tempEngineCapacity);
+            productionDate = new Date(tempProductionDate);
+
+            Vehicle newVehicle = new Vehicle(3, vehicleBrand, vehicleModel, productionDate, "0xffffff",
+                    engine, engineCapacity, odometer, top, refuelings, repairs, services);
+
+            realm.beginTransaction();
+            realm.copyToRealm(newVehicle);
+            realm.commitTransaction();
+
+            vehicleList.add(newVehicle);
+            adapter.notifyDataSetChanged();
+            if(!vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.GONE);
+            onCancelClick();
+            clearDialogs();
+            disableAllErrors();
+            Snackbar.make(recyclerView, "Dodano pojazd", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    private void clearDialogs() {
+        textDialogVehicleBrand.setText("");
+        textDialogVehicleModel.setText("");
+        textDialogProductionDate.setText("");
+        textDialogOdometer.setText("");
+        textDialogEngineCapacity.setText("");
+        spinnerEngine.setSelected(false);
+        spinnerTop.setSelected(false);
+    }
+
+    @AfterTextChange(R.id.textDialogProductionDate)
+    void afterProductionDateTextChange(Editable text, TextView hello){
+        tempProductionDate = textDialogProductionDate.getText().toString();
+        if(validateProductionDate()) textDialogProductionDate.setError(null);
+    }
+
+    @AfterTextChange(R.id.textDialogEngineCapacity)
+    void afterEngineCapacityTextChange(Editable text, TextView hello){
+        tempEngineCapacity = textDialogEngineCapacity.getText().toString();
+        if(validateEngineCapacity()) textDialogEngineCapacity.setError(null);
+    }
+
+    @AfterTextChange(R.id.textDialogOdometer)
+    void afterOdometerTextChange(Editable text, TextView hello){
+        tempOdometer = textDialogOdometer.getText().toString();
+        if(validateOdometer()) textDialogOdometer.setError(null);
+    }
+
+    @AfterTextChange(R.id.textDialogVehicleBrand)
+    void afterVehicleBrandTextChange(Editable text, TextView hello){
+        vehicleBrand = textDialogVehicleBrand.getText().toString();
+        if(validateBrand()) textDialogVehicleBrand.setError(null);
+    }
+
+    @AfterTextChange(R.id.textDialogVehicleModel)
+    void afterVehicleModelTextChange(Editable text, TextView hello){
+        vehicleModel = textDialogVehicleModel.getText().toString();
+        if(validateModel()) textDialogVehicleModel.setError(null);
+    }
+
+    private void getVehicleDataFromDialogs() {
         vehicleBrand = textDialogVehicleBrand.getText().toString();
         vehicleModel = textDialogVehicleModel.getText().toString();
-        Date productionDate = new Date(textDialogProductionDate.getText().toString());
-        odometer = Float.valueOf(textDialogOdometer.getText().toString());
-        engineCapacity = Float.valueOf(textDialogEngineCapacity.getText().toString());
+        tempProductionDate = textDialogProductionDate.getText().toString();
+        tempOdometer = textDialogOdometer.getText().toString();
+        tempEngineCapacity = textDialogEngineCapacity.getText().toString();
         engine = spinnerEngineItems[spinnerEngine.getSelectedItemPosition()];
         top = spinnerTopItems[spinnerTop.getSelectedItemPosition()];
-        //validate();
+    }
 
-        Vehicle newVehicle = new Vehicle(3, vehicleBrand, vehicleModel, productionDate, "0xffffff",
-                engine, engineCapacity, odometer, top, refuelings, repairs, services);
+    private void disableAllErrors(){
+        textDialogVehicleBrand.setError(null);
+        textDialogVehicleModel.setError(null);
+        textDialogOdometer.setError(null);
+        textDialogEngineCapacity.setError(null);
+        textDialogProductionDate.setError(null);
+    }
 
-        realm.beginTransaction();
-        realm.copyToRealm(newVehicle);
-        realm.commitTransaction();
+    private boolean validateVehicleData() {
+        int counter = 0;
+        if (!validateBrand()) counter++;
+        if (!validateModel()) counter++;
+        if (!validateOdometer()) counter++;
+        if (!validateEngineCapacity()) counter++;
+        if (!validateProductionDate()) counter++;
 
-        vehicleList.add(newVehicle);
-        adapter.notifyDataSetChanged();
+        return counter == 0;
+    }
 
-        onCancelClick();
+    private boolean validateProductionDate() {
+        if(tempProductionDate.length() == 0){
+            textDialogProductionDate.setError("Wybierz datę");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateEngineCapacity() {
+        if(tempEngineCapacity.length() == 0){
+            textDialogEngineCapacity.setError("Wypełnij pole");
+            return false;
+        }else if(!tempEngineCapacity.matches("\\d+(\\.\\d+)*")){
+            textDialogEngineCapacity.setError("Możesz tu wpisać tylko cyfry");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateOdometer() {
+        if(tempOdometer.length() == 0){
+            textDialogOdometer.setError("Wypełnij pole");
+            return false;
+        }else if(!tempOdometer.matches("[0-9]+")){
+            textDialogOdometer.setError("Możesz tu wpisać tylko cyfry");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateModel() {
+        if(vehicleModel.length() == 0){
+            textDialogVehicleModel.setError("Wypełnij pole");
+            return false;
+        }else if(!vehicleModel.matches("[a-zA-Z0-9]+")){
+            textDialogVehicleModel.setError("Możesz tu wpisać tylko litery i cyfry");
+            return false;
+        }
+        return true;
+    }
+
+    @Nullable
+    private Boolean validateBrand() {
+        if(vehicleBrand.length() == 0){
+            textDialogVehicleBrand.setError("Wypełnij pole");
+            return false;
+        }else if(!vehicleBrand.matches("[a-zA-Z]+")){
+            textDialogVehicleBrand.setError("Możesz tu wpisać tylko litery");
+            return false;
+        }
+        return true;
     }
 
     @Click(R.id.buttonCancelAdd)
-    void onCancelClick(){
+    void onCancelClick() {
         vehicleAddLayout.setVisibility(View.INVISIBLE);
         coordinatorLayout.setEnabled(true);
     }
@@ -182,6 +315,7 @@ public class VehicleChooser extends AppCompatActivity{
     }
 
     private void setAdapter() {
+        if(!vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.GONE);
         adapter = new VehicleListAdapter(vehicleList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

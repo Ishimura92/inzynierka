@@ -44,7 +44,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         customViewHolder.textViewVehicleTitle.setText(vehicle.getBrand() + " " + vehicle.getModel());
         customViewHolder.textViewVehicleDescription.setText(vehicle.getEngineType());
         customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.car_placeholder);
-        //TODO dodać ustawianie ikonki samochodu na podstawe koloru i nadwozia
+        //TODO dodać ustawianie ikonki samochodu na podstawe nadwozia
 
 
         customViewHolder.cardViewVehicleItem.setOnClickListener(new View.OnClickListener() {
