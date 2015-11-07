@@ -4,6 +4,7 @@ import io.realm.RealmObject;
 
 public class Part extends RealmObject {
 
+    private int id;
     private String name;
     private float price;
     private String brand;
@@ -11,7 +12,8 @@ public class Part extends RealmObject {
     public Part(){
     }
 
-    public Part(String name, float price, String brand) {
+    public Part(int id, String name, float price, String brand) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.brand = brand;
@@ -39,5 +41,13 @@ public class Part extends RealmObject {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

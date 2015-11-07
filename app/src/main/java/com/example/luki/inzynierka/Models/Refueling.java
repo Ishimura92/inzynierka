@@ -7,6 +7,7 @@ import io.realm.RealmObject;
 
 public class Refueling extends RealmObject{
 
+    private int id;
     private float liters;
     private float price;
     private int odometer;
@@ -15,7 +16,8 @@ public class Refueling extends RealmObject{
     public Refueling(){
     }
 
-    public Refueling(float liters, float price, int odometer, Date date) {
+    public Refueling(int id, float liters, float price, int odometer, Date date) {
+        this.id = id;
         this.liters = liters;
         this.price = price;
         this.odometer = odometer;
@@ -52,5 +54,13 @@ public class Refueling extends RealmObject{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -6,6 +6,7 @@ import io.realm.RealmObject;
 
 public class Service extends RealmObject{
 
+    private int id;
     private String serviceType;
     private float odometer;
     private float price;
@@ -14,7 +15,8 @@ public class Service extends RealmObject{
     public Service(){
     }
 
-    public Service(String serviceType, float odometer, float price, Date date) {
+    public Service(int id, String serviceType, float odometer, float price, Date date) {
+        this.id = id;
         this.serviceType = serviceType;
         this.odometer = odometer;
         this.price = price;
@@ -51,5 +53,13 @@ public class Service extends RealmObject{
 
     public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

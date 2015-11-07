@@ -7,6 +7,7 @@ import io.realm.RealmObject;
 
 public class Repair extends RealmObject {
 
+    private int id;
     private String title;
     private String description;
     private float totalCost;
@@ -18,7 +19,8 @@ public class Repair extends RealmObject {
     public Repair() {
     }
 
-    public Repair(String title, String description, float totalCost, float odometer, RealmList<Part> parts, Date date, Workshop workshop) {
+    public Repair(int id, String title, String description, float totalCost, float odometer, RealmList<Part> parts, Date date, Workshop workshop) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.totalCost = totalCost;
@@ -82,5 +84,13 @@ public class Repair extends RealmObject {
 
     public void setWorkshop(Workshop workshop) {
         this.workshop = workshop;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

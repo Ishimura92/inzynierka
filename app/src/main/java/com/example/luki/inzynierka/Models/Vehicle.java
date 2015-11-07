@@ -6,10 +6,11 @@ import io.realm.RealmObject;
 
 public class Vehicle extends RealmObject {
 
+    private int id;
     private String brand;
     private String model;
     private Date productionDate;
-    private float color;
+    private String color;
     private String engineType;
     private float engineCapacity;
     private float odometer;
@@ -18,7 +19,8 @@ public class Vehicle extends RealmObject {
     public Vehicle() {
     }
 
-    public Vehicle(String brand, String model, Date productionDate, float color, String engineType, float engineCapacity, float odometer, String bodyType) {
+    public Vehicle(int id, String brand, String model, Date productionDate, String color, String engineType, float engineCapacity, float odometer, String bodyType) {
+        this.id = id;
         this.brand = brand;
         this.model = model;
         this.productionDate = productionDate;
@@ -53,11 +55,11 @@ public class Vehicle extends RealmObject {
         this.productionDate = productionDate;
     }
 
-    public float getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(float color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -91,5 +93,13 @@ public class Vehicle extends RealmObject {
 
     public void setBodyType(String bodyType) {
         this.bodyType = bodyType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -4,6 +4,7 @@ import io.realm.RealmObject;
 
 public class Workshop extends RealmObject{
 
+    private int id;
     private String name;
     private String firstName;
     private String lastName;
@@ -13,7 +14,8 @@ public class Workshop extends RealmObject{
     public Workshop(){
     }
 
-    public Workshop(String name, String firstName, String lastName, int phoneNumber, String address) {
+    public Workshop(int id, String name, String firstName, String lastName, int phoneNumber, String address) {
+        this.id = id;
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,5 +61,13 @@ public class Workshop extends RealmObject{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
