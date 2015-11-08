@@ -9,6 +9,7 @@ import io.realm.RealmObject;
 public class Vehicle extends RealmObject {
 
     private int id;
+    private int image;
     private String brand;
     private String model;
     private Date productionDate;
@@ -37,6 +38,14 @@ public class Vehicle extends RealmObject {
         this.refuelings = refuelings;
         this.repairs = repairs;
         this.services = services;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public String getBrand() {

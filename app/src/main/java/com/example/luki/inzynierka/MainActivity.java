@@ -1,18 +1,21 @@
 package com.example.luki.inzynierka;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.luki.inzynierka.Adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.Callbacks.MainActivityCallbacks;
+import com.example.luki.inzynierka.Fragments.MainFragment;
 import com.example.luki.inzynierka.Models.Vehicle;
 import com.example.luki.inzynierka.Utils.NavItem;
 
@@ -24,12 +27,16 @@ import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements MainActivityCallbacks {
 
+    public ListView mDrawerList;
+    public RelativeLayout mDrawerPane;
     private int vehicleID;
     private Realm realm;
-    ListView mDrawerList;
-    RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private MainFragment mainFragment;
+    private ImageView imageViewAvatar;
+    private TextView textViewCarBrand, textViewCarModel;
+    private Vehicle currentVehicle;
 
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
 
@@ -42,18 +49,45 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         getSupportActionBar().setHomeButtonEnabled(true);
         getExtras();
 
-        RealmQuery<Vehicle> query = realm.where(Vehicle.class);
-        query.equalTo("id", vehicleID);
-        RealmResults<Vehicle> results = query.findAll();
+        initView();
+        initFragments();
+
+        getVehicleFromRealm();
 
         setupNavigationDrawer();
     }
 
+    private void initView() {
+        imageViewAvatar = (ImageView) findViewById(R.id.avatar);
+        textViewCarBrand = (TextView) findViewById(R.id.carBrand);
+        textViewCarModel = (TextView) findViewById(R.id.carModel);
+    }
+
+    private void getVehicleFromRealm(){
+        RealmQuery<Vehicle> query = realm.where(Vehicle.class);
+        query.equalTo("id", vehicleID);
+        RealmResults<Vehicle> results = query.findAll();
+        currentVehicle = results.first();
+    }
+
+    private void initFragments() {
+        mainFragment = new MainFragment();
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        getSupportActionBar().setTitle(title);
+    }
+
     private void setupNavigationDrawer() {
-        mNavItems.add(new NavItem("Naprawy", "Przeglądaj swoje naprawy", R.drawable.ic_repair_black));
-        mNavItems.add(new NavItem("Tankowania", "Zarządzaj tankowaniem", R.drawable.ic_fuel_black));
-        mNavItems.add(new NavItem("Serwisy", "Spis dokonanych serwisów", R.drawable.ic_service_black));
-        mNavItems.add(new NavItem("Warsztaty", "Twoi mechanicy", R.drawable.ic_mechanic_black));
+        mNavItems.add(new NavItem("Naprawy", "Przeglądaj swoje naprawy", R.drawable.ic_repair_black_small));
+        mNavItems.add(new NavItem("Tankowania", "Zarządzaj tankowaniem", R.drawable.ic_fuel_black_small));
+        mNavItems.add(new NavItem("Serwisy", "Spis dokonanych serwisów", R.drawable.ic_service_black_small));
+        mNavItems.add(new NavItem("Warsztaty", "Twoi mechanicy", R.drawable.ic_mechanic_black_small));
+
+        imageViewAvatar.setImageResource(currentVehicle.getImage());
+        textViewCarModel.setText(currentVehicle.getModel());
+        textViewCarBrand.setText(currentVehicle.getBrand());
 
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -92,19 +126,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     private void selectItemFromDrawer(int position) {
-//        Fragment fragment = new PreferencesFragment();
-//
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.mainContent, fragment)
-//                .commit();
-//
-//        mDrawerList.setItemChecked(position, true);
-//        setTitle(mNavItems.get(position).mTitle);
+        mDrawerList.setItemChecked(position, true);
 
-        Toast.makeText(this, "Wybrałes pozycje " + mNavItems.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
-        // Close the drawer
         mDrawerLayout.closeDrawer(mDrawerPane);
     }
 
@@ -133,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         if (extras != null) {
             vehicleID = extras.getInt("CHOSEN_VEHICLE_ID");
         }
+    }
+
+    @Override
+    public void changeToMainFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_main, mainFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
     }
 
 

@@ -159,6 +159,28 @@ public class VehicleChooser extends AppCompatActivity{
             Vehicle newVehicle = new Vehicle(3, vehicleBrand, vehicleModel, productionDate, "0xffffff",
                     engine, engineCapacity, odometer, top, refuelings, repairs, services);
 
+            switch (newVehicle.getBodyType()){
+                case "Sedan":
+                    newVehicle.setImage(R.drawable.ic_sedan_dark);
+                    break;
+                case "Kombi":
+                    newVehicle.setImage(R.drawable.ic_kombi_dark);
+                    break;
+                case "Minivan/Van":
+                    newVehicle.setImage(R.drawable.ic_van_dark);
+                    break;
+                case "Coupe/Kabrio":
+                    newVehicle.setImage(R.drawable.ic_coupe_dark);
+                    break;
+                case "SUV":
+                    newVehicle.setImage(R.drawable.ic_suv_dark);
+                    break;
+                case "Hatchback":
+                    newVehicle.setImage(R.drawable.ic_hatchback_dark);
+                    break;
+            }
+
+
             realm.beginTransaction();
             realm.copyToRealm(newVehicle);
             realm.commitTransaction();
