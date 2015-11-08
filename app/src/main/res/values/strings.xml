@@ -2,4 +2,6 @@
     <string name="app_name">Inzynierka</string>
     <string name="action_settings">Settings</string>
     <string name="production_date">Data produkcji</string>
+    <string name="drawer_open">Otwórz menu</string>
+    <string name="drawer_close">Zamknij menu</string>
 </resources>

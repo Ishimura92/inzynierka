@@ -104,6 +104,7 @@ public class VehicleChooser extends AppCompatActivity{
     @AfterViews
     void init(){
         setRealm();
+        getSupportActionBar().setTitle("Wybierz pojazd");
         vehicleList = new ArrayList<>();
         //generateVehiclesToTest();
         setSpinners();
@@ -305,6 +306,15 @@ public class VehicleChooser extends AppCompatActivity{
         new DatePickerDialog(VehicleChooser.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(vehicleAddLayout.isShown()){
+            onCancelClick();
+        }
+        else finish();
+        //TODO dodać info, że jeśli się kliknie dwa razy to dopiero wyjść
     }
 
     private void updateLabel() {

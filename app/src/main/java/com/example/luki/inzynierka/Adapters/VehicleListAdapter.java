@@ -73,6 +73,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("CHOSEN_VEHICLE_ID", vehicle.getId());
                 context.startActivity(intent);
             }
