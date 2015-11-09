@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Utils;
+package com.example.luki.inzynierka.utils;
 
 public class NavItem {
     String title;

@@ -1,5 +1,6 @@
 package com.example.luki.inzynierka;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -13,11 +14,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.luki.inzynierka.Adapters.DrawerListAdapter;
-import com.example.luki.inzynierka.Callbacks.MainActivityCallbacks;
-import com.example.luki.inzynierka.Fragments.MainFragment;
-import com.example.luki.inzynierka.Models.Vehicle;
-import com.example.luki.inzynierka.Utils.NavItem;
+import com.example.luki.inzynierka.adapters.DrawerListAdapter;
+import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
+import com.example.luki.inzynierka.fragments.MainFragment;
+import com.example.luki.inzynierka.models.Vehicle;
+import com.example.luki.inzynierka.utils.NavItem;
 
 import java.util.ArrayList;
 
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mNavItems.add(new NavItem("Serwisy", "Spis dokonanych serwisów", R.drawable.ic_service_black_small));
         mNavItems.add(new NavItem("Warsztaty", "Twoi mechanicy", R.drawable.ic_mechanic_black_small));
 
+        mNavItems.add(new NavItem("Zmień pojazd", "Widok wyboru pojazdów", R.drawable.car_placeholder_small));
+
         imageViewAvatar.setImageResource(currentVehicle.getImage());
         textViewCarModel.setText(currentVehicle.getModel());
         textViewCarBrand.setText(currentVehicle.getBrand());
@@ -128,7 +131,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private void selectItemFromDrawer(int position) {
         mDrawerList.setItemChecked(position, true);
 
-        mDrawerLayout.closeDrawer(mDrawerPane);
+        switch (position){
+            case 4:
+                Intent intent = new Intent(this, VehicleChooser_.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                this.startActivity(intent);
+                break;
+        }
+        //TODO to nizej dodac przed kazdym breakiem oprocz tego wyjsciowego do wyboru pojazdow
+        //mDrawerLayout.closeDrawer(mDrawerPane);
     }
 
     @Override

@@ -1,7 +1,9 @@
-package com.example.luki.inzynierka.Adapters;
+package com.example.luki.inzynierka.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,28 +13,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.MainActivity;
-import com.example.luki.inzynierka.Models.Vehicle;
+import com.example.luki.inzynierka.VehicleChooser;
+import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+
 public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.CustomViewHolder> {
 
     private Context context;
     private List<Vehicle> vehicles = new ArrayList<>();
+    private Realm realm;
 
     public VehicleListAdapter(List<Vehicle> vehicles, Context context) {
         this.vehicles = vehicles;
         this.context = context;
     }
 
-
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.vehicle_list_row, parent, false);
-
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -46,6 +50,8 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         customViewHolder.textViewEngineType.setText(vehicle.getEngineType());
         customViewHolder.textViewEngineCapacity.setText(String.valueOf(vehicle.getEngineCapacity()));
         customViewHolder.textViewBodyType.setText(vehicle.getBodyType());
+
+        customViewHolder.textViewVehicleBrand.setSelected(true);
 
 
         switch (vehicle.getBodyType()){
@@ -76,6 +82,33 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("CHOSEN_VEHICLE_ID", vehicle.getId());
                 context.startActivity(intent);
+            }
+        });
+
+        customViewHolder.cardViewVehicleItem.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setTitle(vehicle.getBrand() + " " + vehicle.getModel())
+                        .setMessage("Możesz edytować lub usunąć wybrany pojazd.")
+                        .setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ((VehicleChooser)context).deleteVehicle(vehicle.getId());
+                            }
+                        })
+                        .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setNegativeButton("Edytuj", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ((VehicleChooser)context).editVehicle(vehicle.getId());
+                            }
+                        })
+                        .setIcon(R.drawable.car_placeholder)
+                        .show();
+                return false;
             }
         });
     }

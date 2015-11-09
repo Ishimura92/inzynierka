@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Adapters;
+package com.example.luki.inzynierka.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
-import com.example.luki.inzynierka.Utils.NavItem;
+import com.example.luki.inzynierka.utils.NavItem;
 
 import java.util.ArrayList;
 

@@ -1,14 +1,16 @@
-package com.example.luki.inzynierka.Models;
+package com.example.luki.inzynierka.models;
 
 import java.util.Date;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Vehicle extends RealmObject {
 
+    @PrimaryKey
     private int id;
+
     private int image;
     private String brand;
     private String model;

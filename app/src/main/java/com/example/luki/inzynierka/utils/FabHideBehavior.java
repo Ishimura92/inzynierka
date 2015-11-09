@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Utils;
+package com.example.luki.inzynierka.utils;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

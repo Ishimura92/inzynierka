@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Fragments;
+package com.example.luki.inzynierka.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.luki.inzynierka.Callbacks.MainActivityCallbacks;
+import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.R;
 
 import io.realm.Realm;

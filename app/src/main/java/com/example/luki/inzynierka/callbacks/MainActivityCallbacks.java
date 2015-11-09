@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Callbacks;
+package com.example.luki.inzynierka.callbacks;
 
 public interface MainActivityCallbacks {
     void changeToMainFragment(String fragmentTitle);

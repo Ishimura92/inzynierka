@@ -19,17 +19,19 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.luki.inzynierka.Adapters.VehicleListAdapter;
-import com.example.luki.inzynierka.Models.Refueling;
-import com.example.luki.inzynierka.Models.Repair;
-import com.example.luki.inzynierka.Models.Service;
-import com.example.luki.inzynierka.Models.Vehicle;
+import com.example.luki.inzynierka.adapters.VehicleListAdapter;
+import com.example.luki.inzynierka.models.Refueling;
+import com.example.luki.inzynierka.models.Repair;
+import com.example.luki.inzynierka.models.Service;
+import com.example.luki.inzynierka.models.Vehicle;
+import com.example.luki.inzynierka.utils.Preferences_;
 
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 @EActivity(R.layout.activity_vehicle_chooser)
-public class VehicleChooser extends AppCompatActivity{
+public class VehicleChooser extends AppCompatActivity {
 
     @ViewById
     ScrollView vehicleAddLayout;
@@ -81,6 +83,9 @@ public class VehicleChooser extends AppCompatActivity{
     @ViewById
     ImageView imageViewCalendar;
 
+    @Pref
+    Preferences_ preferences;
+
     private Realm realm;
     private Calendar myCalendar;
     private List<Vehicle> vehicleList;
@@ -96,10 +101,12 @@ public class VehicleChooser extends AppCompatActivity{
     private String top;
     private String engine;
     private String tempOdometer, tempEngineCapacity, tempProductionDate;
+    private boolean inEditMode;
 
     private RealmList<Refueling> refuelings = new RealmList<>();
     private RealmList<Repair> repairs = new RealmList<>();
     private RealmList<Service> services = new RealmList<>();
+    private Vehicle editedVehicle;
 
     @AfterViews
     void init(){
@@ -152,46 +159,82 @@ public class VehicleChooser extends AppCompatActivity{
         getVehicleDataFromDialogs();
 
         if(validateVehicleData()) {
-            odometer = Float.valueOf(tempOdometer);
-            engineCapacity = Float.valueOf(tempEngineCapacity);
-            productionDate = new Date(tempProductionDate);
-
-            Vehicle newVehicle = new Vehicle(3, vehicleBrand, vehicleModel, productionDate, "0xffffff",
-                    engine, engineCapacity, odometer, top, refuelings, repairs, services);
-
-            switch (newVehicle.getBodyType()){
-                case "Sedan":
-                    newVehicle.setImage(R.drawable.ic_sedan_dark);
-                    break;
-                case "Kombi":
-                    newVehicle.setImage(R.drawable.ic_kombi_dark);
-                    break;
-                case "Minivan/Van":
-                    newVehicle.setImage(R.drawable.ic_van_dark);
-                    break;
-                case "Coupe/Kabrio":
-                    newVehicle.setImage(R.drawable.ic_coupe_dark);
-                    break;
-                case "SUV":
-                    newVehicle.setImage(R.drawable.ic_suv_dark);
-                    break;
-                case "Hatchback":
-                    newVehicle.setImage(R.drawable.ic_hatchback_dark);
-                    break;
+            if (!inEditMode) {
+                addNewVehicle();
+            } else {
+                updateVehicle();
             }
+        }
+    }
 
+    private void updateVehicle() {
+        odometer = Float.valueOf(tempOdometer);
+        engineCapacity = Float.valueOf(tempEngineCapacity);
+        productionDate = new Date(tempProductionDate);
 
-            realm.beginTransaction();
-            realm.copyToRealm(newVehicle);
-            realm.commitTransaction();
+        realm.beginTransaction();
+        editedVehicle = new Vehicle(editedVehicle.getId(), vehicleBrand, vehicleModel, productionDate, "0xffffff",
+                engine, engineCapacity, odometer, top, refuelings, repairs, services);
+        setVehicleImage(editedVehicle);
+        realm.copyToRealmOrUpdate(editedVehicle);
+        realm.commitTransaction();
 
-            vehicleList.add(newVehicle);
-            adapter.notifyDataSetChanged();
-            if(!vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.GONE);
-            onCancelClick();
-            clearDialogs();
-            disableAllErrors();
-            Snackbar.make(recyclerView, "Dodano pojazd", Snackbar.LENGTH_LONG).show();
+        getVehicleListFromRealm();
+        adapter.notifyDataSetChanged();
+
+        buttonConfirmAdd.setText("Dodaj");
+        onCancelClick();
+        clearDialogs();
+        disableAllErrors();
+        inEditMode = false;
+        Snackbar.make(recyclerView, "Zapisano zmiany", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void addNewVehicle() {
+        odometer = Float.valueOf(tempOdometer);
+        engineCapacity = Float.valueOf(tempEngineCapacity);
+        productionDate = new Date(tempProductionDate);
+        final int vehicleID = preferences.lastVehicleID().get() + 1;
+        preferences.lastVehicleID().put(vehicleID);
+
+        Vehicle newVehicle = new Vehicle(vehicleID, vehicleBrand, vehicleModel, productionDate, "0xffffff",
+                engine, engineCapacity, odometer, top, refuelings, repairs, services);
+
+        setVehicleImage(newVehicle);
+
+        realm.beginTransaction();
+        realm.copyToRealm(newVehicle);
+        realm.commitTransaction();
+
+        vehicleList.add(newVehicle);
+        adapter.notifyDataSetChanged();
+        if(!vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.GONE);
+        onCancelClick();
+        clearDialogs();
+        disableAllErrors();
+        Snackbar.make(recyclerView, "Dodano pojazd", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void setVehicleImage(Vehicle newVehicle) {
+        switch (newVehicle.getBodyType()){
+            case "Sedan":
+                newVehicle.setImage(R.drawable.ic_sedan_dark);
+                break;
+            case "Kombi":
+                newVehicle.setImage(R.drawable.ic_kombi_dark);
+                break;
+            case "Minivan/Van":
+                newVehicle.setImage(R.drawable.ic_van_dark);
+                break;
+            case "Coupe/Kabrio":
+                newVehicle.setImage(R.drawable.ic_coupe_dark);
+                break;
+            case "SUV":
+                newVehicle.setImage(R.drawable.ic_suv_dark);
+                break;
+            case "Hatchback":
+                newVehicle.setImage(R.drawable.ic_hatchback_dark);
+                break;
         }
     }
 
@@ -276,8 +319,8 @@ public class VehicleChooser extends AppCompatActivity{
         if(tempEngineCapacity.length() == 0){
             textDialogEngineCapacity.setError("Wypełnij pole");
             return false;
-        }else if(!tempEngineCapacity.matches("\\d+(\\.\\d+)*")){
-            textDialogEngineCapacity.setError("Możesz tu wpisać tylko cyfry");
+        }else if(!tempEngineCapacity.matches("[0-9.]+")){
+            textDialogEngineCapacity.setError("Możesz tu wpisać tylko cyfry i kropkę");
             return false;
         }
         return true;
@@ -287,8 +330,8 @@ public class VehicleChooser extends AppCompatActivity{
         if(tempOdometer.length() == 0){
             textDialogOdometer.setError("Wypełnij pole");
             return false;
-        }else if(!tempOdometer.matches("[0-9]+")){
-            textDialogOdometer.setError("Możesz tu wpisać tylko cyfry");
+        }else if(!tempOdometer.matches("[0-9.]+")){
+            textDialogOdometer.setError("Możesz tu wpisać tylko cyfry i kropkę");
             return false;
         }
         return true;
@@ -298,7 +341,7 @@ public class VehicleChooser extends AppCompatActivity{
         if(vehicleModel.length() == 0){
             textDialogVehicleModel.setError("Wypełnij pole");
             return false;
-        }else if(!vehicleModel.matches("[a-zA-Z0-9]+")){
+        }else if(!vehicleModel.matches("[a-zA-Z 0-9]+")){
             textDialogVehicleModel.setError("Możesz tu wpisać tylko litery i cyfry");
             return false;
         }
@@ -310,7 +353,7 @@ public class VehicleChooser extends AppCompatActivity{
         if(vehicleBrand.length() == 0){
             textDialogVehicleBrand.setError("Wypełnij pole");
             return false;
-        }else if(!vehicleBrand.matches("[a-zA-Z]+")){
+        }else if(!vehicleBrand.matches("[a-z A-Z]+")){
             textDialogVehicleBrand.setError("Możesz tu wpisać tylko litery");
             return false;
         }
@@ -321,6 +364,12 @@ public class VehicleChooser extends AppCompatActivity{
     void onCancelClick() {
         vehicleAddLayout.setVisibility(View.INVISIBLE);
         coordinatorLayout.setEnabled(true);
+        if(inEditMode) {
+            buttonConfirmAdd.setText("Dodaj");
+            clearDialogs();
+            disableAllErrors();
+            inEditMode = false;
+        }
     }
 
     @Click(R.id.imageViewCalendar)
@@ -335,7 +384,7 @@ public class VehicleChooser extends AppCompatActivity{
         if(vehicleAddLayout.isShown()){
             onCancelClick();
         }
-        else finish();
+        else this.finishAffinity();
         //TODO dodać info, że jeśli się kliknie dwa razy to dopiero wyjść
     }
 
@@ -350,6 +399,7 @@ public class VehicleChooser extends AppCompatActivity{
         if(!vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.GONE);
         adapter = new VehicleListAdapter(vehicleList, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
         recyclerView.setAdapter(adapter);
     }
 
@@ -366,6 +416,7 @@ public class VehicleChooser extends AppCompatActivity{
     }
 
     private void getVehicleListFromRealm(){
+        vehicleList.clear();
         realm.beginTransaction();
         RealmQuery<Vehicle> query = realm.where(Vehicle.class);
         RealmResults<Vehicle> results = query.findAll();
@@ -378,28 +429,49 @@ public class VehicleChooser extends AppCompatActivity{
     }
 
     private void generateVehiclesToTest(){
-
         Vehicle pierwszy = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services);
         Vehicle drugi = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services);
-//        vehicleList.add(pierwszy);
-//        vehicleList.add(drugi);
-//
-//        Vehicle pierwszy1 = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services);
-//        Vehicle drugi1 = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services);
-//        Vehicle pierwszy2 = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services);
-//        Vehicle drugi2 = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services);
-//        Vehicle pierwszy3 = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services);
-//        Vehicle drugi3 = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services);
-//        vehicleList.add(pierwszy1);
-//        vehicleList.add(drugi1);
-//        vehicleList.add(pierwszy2);
-//        vehicleList.add(drugi2);
-//        vehicleList.add(pierwszy3);
-//        vehicleList.add(drugi3);
+        vehicleList.add(pierwszy);
+        vehicleList.add(drugi);
 
         realm.beginTransaction();
         realm.copyToRealm(pierwszy);
         realm.copyToRealm(drugi);
         realm.commitTransaction();
+    }
+
+    public void deleteVehicle(int id) {
+        realm.beginTransaction();
+        RealmQuery<Vehicle> query = realm.where(Vehicle.class);
+        query.equalTo("id", id);
+        RealmResults<Vehicle> results = query.findAll();
+        results.removeLast();
+        realm.commitTransaction();
+
+        getVehicleListFromRealm();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void editVehicle(int id) {
+        inEditMode = true;
+        vehicleAddLayout.setVisibility(View.VISIBLE);
+        coordinatorLayout.setEnabled(false);
+
+        buttonConfirmAdd.setText("Zapisz");
+
+        realm.beginTransaction();
+        RealmQuery<Vehicle> query = realm.where(Vehicle.class);
+        query.equalTo("id", id);
+        RealmResults<Vehicle> results = query.findAll();
+        editedVehicle = results.first();
+        realm.commitTransaction();
+
+        textDialogVehicleBrand.setText(editedVehicle.getBrand());
+        textDialogVehicleModel.setText(editedVehicle.getModel());
+        textDialogProductionDate.setText(editedVehicle.getProductionDate().toString());
+        //TODO pattern na date!
+        textDialogOdometer.setText(String.valueOf(editedVehicle.getOdometer()));
+        textDialogEngineCapacity.setText(String.valueOf(editedVehicle.getEngineCapacity()));
+        //TODO ustawić spinnery
     }
 }

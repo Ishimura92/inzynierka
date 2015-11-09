@@ -27,21 +27,28 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp">
+                android:layout_marginLeft="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Marka"
+                    android:text="ToDługaMarka"
+                    android:ellipsize="marquee"
+                    android:fadingEdge="horizontal"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
                     android:id="@+id/textViewVehicleBrand"
-                    android:textSize="33sp" />
+                    android:textSize="28sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Model"
+                    android:text="ToCałkiemDługiModel"
+                    android:maxLines="2"
                     android:id="@+id/textViewVehicleModel"
-                    android:textSize="25sp" />
+                    android:textSize="24sp" />
 
             </LinearLayout>
         </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.luki.inzynierka.Models;
+package com.example.luki.inzynierka.models;
 
 import io.realm.RealmObject;
 

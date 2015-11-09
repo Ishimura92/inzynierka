@@ -1,6 +1,5 @@
-package com.example.luki.inzynierka.Models;
+package com.example.luki.inzynierka.models;
 
-import java.sql.Ref;
 import java.util.Date;
 
 import io.realm.RealmObject;
