@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dodaj tankowanie"
+            android:id="@+id/textViewAddRefuelingDialogTitle"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:orientation="horizontal"
+                android:layout_weight="4">
+
+                <EditText
+                    android:id="@+id/editTextFuelQuantity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ilość paliwa (l.)"
+                    android:inputType="phone"
+                    android:textSize="15sp"
+                    android:maxLength="4"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_weight="3">
+
+                <EditText
+                    android:id="@+id/editTextFuelPrice"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Koszt tankowania (zł.)"
+                    android:inputType="phone"
+                    android:textSize="15sp"
+                    android:maxLength="8"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp">
+
+            <EditText
+                android:id="@+id/editTextOdometerValue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Aktualny przebieg"
+                android:inputType="phone"
+                android:textSize="15sp"
+                android:maxLength="8"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rodzaj paliwa"
+                    android:textSize="15sp"
+                    android:id="@+id/textViewFuelType" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinnerFuelType"
+                    android:paddingLeft="50dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ANULUJ"
+                android:textColor="@color/colorAccent"
+                android:background="@color/transparent"
+                android:id="@+id/buttonCancelRefueling"
+                android:layout_weight="1"
+                android:layout_gravity="bottom" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ZAPISZ"
+                android:textColor="@color/colorAccent"
+                android:background="@color/transparent"
+                android:id="@+id/buttonSaveRefueling"
+                android:layout_weight="1"
+                android:layout_gravity="bottom" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

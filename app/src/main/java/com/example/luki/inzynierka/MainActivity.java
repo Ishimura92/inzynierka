@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
+import com.example.luki.inzynierka.fragments.RefuelingFragment;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
@@ -35,9 +36,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private MainFragment mainFragment;
+    private RefuelingFragment refuelingFragment;
     private ImageView imageViewAvatar;
     private TextView textViewCarBrand, textViewCarModel;
     private Vehicle currentVehicle;
+    private RelativeLayout profileBox;
 
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
 
@@ -54,14 +57,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         initFragments();
 
         getVehicleFromRealm();
-
         setupNavigationDrawer();
+
+        changeToMainFragment("Aktualności");
     }
 
     private void initView() {
         imageViewAvatar = (ImageView) findViewById(R.id.avatar);
         textViewCarBrand = (TextView) findViewById(R.id.carBrand);
         textViewCarModel = (TextView) findViewById(R.id.carModel);
+        profileBox = (RelativeLayout) findViewById(R.id.profileBox);
     }
 
     private void getVehicleFromRealm(){
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     private void initFragments() {
         mainFragment = new MainFragment();
+        refuelingFragment = new RefuelingFragment();
     }
 
     @Override
@@ -102,10 +108,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mDrawerList.setAdapter(adapter);
 
         // Drawer Item click listeners
+        setDrawerListeners();
+    }
+
+    private void setDrawerListeners() {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItemFromDrawer(position);
+            }
+        });
+
+        profileBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToMainFragment("Aktualności");
+                mDrawerLayout.closeDrawer(mDrawerPane);
             }
         });
 
@@ -132,6 +150,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mDrawerList.setItemChecked(position, true);
 
         switch (position){
+            case 1:
+                changeToRefuelingFragment("Tankowania");
+                mDrawerLayout.closeDrawer(mDrawerPane);
+                break;
+
             case 4:
                 Intent intent = new Intent(this, VehicleChooser_.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -173,7 +196,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     public void changeToMainFragment(String fragmentTitle) {
         setTitle(fragmentTitle);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_main, mainFragment);
+        transaction.replace(R.id.fragment_content, mainFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
+    @Override
+    public void changeToRefuelingFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, refuelingFragment);
         transaction.addToBackStack(fragmentTitle);
         transaction.commit();
     }

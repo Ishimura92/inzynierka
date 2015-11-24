@@ -19,8 +19,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add_white_48dp"
             app:backgroundTint="@color/colorAccent"
@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Marka"
                             android:inputType="textPersonName"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:maxLength="30"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -117,7 +117,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Model"
                             android:inputType="textPersonName"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:maxLength="30"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -149,7 +149,7 @@
                                 android:hint="@string/production_date"
                                 android:inputType="date"
                                 android:enabled="false"
-                                android:textSize="30sp"
+                                android:textSize="20sp"
                                 android:maxLength="30"/>
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
@@ -162,8 +162,8 @@
                         android:gravity="center_horizontal">
 
                         <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:background="@drawable/ic_calendar_black"
                             android:id="@+id/imageViewCalendar"
                             android:layout_gravity="center"
@@ -189,7 +189,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Nadwozie"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:id="@+id/textView2" />
                     </LinearLayout>
 
@@ -225,7 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Silnik"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:id="@+id/textView" />
                     </LinearLayout>
 
@@ -269,7 +269,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="Pojemność (l.)"
                                 android:inputType="phone"
-                                android:textSize="30sp"
+                                android:textSize="20sp"
                                 android:maxLength="3"/>
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
@@ -295,13 +295,14 @@
                             android:layout_height="wrap_content"
                             android:hint="Przebieg"
                             android:inputType="phone"
-                            android:textSize="30sp"
+                            android:textSize="20sp"
                             android:maxLength="10"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
+                    android:paddingTop="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

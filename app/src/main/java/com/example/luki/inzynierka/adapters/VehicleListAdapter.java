@@ -52,6 +52,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         customViewHolder.textViewBodyType.setText(vehicle.getBodyType());
 
         customViewHolder.textViewVehicleBrand.setSelected(true);
+        customViewHolder.textViewVehicleModel.setSelected(true);
 
 
         switch (vehicle.getBodyType()){

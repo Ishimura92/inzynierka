@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40dp"
-        android:text="SOFAISBFKBKFBSJBDDLJSDBLB"/>
+        android:text="FRAGMENT MAIN"
+        android:layout_gravity="center" />
 
 </LinearLayout>

@@ -6,11 +6,12 @@
 
     <!-- The main content view -->
     <fragment
-        android:id="@+id/fragment_main"
+        android:id="@+id/fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_main"
-        class="com.example.luki.inzynierka.fragments.MainFragment"/>
+        tools:layout="@layout/fragment_container"
+        class="com.example.luki.inzynierka.fragments.ContenerFragment"
+        />
 
     <!-- The navigation drawer -->
     <RelativeLayout
