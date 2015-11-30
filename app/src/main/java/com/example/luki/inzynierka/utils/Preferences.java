@@ -8,4 +8,19 @@ public interface Preferences {
 
     @DefaultInt(0)
     int lastVehicleID();
+
+    @DefaultInt(0)
+    int lastRefuelingID();
+
+    @DefaultInt(0)
+    int lastPartID();
+
+    @DefaultInt(0)
+    int lastRepairID();
+
+    @DefaultInt(0)
+    int lastServiceID();
+
+    @DefaultInt(0)
+    int lastWorkshopID();
 }

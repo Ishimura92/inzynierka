@@ -175,14 +175,26 @@
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewNoRefuelings"
+                android:text="Brak zapisanych tankowań.\nUżyj pomarańczowej ikonki aby dodać nowe."
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recyclerViewFuel">
+                android:id="@+id/recyclerViewFuel"
+                android:paddingTop="10dp">
             </android.support.v7.widget.RecyclerView>
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
+                android:id="@+id/fabRefueling"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="@dimen/fab_margin"

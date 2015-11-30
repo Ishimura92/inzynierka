@@ -18,6 +18,7 @@ import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment;
+import com.example.luki.inzynierka.fragments.RefuelingFragment_;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private MainFragment mainFragment;
-    private RefuelingFragment refuelingFragment;
+    private RefuelingFragment_ refuelingFragment;
     private ImageView imageViewAvatar;
     private TextView textViewCarBrand, textViewCarModel;
     private Vehicle currentVehicle;
@@ -78,7 +79,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     private void initFragments() {
         mainFragment = new MainFragment();
-        refuelingFragment = new RefuelingFragment();
+        refuelingFragment = new RefuelingFragment_();
+    }
+
+    @Override
+    public Vehicle getCurrentVehicle() {
+        return currentVehicle;
     }
 
     @Override
