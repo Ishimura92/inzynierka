@@ -4,116 +4,48 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/outline_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" >
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/ic_fuel_black_small"
+            android:id="@+id/imageView" />
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent" >
+            android:layout_gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ostatnie tankowanie"
-                android:id="@+id/textView10"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:layout_margin="5dp" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:background="@color/colorPrimaryLight"
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:text="podsumowanie"
+                android:id="@+id/buttonFuelSummary"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:background="@color/transparent"
+                android:layout_gravity="center" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Całkowity koszt:"
-                        android:id="@+id/textView11" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="167 zł"
-                        android:id="@+id/textView12"
-                        android:gravity="right"
-                        android:layout_marginRight="5dp" />
-                </LinearLayout>
-            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="wykresy"
+                android:id="@+id/buttonFuelGraphs"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:layout_gravity="center" />
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:background="@color/colorPrimaryLight"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wzkazanie licznika:"
-                    android:id="@+id/textView13" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="223515 km"
-                    android:id="@+id/textView14"
-                    android:gravity="right"
-                    android:layout_marginRight="5dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:background="@color/colorPrimaryLight"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Data:"
-                    android:id="@+id/textView15" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="25 października 2015"
-                    android:id="@+id/textView16"
-                    android:gravity="right"
-                    android:layout_marginRight="5dp" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -126,10 +58,10 @@
         android:layout_marginRight="5dp">
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryLight"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -139,10 +71,15 @@
                 android:textSize="20sp"
                 android:textColor="#ffffff"
                 android:layout_margin="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:orientation="vertical"
-                android:background="@color/colorPrimaryLight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
@@ -171,7 +108,6 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@color/colorPrimaryLight"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -200,7 +136,6 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@color/colorPrimaryLight"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
@@ -230,22 +165,36 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="10dp"
         android:elevation="10dp"
         android:layout_height="match_parent"
         android:gravity="bottom">
 
-        <Button
-            android:id="@+id/buttonNewRefueling"
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayoutFuel"
             android:layout_width="match_parent"
-            android:text="Dodaj tankowanie"
-            android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerViewFuel">
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_fuel_black_small"
+                app:backgroundTint="@color/colorAccent"
+                app:borderWidth="0dp"
+                app:elevation="0dp"
+                app:layout_anchor="@id/recyclerViewFuel"
+                app:layout_anchorGravity="bottom|right|end"
+                app:layout_behavior="com.example.luki.inzynierka.utils.FabHideBehavior" />
+        </android.support.design.widget.CoordinatorLayout>
+
     </LinearLayout>
 
 </LinearLayout>

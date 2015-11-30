@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +36,7 @@ public class RefuelingFragment extends Fragment{
     private EditText editTextfuelQuantity, editTextfuelTotalCost, editTextodometerValue;
     private Button buttonNewRefueling;
     private Spinner spinnerFuelType;
-    private String[] spinnerFuelTypeItems = new String[]{"ON", "PB95", "PB98", "LPG"};
+    private String[] spinnerFuelTypeItems = new String[]{"PB95", "PB98", "ON", "LPG"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class RefuelingFragment extends Fragment{
             public void onClick(View v) {
                 newRefuelingDialog = new NewRefuelingDialog(getContext());
                 newRefuelingDialog.show();
+                newRefuelingDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
         });
     }
