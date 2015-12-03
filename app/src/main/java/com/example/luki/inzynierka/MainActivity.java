@@ -2,6 +2,7 @@ package com.example.luki.inzynierka;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,9 +17,11 @@ import android.widget.TextView;
 
 import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
+import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
-import com.example.luki.inzynierka.fragments.RefuelingMainFragment_;
+import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment_;
+import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
@@ -28,7 +31,7 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements MainActivityCallbacks {
+public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks {
 
     public ListView mDrawerList;
     public RelativeLayout mDrawerPane;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private MainFragment mainFragment;
+    private RefuelingHistoryFragment_ refuelingHistoryFragment;
     private RefuelingFragment_ refuelingFragment;
     private ImageView imageViewAvatar;
     private TextView textViewCarBrand, textViewCarModel;
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private void initFragments() {
         mainFragment = new MainFragment();
         refuelingFragment = new RefuelingFragment_();
+        refuelingHistoryFragment = new RefuelingHistoryFragment_();
     }
 
     @Override
@@ -221,5 +226,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     public void onBackPressed() {
         this.finishAffinity();
         //TODO dodać info, że jeśli się kliknie dwa razy to dopiero wyjść
+    }
+
+    @Override
+    public void notifyRefuelingDatasetChanged(Fragment fragment, Refueling refueling) {
+        refuelingHistoryFragment = (RefuelingHistoryFragment_) fragment;
+        refuelingHistoryFragment.notifyNewRefueling(refueling);
     }
 }

@@ -39,7 +39,7 @@ public class RefuelingslListAdapter extends RecyclerView.Adapter<RefuelingslList
     public void onBindViewHolder(CustomViewHolder customViewHolder, int position) {
         final Refueling refueling = refuelings.get(position);
 
-        customViewHolder.textViewCostPerLiter.setText(String.format("%.2f", refueling.getLiters() / refueling.getPrice()) + " zł/l");
+        customViewHolder.textViewCostPerLiter.setText(String.format("%.2f", refueling.getPrice() / refueling.getLiters()) + " zł/l");
         customViewHolder.textViewFuelType.setText(refueling.getType());
         customViewHolder.textViewRefuelingAmount.setText(String.valueOf(refueling.getLiters()) + " l");
         customViewHolder.textViewRefuelingCost.setText(String.valueOf(refueling.getPrice()) + " zł");

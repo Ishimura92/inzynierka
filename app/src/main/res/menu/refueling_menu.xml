@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_refueling"
+        android:icon="@drawable/ic_refueling_orange"
+        android:title="Dodaj tankowanie"
+        app:showAsAction="ifRoom"/>
+</menu>
