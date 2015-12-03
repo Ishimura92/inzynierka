@@ -1,212 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/fragment_refueling"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:background="@drawable/outline_background"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/ic_fuel_black_small"
-            android:id="@+id/imageView" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="podsumowanie"
-                android:id="@+id/buttonFuelSummary"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:background="@color/transparent"
-                android:layout_gravity="center" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="wykresy"
-                android:id="@+id/buttonFuelGraphs"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:background="@color/colorPrimaryLight"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/refuelingTabs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"/>
+    </android.support.design.widget.AppBarLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Podsumowanie"
-                android:id="@+id/textView3"
-                android:textSize="20sp"
-                android:textColor="#ffffff"
-                android:layout_margin="5dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Łącznie wydano na paliwo:"
-                        android:id="@+id/textView6" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="58923 zł"
-                        android:id="@+id/textView7"
-                        android:gravity="right"
-                        android:layout_marginRight="5dp" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ostatnie tankowanie:"
-                    android:id="@+id/textView8" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="223 zł"
-                    android:id="@+id/textView9"
-                    android:gravity="right"
-                    android:layout_marginRight="5dp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Najdroższe tankowanie:"
-                    android:id="@+id/textView4" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="650 zł"
-                    android:id="@+id/textView5"
-                    android:gravity="right"
-                    android:layout_marginRight="5dp" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/refuelingPager"
         android:layout_width="match_parent"
-        android:elevation="10dp"
         android:layout_height="match_parent"
-        android:gravity="bottom">
-
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayoutFuel"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewNoRefuelings"
-                android:text="Brak zapisanych tankowań.\nUżyj pomarańczowej ikonki aby dodać nowe."
-                android:gravity="center_vertical|center_horizontal"
-                android:textSize="20sp"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recyclerViewFuel"
-                android:paddingTop="10dp">
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabRefueling"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="@dimen/fab_margin"
-                android:src="@drawable/ic_fuel_black_small"
-                app:backgroundTint="@color/colorAccent"
-                app:borderWidth="0dp"
-                app:elevation="0dp"
-                app:layout_anchor="@id/recyclerViewFuel"
-                app:layout_anchorGravity="bottom|right|end"
-                app:layout_behavior="com.example.luki.inzynierka.utils.FabHideBehavior" />
-        </android.support.design.widget.CoordinatorLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+</android.support.design.widget.CoordinatorLayout>

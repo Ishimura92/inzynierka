@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
-import com.example.luki.inzynierka.fragments.RefuelingFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
+import com.example.luki.inzynierka.fragments.RefuelingMainFragment_;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
