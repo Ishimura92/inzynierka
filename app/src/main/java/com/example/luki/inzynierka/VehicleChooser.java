@@ -449,7 +449,9 @@ public class VehicleChooser extends AppCompatActivity {
         realm.commitTransaction();
 
         getVehicleListFromRealm();
+        textViewNoVehicles.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
+
     }
 
     public void editVehicle(int id) {

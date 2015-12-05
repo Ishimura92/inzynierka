@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -67,6 +68,7 @@ public class RefuelingFragment extends Fragment{
     private MainActivityCallbacks mainActivityCallbacks;
     private RefuelingCallbacks refuelingCallbacks;
     private TextView textViewRefuelingDate;
+    private LinearLayout refuelingDateLayout;
     private EditText editTextfuelQuantity, editTextfuelTotalCost, editTextodometerValue;
     private NewRefuelingDialog newRefuelingDialog;
     private Realm realm;
@@ -135,7 +137,8 @@ public class RefuelingFragment extends Fragment{
         price = Float.valueOf(tempPrice);
         odometer = Integer.valueOf(tempOdometer);
 
-        Date date = refuelingDate.toDate();
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
+        String date = dtfOut.print(refuelingDate);
 
         final Refueling refueling = new Refueling(refuelingID, liters, price, odometer, date, fuelType);
 
@@ -143,7 +146,7 @@ public class RefuelingFragment extends Fragment{
         currentVehicle.getRefuelings().add(refueling);
         realm.commitTransaction();
 
-        refuelingCallbacks.notifyRefuelingDatasetChanged(refuelingHistoryFragment, refueling);
+        refuelingCallbacks.notifyRefuelingDatasetChanged(refuelingHistoryFragment, refuelingSummaryFragment, refueling);
     }
 
     private void saveRefueling(){
@@ -233,8 +236,8 @@ public class RefuelingFragment extends Fragment{
         tempPrice = editTextfuelTotalCost.getText().toString();
         tempOdometer = editTextodometerValue.getText().toString();
         fuelType = spinnerFuelType.getSelectedItem().toString();
-        //TODO naprawić datę
-//        refuelingDate = formatter.parseDateTime(textViewRefuelingDate.getText().toString());
+        //TODO naprawić datę?
+        refuelingDate = formatter.parseDateTime(textViewRefuelingDate.getText().toString());
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -243,6 +246,10 @@ public class RefuelingFragment extends Fragment{
         adapter.addFragment(refuelingSummaryFragment, "Podsumowanie");
         adapter.addFragment(refuelingGraphsFragment, "Wykresy");
         viewPager.setAdapter(adapter);
+    }
+
+    public Fragment getRefuelingSummaryFragment(){
+        return refuelingSummaryFragment;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -294,9 +301,11 @@ public class RefuelingFragment extends Fragment{
             editTextfuelTotalCost = (EditText) this.findViewById(R.id.editTextFuelPrice);
             editTextodometerValue = (EditText) this.findViewById(R.id.editTextOdometerValue);
             textViewRefuelingDate = (TextView) this.findViewById(R.id.textViewRefuelingDate);
-            textViewRefuelingDate.setText(refuelingDate.toString());
             spinnerFuelType = (Spinner) this.findViewById(R.id.spinnerFuelType);
             imageViewRefuelingDate = (ImageView) this.findViewById(R.id.imageViewRefuelingDate);
+            refuelingDateLayout = (LinearLayout) this.findViewById(R.id.refuelingDateLayout);
+
+            textViewRefuelingDate.setText(refuelingDate.toString("dd/MM/yyyy"));
 
             setSpinner();
             setOnClickListeners();
@@ -304,7 +313,7 @@ public class RefuelingFragment extends Fragment{
         }
 
         private void setOnClickListeners() {
-            imageViewRefuelingDate.setOnClickListener(new View.OnClickListener() {
+            refuelingDateLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new DatePickerDialog(getContext(), date, myCalendar

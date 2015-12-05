@@ -7,23 +7,28 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryLight"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="10dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Podsumowanie"
+                android:text="Koszty"
                 android:id="@+id/textView3"
                 android:textSize="20sp"
+                android:paddingLeft="10dp"
                 android:textColor="#ffffff"
                 android:layout_margin="5dp" />
         </LinearLayout>
@@ -53,8 +58,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="58923 zł"
-                        android:id="@+id/textView7"
+                        android:text="b/d"
+                        android:id="@+id/textViewTotalFuelSpent"
                         android:gravity="right"
                         android:layout_marginRight="5dp" />
                 </LinearLayout>
@@ -76,13 +81,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ostatnie tankowanie:"
-                    android:id="@+id/textView8" />
+                    android:id="@+id/textView7" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="223 zł"
-                    android:id="@+id/textView9"
+                    android:text="b/d"
+                    android:id="@+id/textViewLastRefuelingSpent"
                     android:gravity="right"
                     android:layout_marginRight="5dp" />
             </LinearLayout>
@@ -104,13 +109,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Najdroższe tankowanie:"
-                    android:id="@+id/textView4" />
+                    android:id="@+id/textView8" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="650 zł"
-                    android:id="@+id/textView5"
+                    android:text="b/d"
+                    android:id="@+id/textViewMaxFuelSpent"
                     android:gravity="right"
                     android:layout_marginRight="5dp" />
             </LinearLayout>

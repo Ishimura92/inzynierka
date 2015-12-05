@@ -10,13 +10,13 @@ public class Refueling extends RealmObject{
     private float liters;
     private float price;
     private int odometer;
-    private Date date;
+    private String date;
     private String type;
 
     public Refueling(){
     }
 
-    public Refueling(int id, float liters, float price, int odometer, Date date, String type) {
+    public Refueling(int id, float liters, float price, int odometer, String date, String type) {
         this.id = id;
         this.liters = liters;
         this.price = price;
@@ -57,11 +57,11 @@ public class Refueling extends RealmObject{
         this.odometer = odometer;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

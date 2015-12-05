@@ -13,14 +13,20 @@ import android.widget.TextView;
 import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.adapters.RefuelingslListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
+import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -28,12 +34,13 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 @EFragment(R.layout.fragment_refueling_history)
-public class RefuelingHistoryFragment extends Fragment{
+public class RefuelingHistoryFragment extends Fragment {
 
     @Pref
     Preferences_ preferences;
 
     private MainActivityCallbacks mainActivityCallbacks;
+    private RefuelingCallbacks refuelingCallbacks;
     private View view;
     private TextView textViewNoRefuelings;
     private RefuelingslListAdapter adapter;
@@ -60,36 +67,65 @@ public class RefuelingHistoryFragment extends Fragment{
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mainActivityCallbacks = (MainActivityCallbacks) activity;
+        refuelingCallbacks = (RefuelingCallbacks) activity;
     }
 
-    private void initViews(){
+    private void initViews() {
         recyclerViewFuel = (RecyclerView) view.findViewById(R.id.recyclerViewFuel);
         textViewNoRefuelings = (TextView) view.findViewById(R.id.textViewNoRefuelings);
     }
 
     private void setAdapter() {
-        if(!refuelingList.isEmpty()) textViewNoRefuelings.setVisibility(View.GONE);
-        adapter = new RefuelingslListAdapter(refuelingList);
+        if (!refuelingList.isEmpty()) textViewNoRefuelings.setVisibility(View.GONE);
+        adapter = new RefuelingslListAdapter(refuelingList, getContext(), this);
         recyclerViewFuel.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewFuel.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
         recyclerViewFuel.setAdapter(adapter);
     }
 
-    public void notifyNewRefueling(Refueling refueling){
+    public void notifyNewRefueling(Refueling refueling) {
         refuelingList.add(refueling);
-        adapter.notifyDataSetChanged();
+        Collections.sort(refuelingList, new Comparator<Refueling>() {
+            @Override
+            public int compare(Refueling lhs, Refueling rhs) {
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
+                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
+                //TODO komparator nie działa - nie sortuje tankowań po dodaniu
+                return lhsDate.compareTo(rhsDate);
+            }
+        });
+        adapter.notifyItemInserted(refuelingList.size() - 1);
         textViewNoRefuelings.setVisibility(View.GONE);
     }
 
-    private void getRefuelingListFromRealm(){
+    public void deleteRefueling(int ID) {
+        realm.beginTransaction();
+        RealmQuery<Refueling> query = realm.where(Refueling.class);
+        query.equalTo("id", ID);
+        RealmResults<Refueling> results = query.findAll();
+        results.removeLast();
+        realm.commitTransaction();
+
+        refuelingCallbacks.notifyRefuelingDeleted();
+        textViewNoRefuelings.setVisibility(View.VISIBLE);
+        getRefuelingListFromRealm();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void getRefuelingListFromRealm() {
         refuelingList.clear();
         realm.beginTransaction();
         RealmQuery<Vehicle> query = realm.where(Vehicle.class).equalTo("id", currentVehicle.getId());
         RealmResults<Vehicle> results = query.findAll();
         realm.commitTransaction();
 
-        for(Refueling refueling : results.first().getRefuelings()){
+        for (Refueling refueling : results.first().getRefuelings()) {
             refuelingList.add(refueling);
+        }
+
+        if (!refuelingList.isEmpty()) {
+            textViewNoRefuelings.setVisibility(View.GONE);
         }
     }
 }

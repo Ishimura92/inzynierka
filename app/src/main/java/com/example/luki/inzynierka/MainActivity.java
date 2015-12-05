@@ -20,7 +20,10 @@ import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
+import com.example.luki.inzynierka.fragments.RefuelingGraphsFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment_;
+import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment;
+import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment_;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private DrawerLayout mDrawerLayout;
     private MainFragment mainFragment;
     private RefuelingHistoryFragment_ refuelingHistoryFragment;
+    private RefuelingSummaryFragment_ refuelingSummaryFragment;
+    private RefuelingGraphsFragment_ refuelingGraphsFragment;
     private RefuelingFragment_ refuelingFragment;
     private ImageView imageViewAvatar;
     private TextView textViewCarBrand, textViewCarModel;
@@ -85,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mainFragment = new MainFragment();
         refuelingFragment = new RefuelingFragment_();
         refuelingHistoryFragment = new RefuelingHistoryFragment_();
+        refuelingSummaryFragment = new RefuelingSummaryFragment_();
+        refuelingGraphsFragment = new RefuelingGraphsFragment_();
     }
 
     @Override
@@ -229,8 +236,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     @Override
-    public void notifyRefuelingDatasetChanged(Fragment fragment, Refueling refueling) {
-        refuelingHistoryFragment = (RefuelingHistoryFragment_) fragment;
+    public void notifyRefuelingDatasetChanged(Fragment historyFragment, Fragment summaryFragment, Refueling refueling) {
+        refuelingHistoryFragment = (RefuelingHistoryFragment_) historyFragment;
+        refuelingSummaryFragment = (RefuelingSummaryFragment_) summaryFragment;
         refuelingHistoryFragment.notifyNewRefueling(refueling);
+        refuelingSummaryFragment.notifyNewRefueling();
+    }
+
+    @Override
+    public void notifyRefuelingDeleted() {
+        refuelingSummaryFragment = (RefuelingSummaryFragment_) refuelingFragment.getRefuelingSummaryFragment();
+        refuelingSummaryFragment.notifyRefuelingDeleted();
     }
 }
