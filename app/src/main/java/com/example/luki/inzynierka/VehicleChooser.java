@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -158,6 +159,7 @@ public class VehicleChooser extends AppCompatActivity {
     @Click(R.id.buttonConfirmAdd)
     void onConfirmClick(){
         disableAllErrors();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         getVehicleDataFromDialogs();
 
@@ -452,7 +454,7 @@ public class VehicleChooser extends AppCompatActivity {
         realm.commitTransaction();
 
         getVehicleListFromRealm();
-        textViewNoVehicles.setVisibility(View.VISIBLE);
+        if(vehicleList.isEmpty()) textViewNoVehicles.setVisibility(View.VISIBLE);
         adapter.notifyDataSetChanged();
 
     }
