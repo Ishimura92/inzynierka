@@ -38,6 +38,7 @@
         android:text="Brak zapisanych pojazdów\nUżyj ikonki plusa, aby dodać nowy"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="30sp"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_marginTop="100dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
@@ -52,7 +53,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@android:color/white">
 
 
@@ -127,6 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:id="@+id/addVehicleDateLayout"
+                    android:clickable="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
 
@@ -303,6 +306,7 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:paddingTop="30dp"
+                    android:paddingBottom="30dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

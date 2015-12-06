@@ -1,10 +1,14 @@
 package com.example.luki.inzynierka.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.models.Refueling;
+import com.example.luki.inzynierka.models.Vehicle;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -32,13 +36,22 @@ public class RefuelingSummaryFragment extends Fragment{
 
     private Realm realm;
     private List<Refueling> refuelingList = new ArrayList<>();
+    private MainActivityCallbacks mainActivityCallbacks;
     private float totalFuelSpent = 0;
     private float maxFuelSpent = 0;
     private float lastFuelSpent = 0;
+    private Vehicle currentVehicle;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mainActivityCallbacks = (MainActivityCallbacks) activity;
+    }
 
     @AfterViews
     void init() {
         realm = Realm.getInstance(getActivity());
+        currentVehicle = mainActivityCallbacks.getCurrentVehicle();
         getFuelDataFromRealm();
         viewData();
     }
@@ -64,18 +77,19 @@ public class RefuelingSummaryFragment extends Fragment{
     }
 
     private void getFuelDataFromRealm() {
+        refuelingList.clear();
         realm.beginTransaction();
-        RealmQuery<Refueling> query = realm.where(Refueling.class);
-        RealmResults<Refueling> results = query.findAll();
+        RealmQuery<Vehicle> query = realm.where(Vehicle.class).equalTo("id", currentVehicle.getId());
+        RealmResults<Vehicle> results = query.findAll();
         realm.commitTransaction();
 
         processGatheredData(results);
     }
 
-    private void processGatheredData(RealmResults<Refueling> results) {
+    private void processGatheredData(RealmResults<Vehicle> results) {
         clearAllData();
-        if (results.size() > 0) {
-            for (Refueling refueling : results) {
+        if (results.first().getRefuelings().size() > 0) {
+            for (Refueling refueling : results.first().getRefuelings()) {
                 refuelingList.add(refueling);
                 totalFuelSpent += refueling.getPrice();
                 if (refueling.getPrice() > maxFuelSpent) {

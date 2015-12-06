@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -78,6 +79,8 @@ public class VehicleChooser extends AppCompatActivity {
     @ViewById
     TextView textViewNoVehicles;
 
+    @ViewById
+    LinearLayout addVehicleDateLayout;
     @ViewById
     CoordinatorLayout coordinatorLayout;
     @ViewById
@@ -372,7 +375,7 @@ public class VehicleChooser extends AppCompatActivity {
         }
     }
 
-    @Click(R.id.imageViewCalendar)
+    @Click({R.id.addVehicleDateLayout, R.id.imageViewCalendar})
     void onDateClick(){
         new DatePickerDialog(VehicleChooser.this, date, myCalendar
                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),

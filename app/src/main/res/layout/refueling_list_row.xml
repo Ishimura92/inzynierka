@@ -14,6 +14,8 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="10dp"
             android:layout_height="wrap_content">
 
             <TextView
@@ -21,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="@android:color/white"
                 android:layout_marginLeft="15dp"
                 android:text="28.11.2015"
                 android:id="@+id/textViewRefuelingDate" />
@@ -41,7 +44,7 @@
                 android:id="@+id/imageViewMoney"
                 android:background="@drawable/ic_money_small"
                 android:layout_weight="3"
-                android:layout_margin="40dp" />
+                android:layout_margin="45dp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -49,7 +52,7 @@
                 android:id="@+id/imageViewOdometer"
                 android:background="@drawable/ic_odometer_black_small"
                 android:layout_weight="3"
-                android:layout_margin="30dp"
+                android:layout_margin="40dp"
                 android:layout_gravity="bottom" />
 
             <ImageView
@@ -58,7 +61,7 @@
                 android:id="@+id/imageViewDistributor"
                 android:background="@drawable/ic_distributor_small"
                 android:layout_weight="3"
-                android:layout_margin="45dp" />
+                android:layout_margin="50dp" />
 
         </LinearLayout>
 

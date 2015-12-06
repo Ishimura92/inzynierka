@@ -57,22 +57,22 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
 
         switch (vehicle.getBodyType()){
             case "Sedan":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_sedan_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_sedan_white);
                 break;
             case "Kombi":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_kombi_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_kombi_white);
                 break;
             case "Minivan/Van":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_van_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_van_white);
                 break;
             case "Coupe/Kabrio":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_coupe_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_coupe_white);
                 break;
             case "SUV":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_suv_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_suv_white);
                 break;
             case "Hatchback":
-                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_hatchback_dark);
+                customViewHolder.imageViewVehicleIcon.setImageResource(R.drawable.ic_hatchback_white);
                 break;
         }
 

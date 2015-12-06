@@ -17,86 +17,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="90dp"
-                android:id="@+id/imageViewVehicleIcon"/>
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:elevation="10dp"
                     android:layout_height="wrap_content"
-                    android:text="ToDługaMarka"
-                    android:ellipsize="marquee"
-                    android:fadingEdge="horizontal"
-                    android:lines="1"
-                    android:singleLine="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:id="@+id/textViewVehicleBrand"
-                    android:textSize="28sp" />
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ToCałkiemDługiModel"
-                    android:ellipsize="marquee"
-                    android:fadingEdge="horizontal"
-                    android:lines="1"
-                    android:singleLine="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:id="@+id/textViewVehicleModel"
-                    android:textSize="24sp" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="30dp"
+                            android:paddingLeft="15dp"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="ToDługaMarka"
+                            android:textColor="@android:color/white"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:id="@+id/textViewVehicleBrand"
+                            android:textSize="28sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/imageViewVehicleIcon"
+                            android:layout_marginRight="5dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ToCałkiemDługiModel"
+                            android:layout_marginLeft="20dp"
+                            android:ellipsize="marquee"
+                            android:fadingEdge="horizontal"
+                            android:lines="1"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:id="@+id/textViewVehicleModel"
+                            android:textSize="24sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#ff9800"
-            android:layout_marginLeft="15dp">
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:paddingTop="20dp"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sedan"
-                android:textSize="20sp"
-                android:id="@+id/textViewBodyType"
-                android:layout_weight="1" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:paddingTop="20dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2.0"
-                android:paddingRight="5dp"
-                android:id="@+id/textViewEngineCapacity"
-                android:textSize="20sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sedan"
+                    android:textSize="20sp"
+                    android:id="@+id/textViewBodyType"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Benzyna + gaz"
-                android:textSize="20sp"
-                android:id="@+id/textViewEngineType" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.0"
+                    android:paddingRight="5dp"
+                    android:id="@+id/textViewEngineCapacity"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Benzyna + gaz"
+                    android:textSize="20sp"
+                    android:id="@+id/textViewEngineType" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

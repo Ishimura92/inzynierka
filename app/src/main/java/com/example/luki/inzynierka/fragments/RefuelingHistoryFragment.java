@@ -77,6 +77,7 @@ public class RefuelingHistoryFragment extends Fragment {
 
     private void setAdapter() {
         if (!refuelingList.isEmpty()) textViewNoRefuelings.setVisibility(View.GONE);
+        sortRefuelingListByDate();
         adapter = new RefuelingslListAdapter(refuelingList, getContext(), this);
         recyclerViewFuel.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewFuel.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
@@ -85,18 +86,21 @@ public class RefuelingHistoryFragment extends Fragment {
 
     public void notifyNewRefueling(Refueling refueling) {
         refuelingList.add(refueling);
+        sortRefuelingListByDate();
+        adapter.notifyDataSetChanged();
+        textViewNoRefuelings.setVisibility(View.GONE);
+    }
+
+    private void sortRefuelingListByDate() {
         Collections.sort(refuelingList, new Comparator<Refueling>() {
             @Override
             public int compare(Refueling lhs, Refueling rhs) {
                 final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
                 final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
                 final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
-                //TODO komparator nie działa - nie sortuje tankowań po dodaniu
-                return lhsDate.compareTo(rhsDate);
+                return rhsDate.compareTo(lhsDate);
             }
         });
-        adapter.notifyItemInserted(refuelingList.size() - 1);
-        textViewNoRefuelings.setVisibility(View.GONE);
     }
 
     public void deleteRefueling(int ID) {
@@ -110,6 +114,7 @@ public class RefuelingHistoryFragment extends Fragment {
         refuelingCallbacks.notifyRefuelingDeleted();
         textViewNoRefuelings.setVisibility(View.VISIBLE);
         getRefuelingListFromRealm();
+        sortRefuelingListByDate();
         adapter.notifyDataSetChanged();
     }
 
