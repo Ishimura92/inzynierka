@@ -12,28 +12,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
-import com.example.luki.inzynierka.VehicleChooser;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment;
 import com.example.luki.inzynierka.models.Refueling;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 
-public class RefuelingslListAdapter extends RecyclerView.Adapter<RefuelingslListAdapter.CustomViewHolder> {
+public class RefuelingsListAdapter extends RecyclerView.Adapter<RefuelingsListAdapter.CustomViewHolder> {
 
     private final Context context;
     private final RefuelingHistoryFragment refuelingHistoryFragment;
     private List<Refueling> refuelings = new ArrayList<>();
     private Realm realm;
 
-    public RefuelingslListAdapter(List<Refueling> refuelings, Context context, RefuelingHistoryFragment refuelingHistoryFragment) {
+    public RefuelingsListAdapter(List<Refueling> refuelings, Context context, RefuelingHistoryFragment refuelingHistoryFragment) {
         this.refuelings = refuelings;
         this.context = context;
         this.refuelingHistoryFragment = refuelingHistoryFragment;

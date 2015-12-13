@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
-import com.example.luki.inzynierka.adapters.RefuelingslListAdapter;
+import com.example.luki.inzynierka.adapters.RefuelingsListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.models.Refueling;
@@ -43,7 +43,7 @@ public class RefuelingHistoryFragment extends Fragment {
     private RefuelingCallbacks refuelingCallbacks;
     private View view;
     private TextView textViewNoRefuelings;
-    private RefuelingslListAdapter adapter;
+    private RefuelingsListAdapter adapter;
     private List<Refueling> refuelingList;
     private RecyclerView recyclerViewFuel;
     private Realm realm;
@@ -78,7 +78,7 @@ public class RefuelingHistoryFragment extends Fragment {
     private void setAdapter() {
         if (!refuelingList.isEmpty()) textViewNoRefuelings.setVisibility(View.GONE);
         sortRefuelingListByDate();
-        adapter = new RefuelingslListAdapter(refuelingList, getContext(), this);
+        adapter = new RefuelingsListAdapter(refuelingList, getContext(), this);
         recyclerViewFuel.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewFuel.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
         recyclerViewFuel.setAdapter(adapter);

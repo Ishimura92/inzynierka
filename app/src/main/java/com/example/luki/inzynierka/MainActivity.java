@@ -18,12 +18,17 @@ import android.widget.TextView;
 import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
+import com.example.luki.inzynierka.callbacks.RepairCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingGraphsFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment_;
+import com.example.luki.inzynierka.fragments.RepairFragment_;
+import com.example.luki.inzynierka.fragments.RepairHistoryFragment_;
+import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
 import com.example.luki.inzynierka.models.Refueling;
+import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
@@ -33,7 +38,7 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks {
+public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks, RepairCallbacks {
 
     public ListView mDrawerList;
     public RelativeLayout mDrawerPane;
@@ -53,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private RefuelingSummaryFragment_ refuelingSummaryFragment;
     private RefuelingGraphsFragment_ refuelingGraphsFragment;
     private RefuelingFragment_ refuelingFragment;
+    private RepairFragment_ repairFragment;
+    private RepairHistoryFragment_ repairHistoryFragment;
+    private RepairSummaryFragment_ repairSummaryFragment;
 
     ArrayList<NavItem> mNavItems = new ArrayList<>();
 
@@ -96,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         refuelingHistoryFragment = new RefuelingHistoryFragment_();
         refuelingSummaryFragment = new RefuelingSummaryFragment_();
         refuelingGraphsFragment = new RefuelingGraphsFragment_();
+        repairFragment = new RepairFragment_();
+        repairHistoryFragment = new RepairHistoryFragment_();
+        repairSummaryFragment = new RepairSummaryFragment_();
     }
 
     @Override
@@ -168,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mDrawerList.setItemChecked(position, true);
 
         switch (position){
+            case 0:
+                changeToRepairFragment("Naprawy");
+                mDrawerLayout.closeDrawer(mDrawerPane);
+                break;
+
             case 1:
                 changeToRefuelingFragment("Tankowania");
                 mDrawerLayout.closeDrawer(mDrawerPane);
@@ -219,6 +235,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         transaction.commit();
     }
 
+    @Override
+    public void changeToRepairFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, repairFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -236,7 +261,20 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     @Override
     public void notifyRefuelingDeleted() {
-        refuelingSummaryFragment = (RefuelingSummaryFragment_) refuelingFragment.getRefuelingSummaryFragment();
-        refuelingSummaryFragment.notifyRefuelingDeleted();
+        repairSummaryFragment = (RepairSummaryFragment_) repairFragment.getRepairSummaryFragment();
+        repairSummaryFragment.notifyRefuelingDeleted();
+    }
+
+    @Override
+    public void notifyRepairDatasetChanged(Fragment historyFragment, Fragment summaryFragment, Repair repair) {
+        repairHistoryFragment = (RepairHistoryFragment_) historyFragment;
+        repairSummaryFragment = (RepairSummaryFragment_) summaryFragment;
+        repairHistoryFragment.notifyNewRepair(repair);
+        repairSummaryFragment.notifyNewRefueling();
+    }
+
+    @Override
+    public void notifyRepairgDeleted() {
+
     }
 }

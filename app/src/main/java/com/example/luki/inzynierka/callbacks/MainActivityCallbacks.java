@@ -7,5 +7,7 @@ public interface MainActivityCallbacks {
 
     void changeToRefuelingFragment(String fragmentTitle);
 
+    void changeToRepairFragment(String fragmentTitle);
+
     Vehicle getCurrentVehicle();
 }
