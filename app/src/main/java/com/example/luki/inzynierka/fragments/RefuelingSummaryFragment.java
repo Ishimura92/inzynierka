@@ -18,6 +18,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -58,21 +60,21 @@ public class RefuelingSummaryFragment extends Fragment{
 
     private void viewData() {
         if (maxFuelSpent == 0) {
-            textViewMaxFuelSpent.setText("b/d");
+            textViewMaxFuelSpent.setText(getActivity().getString(R.string.noDataSlash));
         } else {
-            textViewMaxFuelSpent.setText(String.valueOf(maxFuelSpent) + " zł");
+            textViewMaxFuelSpent.setText(String.valueOf(maxFuelSpent) + getActivity().getString(R.string.zlotysShortcut));
         }
 
         if (totalFuelSpent == 0) {
-            textViewTotalFuelSpent.setText("b/d");
+            textViewTotalFuelSpent.setText(getActivity().getString(R.string.noDataSlash));
         } else {
-            textViewTotalFuelSpent.setText(String.valueOf(totalFuelSpent) + " zł");
+            textViewTotalFuelSpent.setText(String.valueOf(totalFuelSpent) + getActivity().getString(R.string.zlotysShortcut));
         }
 
         if (lastFuelSpent == 0) {
-            textViewLastRefuelingSpent.setText("b/d");
+            textViewLastRefuelingSpent.setText(getActivity().getString(R.string.noDataSlash));
         } else {
-            textViewLastRefuelingSpent.setText(String.valueOf(lastFuelSpent) + " zł");
+            textViewLastRefuelingSpent.setText(String.valueOf(lastFuelSpent) + getActivity().getString(R.string.zlotysShortcut));
         }
     }
 
@@ -96,10 +98,23 @@ public class RefuelingSummaryFragment extends Fragment{
                     maxFuelSpent = refueling.getPrice();
                 }
             }
-            lastFuelSpent = refuelingList.get(refuelingList.size()-1).getPrice();
+            sortRefuelingListByDate();
+            lastFuelSpent = refuelingList.get(0).getPrice();
         } else {
             refuelingList.clear();
         }
+    }
+
+    private void sortRefuelingListByDate() {
+        Collections.sort(refuelingList, new Comparator<Refueling>() {
+            @Override
+            public int compare(Refueling lhs, Refueling rhs) {
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
+                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
+                return rhsDate.compareTo(lhsDate);
+            }
+        });
     }
 
     private void clearAllData() {

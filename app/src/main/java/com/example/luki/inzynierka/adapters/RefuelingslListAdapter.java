@@ -52,33 +52,34 @@ public class RefuelingslListAdapter extends RecyclerView.Adapter<RefuelingslList
         final Refueling refueling = refuelings.get(position);
 
         customViewHolder.textViewCostPerLiter.setText(String.format("%.2f",
-                refueling.getPrice() / refueling.getLiters()) + " zł/l");
+                refueling.getPrice() / refueling.getLiters()) + context.getString(R.string.zlotysByLiterShortcut));
         customViewHolder.textViewFuelType.setText(refueling.getType());
-        customViewHolder.textViewRefuelingAmount.setText(String.valueOf(refueling.getLiters()) + " l");
-        customViewHolder.textViewRefuelingCost.setText(String.valueOf(refueling.getPrice()) + " zł");
-        customViewHolder.textViewRefuelingOdometer.setText(String.valueOf(refueling.getOdometer()) + " km");
+        customViewHolder.textViewRefuelingAmount.setText(String.valueOf(refueling.getLiters()) + context.getString(R.string.literShortcut));
+        customViewHolder.textViewRefuelingCost.setText(String.valueOf(refueling.getPrice()) + context.getString(R.string.zlotysShortcut));
+        customViewHolder.textViewRefuelingOdometer.setText(String.valueOf(refueling.getOdometer()) + context.getString(R.string.kilometersShortcut));
         customViewHolder.textViewRefuelingDate.setText(refueling.getDate());
 
-        if (position > 0) {
-            final Refueling previousRefueling = refuelings.get(position - 1);
-            customViewHolder.textViewRefuelingOdometerDifference.
-                    setText("+ " + String.valueOf(refueling.getOdometer() - previousRefueling.getOdometer()) + " km");
+        if (position == refuelings.size() - 1) {
+            customViewHolder.textViewRefuelingOdometerDifference.setText(R.string.noDataSlash);
         } else {
-            customViewHolder.textViewRefuelingOdometerDifference.setText("b/d");
+            final Refueling previousRefueling = refuelings.get(position + 1);
+            customViewHolder.textViewRefuelingOdometerDifference.
+                    setText("+ " + String.valueOf(refueling.getOdometer() - previousRefueling.getOdometer()) + context.getString(R.string.kilometersShortcut));
+
         }
 
         customViewHolder.refuelingItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(context)
-                        .setTitle("Tankowanie")
-                        .setMessage("Chcesz usunąć ten wpis?")
-                        .setPositiveButton("Tak", new DialogInterface.OnClickListener() {
+                        .setTitle(context.getString(R.string.refueling))
+                        .setMessage(context.getString(R.string.doYouWantToDeleteThisEntry))
+                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 refuelingHistoryFragment.deleteRefueling(refueling.getId());
                             }
                         })
-                        .setNegativeButton("Nie", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }

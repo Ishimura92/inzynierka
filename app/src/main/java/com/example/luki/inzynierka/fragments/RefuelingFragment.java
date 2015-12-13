@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.media.Image;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -35,9 +34,7 @@ import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
 
-import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -48,7 +45,6 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -154,7 +150,7 @@ public class RefuelingFragment extends Fragment{
         getRefuelingDataFromDialogs();
         if(validate()){
             addRefuelingToRealm();
-            Snackbar.make(refuelingTabs, "Tankowanie zapisane", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(refuelingTabs, R.string.refuelingSaved, Snackbar.LENGTH_SHORT).show();
             newRefuelingDialog.dismiss();
         }
     }
@@ -176,10 +172,10 @@ public class RefuelingFragment extends Fragment{
 
     private boolean validatePrice() {
         if(editTextfuelTotalCost.length() == 0){
-            editTextfuelTotalCost.setError("Wypełnij pole");
+            editTextfuelTotalCost.setError(getActivity().getString(R.string.fillField));
             return false;
-        }else if(!tempPrice.matches("[0-9.]+")){
-            editTextfuelTotalCost.setError("Możesz tu wpisać tylko cyfry i kropkę");
+        }else if(!tempPrice.matches(getActivity().getString(R.string.numberAndDotMatcher))){
+            editTextfuelTotalCost.setError(getActivity().getString(R.string.youCanEnterHereOnlyNumbersOrDot));
             return false;
         }
         return true;
@@ -187,10 +183,10 @@ public class RefuelingFragment extends Fragment{
 
     private boolean validateLiters() {
         if(editTextfuelQuantity.length() == 0){
-            editTextfuelQuantity.setError("Wypełnij pole");
+            editTextfuelQuantity.setError(getActivity().getString(R.string.fillField));
             return false;
-        }else if(!tempLiters.matches("[0-9.]+")){
-            editTextfuelQuantity.setError("Możesz tu wpisać tylko cyfry i kropkę");
+        }else if(!tempLiters.matches(getActivity().getString(R.string.numberAndDotMatcher))){
+            editTextfuelQuantity.setError(getActivity().getString(R.string.youCanEnterHereOnlyNumbersOrDot));
             return false;
         }
         return true;
@@ -198,10 +194,10 @@ public class RefuelingFragment extends Fragment{
 
     private boolean validateOdometer() {
         if(editTextodometerValue.length() == 0){
-            editTextodometerValue.setError("Wypełnij pole");
+            editTextodometerValue.setError(getActivity().getString(R.string.fillField));
             return false;
-        }else if(!tempOdometer.matches("[0-9.]+")){
-            editTextodometerValue.setError("Możesz tu wpisać tylko cyfry i kropkę");
+        }else if(!tempOdometer.matches(getActivity().getString(R.string.numberAndDotMatcher))){
+            editTextodometerValue.setError(getActivity().getString(R.string.youCanEnterHereOnlyNumbersOrDot));
             return false;
         }
         return true;
@@ -242,9 +238,9 @@ public class RefuelingFragment extends Fragment{
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(refuelingHistoryFragment, "Historia");
-        adapter.addFragment(refuelingSummaryFragment, "Podsumowanie");
-        adapter.addFragment(refuelingGraphsFragment, "Wykresy");
+        adapter.addFragment(refuelingHistoryFragment, getActivity().getString(R.string.history));
+        adapter.addFragment(refuelingSummaryFragment, getActivity().getString(R.string.summary));
+        adapter.addFragment(refuelingGraphsFragment, getActivity().getString(R.string.graphs));
         viewPager.setAdapter(adapter);
     }
 

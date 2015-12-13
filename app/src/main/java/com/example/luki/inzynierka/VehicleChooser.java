@@ -115,7 +115,7 @@ public class VehicleChooser extends AppCompatActivity {
     @AfterViews
     void init(){
         setRealm();
-        getSupportActionBar().setTitle("Wybierz pojazd");
+        if(getSupportActionBar() != null) getSupportActionBar().setTitle(R.string.chooseVehicle);
         vehicleList = new ArrayList<>();
         //generateVehiclesToTest();
         setSpinners();
@@ -187,12 +187,12 @@ public class VehicleChooser extends AppCompatActivity {
         getVehicleListFromRealm();
         adapter.notifyDataSetChanged();
 
-        buttonConfirmAdd.setText("Dodaj");
+        buttonConfirmAdd.setText(R.string.add);
         onCancelClick();
         clearDialogs();
         disableAllErrors();
         inEditMode = false;
-        Snackbar.make(recyclerView, "Zapisano zmiany", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, R.string.changesSaved, Snackbar.LENGTH_LONG).show();
     }
 
     private void addNewVehicle() {
@@ -217,7 +217,7 @@ public class VehicleChooser extends AppCompatActivity {
         onCancelClick();
         clearDialogs();
         disableAllErrors();
-        Snackbar.make(recyclerView, "Dodano pojazd", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, R.string.vehicleAdded, Snackbar.LENGTH_LONG).show();
     }
 
     private void setVehicleImage(Vehicle newVehicle) {
@@ -314,7 +314,7 @@ public class VehicleChooser extends AppCompatActivity {
 
     private boolean validateProductionDate() {
         if(tempProductionDate.length() == 0){
-            textDialogProductionDate.setError("Wybierz datę");
+            textDialogProductionDate.setError(getString(R.string.chooseDate));
             return false;
         }
         return true;
@@ -322,9 +322,9 @@ public class VehicleChooser extends AppCompatActivity {
 
     private boolean validateEngineCapacity() {
         if(tempEngineCapacity.length() == 0){
-            textDialogEngineCapacity.setError("Wypełnij pole");
+            textDialogEngineCapacity.setError(getString(R.string.fillField));
             return false;
-        }else if(!tempEngineCapacity.matches("[0-9.]+")){
+        }else if(!tempEngineCapacity.matches(getString(R.string.numberAndDotMatcher))){
             textDialogEngineCapacity.setError("Możesz tu wpisać tylko cyfry i kropkę");
             return false;
         }
@@ -333,9 +333,9 @@ public class VehicleChooser extends AppCompatActivity {
 
     private boolean validateOdometer() {
         if(tempOdometer.length() == 0){
-            textDialogOdometer.setError("Wypełnij pole");
+            textDialogOdometer.setError(getString(R.string.fillField));
             return false;
-        }else if(!tempOdometer.matches("[0-9.]+")){
+        }else if(!tempOdometer.matches(getString(R.string.numberAndDotMatcher))){
             textDialogOdometer.setError("Możesz tu wpisać tylko cyfry i kropkę");
             return false;
         }
@@ -344,10 +344,10 @@ public class VehicleChooser extends AppCompatActivity {
 
     private boolean validateModel() {
         if(vehicleModel.length() == 0){
-            textDialogVehicleModel.setError("Wypełnij pole");
+            textDialogVehicleModel.setError(getString(R.string.fillField));
             return false;
-        }else if(!vehicleModel.matches("[a-zA-Z 0-9]+")){
-            textDialogVehicleModel.setError("Możesz tu wpisać tylko litery i cyfry");
+        }else if(!vehicleModel.matches(getString(R.string.lettersAndNumbersMatcher))){
+            textDialogVehicleModel.setError(getString(R.string.youCanEnterHereOnlyLettersAndNumbers));
             return false;
         }
         return true;
@@ -356,10 +356,10 @@ public class VehicleChooser extends AppCompatActivity {
     @Nullable
     private Boolean validateBrand() {
         if(vehicleBrand.length() == 0){
-            textDialogVehicleBrand.setError("Wypełnij pole");
+            textDialogVehicleBrand.setError(getString(R.string.fillField));
             return false;
-        }else if(!vehicleBrand.matches("[a-z A-Z]+")){
-            textDialogVehicleBrand.setError("Możesz tu wpisać tylko litery");
+        }else if(!vehicleBrand.matches(getString(R.string.lettersMatcher))){
+            textDialogVehicleBrand.setError(getString(R.string.youCanEnterHereOnlyLetters));
             return false;
         }
         return true;
@@ -370,7 +370,7 @@ public class VehicleChooser extends AppCompatActivity {
         vehicleAddLayout.setVisibility(View.INVISIBLE);
         coordinatorLayout.setEnabled(true);
         if(inEditMode) {
-            buttonConfirmAdd.setText("Dodaj");
+            buttonConfirmAdd.setText(getString(R.string.add));
             clearDialogs();
             disableAllErrors();
             inEditMode = false;
@@ -464,7 +464,7 @@ public class VehicleChooser extends AppCompatActivity {
         vehicleAddLayout.setVisibility(View.VISIBLE);
         coordinatorLayout.setEnabled(false);
 
-        buttonConfirmAdd.setText("Zapisz");
+        buttonConfirmAdd.setText(R.string.save);
 
         realm.beginTransaction();
         RealmQuery<Vehicle> query = realm.where(Vehicle.class);

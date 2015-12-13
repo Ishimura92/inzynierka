@@ -91,20 +91,20 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(context)
                         .setTitle(vehicle.getBrand() + " " + vehicle.getModel())
-                        .setMessage("Możesz edytować lub usunąć wybrany pojazd.")
-                        .setPositiveButton("Usuń", new DialogInterface.OnClickListener() {
+                        .setMessage(context.getString(R.string.youCanEditOrEraseChoosenVehicle))
+                        .setPositiveButton(context.getString(R.string.delete), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                ((VehicleChooser)context).deleteVehicle(vehicle.getId());
+                                ((VehicleChooser) context).deleteVehicle(vehicle.getId());
                             }
                         })
-                        .setNeutralButton("Anuluj", new DialogInterface.OnClickListener() {
+                        .setNeutralButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // do nothing
                             }
                         })
-                        .setNegativeButton("Edytuj", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(context.getString(R.string.edit), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                ((VehicleChooser)context).editVehicle(vehicle.getId());
+                                ((VehicleChooser) context).editVehicle(vehicle.getId());
                             }
                         })
                         .setIcon(R.drawable.car_placeholder)

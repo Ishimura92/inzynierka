@@ -22,7 +22,6 @@ import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingGraphsFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment_;
-import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment;
 import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment_;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Vehicle;
@@ -38,29 +37,34 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     public ListView mDrawerList;
     public RelativeLayout mDrawerPane;
+
     private int vehicleID;
+
     private Realm realm;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private MainFragment mainFragment;
-    private RefuelingHistoryFragment_ refuelingHistoryFragment;
-    private RefuelingSummaryFragment_ refuelingSummaryFragment;
-    private RefuelingGraphsFragment_ refuelingGraphsFragment;
-    private RefuelingFragment_ refuelingFragment;
     private ImageView imageViewAvatar;
     private TextView textViewCarBrand, textViewCarModel;
     private Vehicle currentVehicle;
     private RelativeLayout profileBox;
 
-    ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+    private MainFragment mainFragment;
+    private RefuelingHistoryFragment_ refuelingHistoryFragment;
+    private RefuelingSummaryFragment_ refuelingSummaryFragment;
+    private RefuelingGraphsFragment_ refuelingGraphsFragment;
+    private RefuelingFragment_ refuelingFragment;
+
+    ArrayList<NavItem> mNavItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         realm = Realm.getDefaultInstance();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         getExtras();
 
         initView();
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     @Override
     public void setTitle(CharSequence title) {
-        getSupportActionBar().setTitle(title);
+       if(getSupportActionBar() != null) getSupportActionBar().setTitle(title);
     }
 
     private void setupNavigationDrawer() {
@@ -116,16 +120,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         textViewCarModel.setText(currentVehicle.getModel());
         textViewCarBrand.setText(currentVehicle.getBrand());
 
-        // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-        // Populate the Navigtion Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         mDrawerList = (ListView) findViewById(R.id.navList);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
         mDrawerList.setAdapter(adapter);
 
-        // Drawer Item click listeners
         setDrawerListeners();
     }
 
@@ -185,16 +185,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle
-        // If it returns true, then it has handled
-        // the nav drawer indicator touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        // Handle your other action bar items...
-
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override

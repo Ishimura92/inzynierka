@@ -105,9 +105,9 @@ public class RefuelingHistoryFragment extends Fragment {
 
     public void deleteRefueling(int ID) {
         realm.beginTransaction();
-        RealmQuery<Refueling> query = realm.where(Refueling.class);
+        final RealmQuery<Refueling> query = realm.where(Refueling.class);
         query.equalTo("id", ID);
-        RealmResults<Refueling> results = query.findAll();
+        final RealmResults<Refueling> results = query.findAll();
         results.removeLast();
         realm.commitTransaction();
 
@@ -121,8 +121,8 @@ public class RefuelingHistoryFragment extends Fragment {
     private void getRefuelingListFromRealm() {
         refuelingList.clear();
         realm.beginTransaction();
-        RealmQuery<Vehicle> query = realm.where(Vehicle.class).equalTo("id", currentVehicle.getId());
-        RealmResults<Vehicle> results = query.findAll();
+        final RealmQuery<Vehicle> query = realm.where(Vehicle.class).equalTo("id", currentVehicle.getId());
+        final RealmResults<Vehicle> results = query.findAll();
         realm.commitTransaction();
 
         for (Refueling refueling : results.first().getRefuelings()) {
