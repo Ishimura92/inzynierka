@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
-import com.example.luki.inzynierka.adapters.RefuelingsListAdapter;
 import com.example.luki.inzynierka.adapters.RepairsListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
@@ -96,26 +95,26 @@ public class RepairHistoryFragment extends Fragment {
     }
 
     private void sortRepairListByDate() {
-//        Collections.sort(repairList, new Comparator<Refueling>() {
-//            @Override
-//            public int compare(Refueling lhs, Refueling rhs) {
-//                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-//                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
-//                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
-//                return rhsDate.compareTo(lhsDate);
-//            }
-//        });
+        Collections.sort(repairList, new Comparator<Repair>() {
+            @Override
+            public int compare(Repair lhs, Repair rhs) {
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
+                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
+                return rhsDate.compareTo(lhsDate);
+            }
+        });
     }
 
     public void deleteRepair(int ID) {
         realm.beginTransaction();
-        final RealmQuery<Refueling> query = realm.where(Refueling.class);
+        final RealmQuery<Repair> query = realm.where(Repair.class);
         query.equalTo("id", ID);
-        final RealmResults<Refueling> results = query.findAll();
+        final RealmResults<Repair> results = query.findAll();
         results.removeLast();
         realm.commitTransaction();
 
-        repairCallbacks.notifyRepairgDeleted();
+        repairCallbacks.notifyRepairDeleted();
         textViewNoRepairs.setVisibility(View.VISIBLE);
         getRepairListFromRealm();
         sortRepairListByDate();

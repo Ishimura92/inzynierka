@@ -8,6 +8,7 @@ public class Part extends RealmObject {
     private String name;
     private float price;
     private String brand;
+    private String photoPath;
 
     public Part(){
     }
@@ -17,6 +18,7 @@ public class Part extends RealmObject {
         this.name = name;
         this.price = price;
         this.brand = brand;
+        this.photoPath = null;
     }
 
     public String getName() {
@@ -49,5 +51,13 @@ public class Part extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

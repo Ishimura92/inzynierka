@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add_repair"
+        android:icon="@drawable/ic_repair_2_orange"
+        android:title="Dodaj naprawę"
+        app:showAsAction="ifRoom"/>
 </menu>

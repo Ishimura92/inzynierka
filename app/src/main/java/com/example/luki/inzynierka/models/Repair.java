@@ -1,7 +1,5 @@
 package com.example.luki.inzynierka.models;
 
-import java.util.Date;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -13,13 +11,13 @@ public class Repair extends RealmObject {
     private float totalCost;
     private float odometer;
     private RealmList<Part> parts;
-    private Date date;
+    private String date;
     private Workshop workshop;
 
     public Repair() {
     }
 
-    public Repair(int id, String title, String description, float totalCost, float odometer, RealmList<Part> parts, Date date, Workshop workshop) {
+    public Repair(int id, String title, String description, float totalCost, float odometer, RealmList<Part> parts, String date, Workshop workshop) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -70,11 +68,11 @@ public class Repair extends RealmObject {
         this.parts = parts;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

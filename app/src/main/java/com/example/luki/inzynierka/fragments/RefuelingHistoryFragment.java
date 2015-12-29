@@ -95,7 +95,7 @@ public class RefuelingHistoryFragment extends Fragment {
         Collections.sort(refuelingList, new Comparator<Refueling>() {
             @Override
             public int compare(Refueling lhs, Refueling rhs) {
-                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
                 final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
                 final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
                 return rhsDate.compareTo(lhsDate);

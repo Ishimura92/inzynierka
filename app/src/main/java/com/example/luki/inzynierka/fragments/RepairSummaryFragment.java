@@ -94,15 +94,15 @@ public class RepairSummaryFragment extends Fragment{
     }
 
     private void sortRefuelingListByDate() {
-//        Collections.sort(repairList, new Comparator<Refueling>() {
-//            @Override
-//            public int compare(Refueling lhs, Refueling rhs) {
-//                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-//                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
-//                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
-//                return rhsDate.compareTo(lhsDate);
-//            }
-//        });
+        Collections.sort(repairList, new Comparator<Repair>() {
+            @Override
+            public int compare(Repair lhs, Repair rhs) {
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
+                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
+                return rhsDate.compareTo(lhsDate);
+            }
+        });
     }
 
     private void clearAllData() {
@@ -111,12 +111,12 @@ public class RepairSummaryFragment extends Fragment{
 //        lastFuelSpent = 0;
     }
 
-    public void notifyNewRefueling(){
+    public void notifyNewRepair(){
         getRepairDataFromRealm();
         viewData();
     }
 
-    public void notifyRefuelingDeleted(){
-        notifyNewRefueling();
+    public void notifyRepairDeleted(){
+        notifyNewRepair();
     }
 }

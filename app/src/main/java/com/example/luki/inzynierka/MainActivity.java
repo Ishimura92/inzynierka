@@ -261,8 +261,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     @Override
     public void notifyRefuelingDeleted() {
-        repairSummaryFragment = (RepairSummaryFragment_) repairFragment.getRepairSummaryFragment();
-        repairSummaryFragment.notifyRefuelingDeleted();
+        refuelingSummaryFragment = (RefuelingSummaryFragment_) refuelingFragment.getRefuelingSummaryFragment();
+        refuelingSummaryFragment.notifyRefuelingDeleted();
     }
 
     @Override
@@ -270,11 +270,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         repairHistoryFragment = (RepairHistoryFragment_) historyFragment;
         repairSummaryFragment = (RepairSummaryFragment_) summaryFragment;
         repairHistoryFragment.notifyNewRepair(repair);
-        repairSummaryFragment.notifyNewRefueling();
+        repairSummaryFragment.notifyNewRepair();
     }
 
     @Override
-    public void notifyRepairgDeleted() {
-
+    public void notifyRepairDeleted() {
+        repairSummaryFragment = (RepairSummaryFragment_) repairFragment.getRepairSummaryFragment();
+        repairSummaryFragment.notifyRepairDeleted();
     }
 }
