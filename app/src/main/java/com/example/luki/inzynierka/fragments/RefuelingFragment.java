@@ -86,6 +86,10 @@ public class RefuelingFragment extends Fragment{
         refuelingTabs.setupWithViewPager(refuelingPager);
         setHasOptionsMenu(true);
 
+        setDatabaseConnector();
+    }
+
+    private void setDatabaseConnector() {
         databaseConnector.setRefuelingHistoryFragment((RefuelingHistoryFragment) refuelingHistoryFragment);
         databaseConnector.setRefuelingSummaryFragment((RefuelingSummaryFragment) refuelingSummaryFragment);
         databaseConnector.setDatabaseConnectorRealm(realm);

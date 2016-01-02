@@ -51,7 +51,7 @@ public class NewRepairDialog extends Dialog {
     DatabaseConnector databaseConnector;
 
     private static final float DIALOG_WIDTH_TO_SCREEN_WIDTH_RATIO = 0.85f;
-    private static final float DIALOG_HEIGHT_TO_SCREEN_HEIGHT_RATIO = 0.5f;
+    private static final float DIALOG_HEIGHT_TO_SCREEN_HEIGHT_RATIO = 0.8f;
 
     private int repairOdometer;
     private Float repairPrice;
@@ -59,13 +59,15 @@ public class NewRepairDialog extends Dialog {
     private String fuelType;
     private String tempPrice;
     private String tempOdometer;
+    private String tempDescription;
     private String tempTitle;
     private DateTime repairDate;
-    private DateTimeFormatter formatter;
 
+    private DateTimeFormatter formatter;
     private TextView textViewRepairDate;
     private EditText editTextRepairTitle;
-    private  EditText editTextRepairPrice;
+    private EditText editTextRepairDescription;
+    private EditText editTextRepairPrice;
     private EditText editTextOdometerRepairValue;
     private Button buttonSaveRepair;
     private Button buttonCancelRepair;
@@ -88,6 +90,7 @@ public class NewRepairDialog extends Dialog {
     public void configViews() {
         textViewRepairDate = (TextView) this.findViewById(R.id.textViewRepairDate);
         editTextRepairTitle = (EditText) this.findViewById(R.id.editTextRepairTitle);
+        editTextRepairDescription = (EditText) this.findViewById(R.id.editTextRepairDescription);
         editTextRepairPrice = (EditText) this.findViewById(R.id.editTextRepairPrice);
         editTextOdometerRepairValue = (EditText) this.findViewById(R.id.editTextOdometerRepairValue);
         buttonSaveRepair = (Button) this.findViewById(R.id.buttonSaveRepair);
@@ -95,10 +98,10 @@ public class NewRepairDialog extends Dialog {
         buttonNewPart = (Button) this.findViewById(R.id.buttonNewPart);
         repairDateLayout = (LinearLayout) this.findViewById(R.id.repairDateLayout);
 
-        textViewRepairDate.setText(repairDate.toString("dd/MM/yyyy HH:mm"));
+        textViewRepairDate.setText(repairDate.toString("dd/MM/yyyy"));
 
-        formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
-//        setupOnTextChangeListeners();
+        formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+        setupOnTextChangeListeners();
         setDialogOnClickListeners();
     }
 
@@ -124,6 +127,7 @@ public class NewRepairDialog extends Dialog {
         if (!validateTitle()) counter++;
         if (!validatePrice()) counter++;
         if (!validateOdometer()) counter++;
+        if (!validateDescription()) counter++;
 
         return counter == 0;
     }
@@ -144,6 +148,14 @@ public class NewRepairDialog extends Dialog {
             editTextRepairTitle.setError(getContext().getString(R.string.fillField));
             return false;
         }else if(!editTextRepairTitle.getText().toString().matches(getContext().getString(R.string.lettersAndNumbersMatcher))){
+            editTextRepairTitle.setError(getContext().getString(R.string.youCanEnterHereOnlyLettersAndNumbers));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateDescription() {
+        if(!editTextRepairTitle.getText().toString().matches(getContext().getString(R.string.lettersAndNumbersMatcher))){
             editTextRepairTitle.setError(getContext().getString(R.string.youCanEnterHereOnlyLettersAndNumbers));
             return false;
         }
@@ -190,6 +202,7 @@ public class NewRepairDialog extends Dialog {
         tempOdometer = editTextOdometerRepairValue.getText().toString();
         tempTitle = editTextRepairTitle.getText().toString();
         repairDate = formatter.parseDateTime(textViewRepairDate.getText().toString());
+        tempDescription = editTextRepairDescription.getText().toString();
     }
 
 
@@ -201,10 +214,10 @@ public class NewRepairDialog extends Dialog {
         repairPrice = Float.valueOf(tempPrice);
         repairOdometer = Integer.valueOf(tempOdometer);
 
-        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
         String date = dtfOut.print(repairDate);
 
-        final Repair repair = new Repair(repairID, repairTitle, "", repairPrice, repairOdometer, null, date, null);
+        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null);
 
         databaseConnector.addNewRepairToRealm(repair);
     }
@@ -239,55 +252,70 @@ public class NewRepairDialog extends Dialog {
         editTextOdometerRepairValue.setText("");
         editTextRepairPrice.setText("");
         editTextRepairTitle.setText("");
-        textViewRepairDate.setText(DateTime.now().toString("dd/MM/yyyy HH:mm"));
+        textViewRepairDate.setText(DateTime.now().toString("dd/MM/yyyy"));
     }
 
-//    private void setupOnTextChangeListeners() {
-//        editTextfuelQuantity.addTextChangedListener(new TextWatcher() {
-//            public void afterTextChanged(Editable s) {
-//                tempLiters = editTextfuelQuantity.getText().toString();
-//                if(validateLiters()) editTextfuelQuantity.setError(null);
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                tempLiters = editTextfuelQuantity.getText().toString();
-//                if(validateLiters()) editTextfuelQuantity.setError(null);
-//            }
-//        });
-//
-//        editTextfuelTotalCost.addTextChangedListener(new TextWatcher() {
-//            public void afterTextChanged(Editable s) {
-//                tempPrice = editTextfuelTotalCost.getText().toString();
-//                if(validatePrice()) editTextfuelTotalCost.setError(null);
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                tempPrice = editTextfuelTotalCost.getText().toString();
-//                if(validatePrice()) editTextfuelTotalCost.setError(null);
-//            }
-//        });
-//
-//        editTextodometerValue.addTextChangedListener(new TextWatcher() {
-//            public void afterTextChanged(Editable s) {
-//                tempOdometer = editTextodometerValue.getText().toString();
-//                if (validateOdometer()) editTextodometerValue.setError(null);
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                tempOdometer = editTextodometerValue.getText().toString();
-//                if (validateOdometer()) editTextodometerValue.setError(null);
-//            }
-//        });
-//    }
+    private void setupOnTextChangeListeners() {
+        editTextRepairTitle.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                tempTitle = editTextRepairTitle.getText().toString();
+                if(validateTitle()) editTextRepairTitle.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempTitle = editTextRepairTitle.getText().toString();
+                if(validateTitle()) editTextRepairTitle.setError(null);
+            }
+        });
+
+        editTextRepairDescription.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                tempDescription = editTextRepairDescription.getText().toString();
+                if(validateTitle()) editTextRepairDescription.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempDescription = editTextRepairDescription.getText().toString();
+                if(validateTitle()) editTextRepairDescription.setError(null);
+            }
+        });
+
+        editTextRepairPrice.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                tempPrice = editTextRepairPrice.getText().toString();
+                if(validatePrice()) editTextRepairPrice.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempPrice = editTextRepairPrice.getText().toString();
+                if(validatePrice()) editTextRepairPrice.setError(null);
+            }
+        });
+
+        editTextOdometerRepairValue.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                tempOdometer = editTextOdometerRepairValue.getText().toString();
+                if (validateOdometer()) editTextOdometerRepairValue.setError(null);
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempOdometer = editTextOdometerRepairValue.getText().toString();
+                if (validateOdometer()) editTextOdometerRepairValue.setError(null);
+            }
+        });
+    }
 
     private void setLayoutParams() {
         final WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

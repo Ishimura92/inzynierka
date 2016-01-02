@@ -35,4 +35,5 @@
     <string name="youCanEnterHereOnlyLetters">Możesz tu wpisać tylko litery</string>
     <string name="save">Zapisz</string>
     <string name="repair_saved">Repair saved</string>
+    <string name="repair">Naprawa</string>
 </resources>

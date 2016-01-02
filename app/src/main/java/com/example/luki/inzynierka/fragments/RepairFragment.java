@@ -30,6 +30,7 @@ import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
+import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
 import com.example.luki.inzynierka.dialogs.NewRepairDialog;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
@@ -59,6 +60,8 @@ public class RepairFragment extends Fragment{
     Preferences_ preferences;
     @Bean
     NewRepairDialog newRepairDialog;
+    @Bean
+    DatabaseConnector databaseConnector;
 
     private MainActivityCallbacks mainActivityCallbacks;
     private RepairCallbacks repairCallbacks;
@@ -77,6 +80,7 @@ public class RepairFragment extends Fragment{
         repairTabs.setupWithViewPager(repairPager);
         setHasOptionsMenu(true);
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+        setDatabaseConnector();
     }
 
     @Override
@@ -84,6 +88,14 @@ public class RepairFragment extends Fragment{
         super.onAttach(activity);
         mainActivityCallbacks = (MainActivityCallbacks) activity;
         repairCallbacks = (RepairCallbacks) activity;
+    }
+
+    private void setDatabaseConnector() {
+        databaseConnector.setRepairHistoryFragment((RepairHistoryFragment) repairHistoryFragment);
+        databaseConnector.setRepairSummaryFragment((RepairSummaryFragment) repairSummaryFragment);
+        databaseConnector.setDatabaseConnectorRealm(realm);
+        databaseConnector.setCurrentVehicle(currentVehicle);
+        databaseConnector.setRepairCallbacks(repairCallbacks);
     }
 
     @Override

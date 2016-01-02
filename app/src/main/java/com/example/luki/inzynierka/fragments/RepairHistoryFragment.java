@@ -75,7 +75,7 @@ public class RepairHistoryFragment extends Fragment {
 
     private void initViews() {
         recyclerViewRepair = (RecyclerView) view.findViewById(R.id.recyclerViewRepair);
-        textViewNoRepairs = (TextView) view.findViewById(R.id.textViewNoRefuelings);
+        textViewNoRepairs = (TextView) view.findViewById(R.id.textViewNoRepairs);
     }
 
     private void setAdapter() {

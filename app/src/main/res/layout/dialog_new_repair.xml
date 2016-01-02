@@ -30,30 +30,48 @@
                 android:layout_marginBottom="5dp" />
         </LinearLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="4"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/editTextRepairTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tytuł"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@+id/editTextRepairPrice"
+                android:textSize="15sp"
+                android:maxLength="25"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="4"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/editTextRepairDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Opis"
+                android:inputType="textPersonName"
+                android:nextFocusDown="@+id/editTextRepairPrice"
+                android:textSize="15sp"
+                android:maxLength="200"/>
+        </android.support.design.widget.TextInputLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:orientation="horizontal"
-                android:layout_weight="4">
-
-                <EditText
-                    android:id="@+id/editTextRepairTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tytuł"
-                    android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/editTextRepairPrice"
-                    android:textSize="15sp"
-                    android:maxLength="4"/>
-            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -71,24 +89,24 @@
                     android:nextFocusDown="@+id/editTextOdometerRepairValue"
                     android:maxLength="8"/>
             </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp">
-
-            <EditText
-                android:id="@+id/editTextOdometerRepairValue"
-                android:layout_width="fill_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:paddingRight="5dp"
                 android:layout_height="wrap_content"
-                android:hint="Aktualny przebieg"
-                android:inputType="phone"
-                android:textSize="15sp"
-                android:maxLength="8"/>
-        </android.support.design.widget.TextInputLayout>
+                android:paddingTop="5dp"
+                android:layout_weight="3">
+
+                <EditText
+                    android:id="@+id/editTextOdometerRepairValue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Aktualny przebieg"
+                    android:inputType="phone"
+                    android:textSize="15sp"
+                    android:maxLength="8"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -98,7 +116,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:clickable="true"
-            android:paddingTop="5dp">
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -135,14 +153,14 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5">
+                android:layout_weight="1.5"
+                android:paddingTop="5dp">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="@drawable/ic_calendar_black"
-                    android:id="@+id/imageViewRefuelingDate"
-                    android:layout_gravity="right" />
+                    android:id="@+id/imageViewRefuelingDate" />
             </LinearLayout>
 
         </LinearLayout>
@@ -183,7 +201,7 @@
                 <ListView
                     android:layout_width="match_parent"
                     android:id="@+id/listViewPartsList"
-                    android:layout_height="80dp">
+                    android:layout_height="wrap_content">
                 </ListView>
 
                 <Button
@@ -198,7 +216,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom">
 
             <Button
