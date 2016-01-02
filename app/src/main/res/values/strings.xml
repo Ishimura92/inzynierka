@@ -29,8 +29,8 @@
     <string name="changesSaved">Zapisano zmiany</string>
     <string name="vehicleAdded">Dodano pojazd</string>
     <string name="chooseDate">Wybierz datę</string>
-    <string name="lettersAndNumbersMatcher">[a-zA-Z 0-9]+</string>
-    <string name="lettersMatcher">[a-z A-Z]+</string>
+    <string name="lettersAndNumbersMatcher">[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ 0-9]+</string>
+    <string name="lettersMatcher">[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*</string>
     <string name="youCanEnterHereOnlyLettersAndNumbers">Możesz tu wpisać tylko litery i cyfry</string>
     <string name="youCanEnterHereOnlyLetters">Możesz tu wpisać tylko litery</string>
     <string name="save">Zapisz</string>

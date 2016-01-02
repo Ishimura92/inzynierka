@@ -98,7 +98,7 @@ public class RepairHistoryFragment extends Fragment {
         Collections.sort(repairList, new Comparator<Repair>() {
             @Override
             public int compare(Repair lhs, Repair rhs) {
-                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
                 final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
                 final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
                 return rhsDate.compareTo(lhsDate);

@@ -3,6 +3,7 @@ package com.example.luki.inzynierka.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -50,9 +51,9 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         final Repair repair = repairs.get(position);
 
         customViewHolder.textViewRepairTitle.setText(repair.getTitle());
-        customViewHolder.textViewRepairCost.setText(String.valueOf(repair.getTotalCost()));
+        customViewHolder.textViewRepairCost.setText(String.valueOf(repair.getTotalCost()) + this.context.getText(R.string.zlotysShortcut));
         customViewHolder.textViewRepairDate.setText(repair.getDate());
-        customViewHolder.textViewRepairOdometer.setText(String.valueOf(repair.getOdometer()));
+        customViewHolder.textViewRepairOdometer.setText(String.valueOf(repair.getOdometer()) + this.context.getText(R.string.kilometersShortcut));
         customViewHolder.textViewRepairDescription.setText(repair.getDescription());
 
         customViewHolder.repairItemLayout.setOnLongClickListener(new View.OnLongClickListener() {

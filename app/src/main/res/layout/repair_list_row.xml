@@ -202,9 +202,68 @@
                     android:layout_marginLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lista części"
+                    android:text="Warsztat"
                     android:id="@+id/textView5" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MotoKlinika ul.Piłsudskiego 31"
+                android:id="@+id/textView13"
+                android:layout_margin="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:elevation="10dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lista części"
+                    android:id="@+id/textView9" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:elevation="10dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Zdjęcie rachunku"
+                    android:id="@+id/textView12" />
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/imageButton"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/reciept_placeholder"
+                android:layout_margin="10dp"
+                android:layout_gravity="center" />
 
         </LinearLayout>
 
