@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +34,7 @@ import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
 import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
+import com.example.luki.inzynierka.databaseUtils.Variables;
 import com.example.luki.inzynierka.dialogs.NewRepairDialog;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
@@ -52,6 +56,7 @@ import io.realm.Realm;
 @EFragment(R.layout.fragment_repair)
 public class RepairFragment extends Fragment{
 
+    private static final int TAKE_PHOTO_REQUEST = 200;
     @ViewById
     ViewPager repairPager;
     @ViewById
@@ -62,6 +67,8 @@ public class RepairFragment extends Fragment{
     NewRepairDialog newRepairDialog;
     @Bean
     DatabaseConnector databaseConnector;
+    @Bean
+    Variables variables;
 
     private MainActivityCallbacks mainActivityCallbacks;
     private RepairCallbacks repairCallbacks;
@@ -81,6 +88,7 @@ public class RepairFragment extends Fragment{
         setHasOptionsMenu(true);
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
         setDatabaseConnector();
+        newRepairDialog.setCallingFragment(this);
     }
 
     @Override
@@ -121,6 +129,31 @@ public class RepairFragment extends Fragment{
         adapter.addFragment(repairHistoryFragment, getActivity().getString(R.string.history));
         adapter.addFragment(repairSummaryFragment, getActivity().getString(R.string.summary));
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == TAKE_PHOTO_REQUEST) {
+            final Uri uri = variables.getPhotoUri();
+            final String path = prepareProperFilePath(uri.getPath());
+            variables.setProperPhotoPath(path);
+            newRepairDialog.receivePhotoData(path, uri);
+        }
+    }
+
+    @NonNull
+    public String prepareProperFilePath(String path) {
+        String properFilePath = "";
+        if (path.split(":").length > 1) {
+            final String[] fileNameArray = path.split(":");
+            for (int i = 1; i < fileNameArray.length; i++) {
+                properFilePath += fileNameArray[i] + ":";
+            }
+            properFilePath = properFilePath.substring(0, properFilePath.length() - 1);
+        } else {
+            properFilePath = path;
+        }
+        return properFilePath;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

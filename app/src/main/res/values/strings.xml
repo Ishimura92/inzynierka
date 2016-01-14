@@ -25,6 +25,7 @@
     <string name="summary">Podsumowanie</string>
     <string name="graphs">Wykresy</string>
     <string name="chooseVehicle">Wybierz pojazd</string>
+    <string name="garage">Garaż</string>
     <string name="add">Dodaj</string>
     <string name="changesSaved">Zapisano zmiany</string>
     <string name="vehicleAdded">Dodano pojazd</string>

@@ -115,7 +115,7 @@ public class VehicleChooser extends AppCompatActivity {
     @AfterViews
     void init(){
         setRealm();
-        if(getSupportActionBar() != null) getSupportActionBar().setTitle(R.string.chooseVehicle);
+        if(getSupportActionBar() != null) getSupportActionBar().setTitle(R.string.garage);
         vehicleList = new ArrayList<>();
         //generateVehiclesToTest();
         setSpinners();

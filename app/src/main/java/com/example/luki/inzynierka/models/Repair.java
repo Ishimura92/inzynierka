@@ -13,11 +13,12 @@ public class Repair extends RealmObject {
     private RealmList<Part> parts;
     private String date;
     private Workshop workshop;
+    private String receiptPhotoPath;
 
     public Repair() {
     }
 
-    public Repair(int id, String title, String description, float totalCost, float odometer, RealmList<Part> parts, String date, Workshop workshop) {
+    public Repair(int id, String title, String description, float totalCost, float odometer, RealmList<Part> parts, String date, Workshop workshop, String receiptPhotoPath) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -26,6 +27,7 @@ public class Repair extends RealmObject {
         this.parts = parts;
         this.date = date;
         this.workshop = workshop;
+        this.receiptPhotoPath = receiptPhotoPath;
     }
 
     public String getTitle() {
@@ -90,5 +92,13 @@ public class Repair extends RealmObject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getReceiptPhotoPath() {
+        return receiptPhotoPath;
+    }
+
+    public void setReceiptPhotoPath(String receiptPhotoPath) {
+        this.receiptPhotoPath = receiptPhotoPath;
     }
 }

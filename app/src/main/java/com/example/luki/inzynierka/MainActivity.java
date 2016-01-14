@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         mNavItems.add(new NavItem("Serwisy", "Spis dokonanych serwisów", R.drawable.ic_service_black_small));
         mNavItems.add(new NavItem("Warsztaty", "Twoi mechanicy", R.drawable.ic_mechanic_black_small));
 
-        mNavItems.add(new NavItem("Zmień pojazd", "Widok wyboru pojazdów", R.drawable.car_placeholder_small));
+        mNavItems.add(new NavItem("Garaż", "Widok wyboru pojazdów", R.drawable.car_placeholder_small));
 
         imageViewAvatar.setImageResource(currentVehicle.getImage());
         textViewCarModel.setText(currentVehicle.getModel());
@@ -195,8 +195,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
                 this.startActivity(intent);
                 break;
         }
-        //TODO to nizej dodac przed kazdym breakiem oprocz tego wyjsciowego do wyboru pojazdow
-        //mDrawerLayout.closeDrawer(mDrawerPane);
     }
 
     @Override

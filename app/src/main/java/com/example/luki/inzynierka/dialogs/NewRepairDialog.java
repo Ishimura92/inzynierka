@@ -4,41 +4,42 @@ package com.example.luki.inzynierka.dialogs;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
-import com.example.luki.inzynierka.models.Refueling;
+import com.example.luki.inzynierka.databaseUtils.Variables;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.utils.Preferences_;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 @EBean
@@ -50,8 +51,12 @@ public class NewRepairDialog extends Dialog {
     @Bean
     DatabaseConnector databaseConnector;
 
+    @Bean
+    Variables variables;
+
     private static final float DIALOG_WIDTH_TO_SCREEN_WIDTH_RATIO = 0.85f;
     private static final float DIALOG_HEIGHT_TO_SCREEN_HEIGHT_RATIO = 0.8f;
+    private static final int TAKE_PHOTO_REQUEST = 200;
 
     private int repairOdometer;
     private Float repairPrice;
@@ -72,9 +77,12 @@ public class NewRepairDialog extends Dialog {
     private Button buttonSaveRepair;
     private Button buttonCancelRepair;
     private Button buttonNewPart;
+    private Button buttonTakePhoto;
     private LinearLayout repairDateLayout;
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener date;
+
+    private Fragment callingFragment;
 
     public NewRepairDialog(Context context) {
         super(context);
@@ -96,6 +104,7 @@ public class NewRepairDialog extends Dialog {
         buttonSaveRepair = (Button) this.findViewById(R.id.buttonSaveRepair);
         buttonCancelRepair = (Button) this.findViewById(R.id.buttonCancelRepair);
         buttonNewPart = (Button) this.findViewById(R.id.buttonNewPart);
+        buttonTakePhoto = (Button) this.findViewById(R.id.buttonTakePhoto);
         repairDateLayout = (LinearLayout) this.findViewById(R.id.repairDateLayout);
 
         textViewRepairDate.setText(repairDate.toString("dd/MM/yyyy"));
@@ -114,6 +123,12 @@ public class NewRepairDialog extends Dialog {
             this.dismiss();
         }
         clearData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        clearAllErrors();
     }
 
     private void clearAllErrors() {
@@ -217,7 +232,7 @@ public class NewRepairDialog extends Dialog {
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
         String date = dtfOut.print(repairDate);
 
-        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null);
+        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null, "");
 
         databaseConnector.addNewRepairToRealm(repair);
     }
@@ -246,12 +261,39 @@ public class NewRepairDialog extends Dialog {
                 dismiss();
             }
         });
+
+        buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto();
+            }
+        });
+    }
+
+    private void takePhoto() {
+        final Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        final File imagesFolder = new File(Environment.getExternalStorageDirectory(), "SerwisantPhotos");
+        imagesFolder.mkdirs();
+
+        final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        final File image = new File(imagesFolder, "Serwisant_" + timeStamp + ".png");
+        final Uri uriSavedImage = Uri.fromFile(image);
+        variables.setPhotoUri(uriSavedImage);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
+
+        callingFragment.startActivityForResult(intent, TAKE_PHOTO_REQUEST);
+    }
+
+    public void receivePhotoData(String path, Uri photoUri){
+        buttonTakePhoto.setText(new File(path).getName());
     }
 
     private void clearData() {
         editTextOdometerRepairValue.setText("");
         editTextRepairPrice.setText("");
         editTextRepairTitle.setText("");
+        editTextRepairDescription.setText("");
         textViewRepairDate.setText(DateTime.now().toString("dd/MM/yyyy"));
     }
 
@@ -324,5 +366,13 @@ public class NewRepairDialog extends Dialog {
         lp.width = (int) (metrics.widthPixels * DIALOG_WIDTH_TO_SCREEN_WIDTH_RATIO);
         lp.height = (int) (metrics.heightPixels * DIALOG_HEIGHT_TO_SCREEN_HEIGHT_RATIO);
         getWindow().setAttributes(lp);
+    }
+
+    public Fragment getCallingFragment() {
+        return callingFragment;
+    }
+
+    public void setCallingFragment(Fragment callingFragment) {
+        this.callingFragment = callingFragment;
     }
 }
