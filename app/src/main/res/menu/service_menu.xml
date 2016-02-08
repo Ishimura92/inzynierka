@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_add_service"
+        android:icon="@drawable/ic_service_orange_small"
+        android:title="Dodaj serwis"
+        app:showAsAction="ifRoom"/>
+
+</menu>

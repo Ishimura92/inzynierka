@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/fragment_service"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:elevation="10dp"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayoutService"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerViewService"
+                android:paddingTop="10dp">
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewNoService"
+                android:text="Brak zapisanych serwisów.\nUżyj pomarańczowej ikonki u góry aby dodać nowe."
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

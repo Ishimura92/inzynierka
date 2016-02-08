@@ -27,6 +27,7 @@ import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment_;
 import com.example.luki.inzynierka.fragments.RepairFragment_;
 import com.example.luki.inzynierka.fragments.RepairHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
+import com.example.luki.inzynierka.fragments.ServiceFragment_;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private RefuelingSummaryFragment_ refuelingSummaryFragment;
     private RefuelingGraphsFragment_ refuelingGraphsFragment;
     private RefuelingFragment_ refuelingFragment;
+    private ServiceFragment_ serviceFragment;
     private RepairFragment_ repairFragment;
     private RepairHistoryFragment_ repairHistoryFragment;
     private RepairSummaryFragment_ repairSummaryFragment;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         refuelingHistoryFragment = new RefuelingHistoryFragment_();
         refuelingSummaryFragment = new RefuelingSummaryFragment_();
         refuelingGraphsFragment = new RefuelingGraphsFragment_();
+        serviceFragment = new ServiceFragment_();
         repairFragment = new RepairFragment_();
         repairHistoryFragment = new RepairHistoryFragment_();
         repairSummaryFragment = new RepairSummaryFragment_();
@@ -189,6 +192,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
+            case 2:
+                changeToServiceFragment("Serwisy");
+                mDrawerLayout.closeDrawer(mDrawerPane);
+                break;
+
             case 4:
                 Intent intent = new Intent(this, VehicleChooser_.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -220,6 +228,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         setTitle(fragmentTitle);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_content, mainFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
+
+    @Override
+    public void changeToServiceFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, serviceFragment);
         transaction.addToBackStack(fragmentTitle);
         transaction.commit();
     }

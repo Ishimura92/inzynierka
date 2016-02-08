@@ -9,5 +9,7 @@ public interface MainActivityCallbacks {
 
     void changeToRepairFragment(String fragmentTitle);
 
+    void changeToServiceFragment(String fragmentTitle);
+
     Vehicle getCurrentVehicle();
 }

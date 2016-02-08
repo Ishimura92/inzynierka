@@ -37,4 +37,6 @@
     <string name="save">Zapisz</string>
     <string name="repair_saved">Repair saved</string>
     <string name="repair">Naprawa</string>
+    <string name="service">Serwis</string>
+    <string name="service_saved">Zapisano serwis</string>
 </resources>

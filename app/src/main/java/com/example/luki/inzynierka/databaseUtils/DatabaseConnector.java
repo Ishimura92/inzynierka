@@ -8,6 +8,7 @@ import com.example.luki.inzynierka.fragments.RepairHistoryFragment;
 import com.example.luki.inzynierka.fragments.RepairSummaryFragment;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
+import com.example.luki.inzynierka.models.Service;
 import com.example.luki.inzynierka.models.Vehicle;
 
 import org.androidannotations.annotations.EBean;
@@ -68,6 +69,12 @@ public class DatabaseConnector {
         realm.commitTransaction();
 
         refuelingCallbacks.notifyRefuelingDatasetChanged(refuelingHistoryFragment, refuelingSummaryFragment, refueling);
+    }
+
+    public void addNewServiceToRealm(Service service) {
+        realm.beginTransaction();
+        currentVehicle.getServices().add(service);
+        realm.commitTransaction();
     }
 
     public void addNewRepairToRealm(Repair repair) {
