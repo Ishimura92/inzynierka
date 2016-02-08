@@ -264,6 +264,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     @Override
+    public void showBurningChart(Fragment graphsFragment) {
+        refuelingGraphsFragment = (RefuelingGraphsFragment_) graphsFragment;
+        refuelingGraphsFragment.showBurningChart();
+    }
+
+    @Override
+    public void showPriceChart(Fragment graphsFragment) {
+        refuelingGraphsFragment = (RefuelingGraphsFragment_) graphsFragment;
+        refuelingGraphsFragment.showPriceChart();
+    }
+
+    @Override
     public void notifyRepairDatasetChanged(Fragment historyFragment, Fragment summaryFragment, Repair repair) {
         repairHistoryFragment = (RepairHistoryFragment_) historyFragment;
         repairSummaryFragment = (RepairSummaryFragment_) summaryFragment;

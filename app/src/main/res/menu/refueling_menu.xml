@@ -6,4 +6,11 @@
         android:icon="@drawable/ic_refueling_orange"
         android:title="Dodaj tankowanie"
         app:showAsAction="ifRoom"/>
+
+            <item android:id="@+id/chart_price"
+                android:visible="false"
+                android:title="Cena/litry" />
+            <item android:id="@+id/chart_burning"
+                android:visible="false"
+                android:title="Spalanie" />
 </menu>

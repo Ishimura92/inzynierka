@@ -9,4 +9,8 @@ public interface RefuelingCallbacks {
     void notifyRefuelingDatasetChanged(Fragment historyFragment, Fragment summaryFragment, Refueling refueling);
 
     void notifyRefuelingDeleted();
+
+    void showBurningChart(Fragment graphsFragment);
+
+    void showPriceChart(Fragment graphsFragment);
 }

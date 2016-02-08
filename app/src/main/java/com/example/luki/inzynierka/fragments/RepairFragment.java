@@ -124,6 +124,7 @@ public class RepairFragment extends Fragment{
         inflater.inflate(R.menu.repair_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(repairHistoryFragment, getActivity().getString(R.string.history));

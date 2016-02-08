@@ -73,6 +73,9 @@ public class RefuelingFragment extends Fragment{
     private Vehicle currentVehicle;
     private Calendar myCalendar;
 
+    private MenuItem burningGraphItem;
+    private MenuItem priceGraphItem;
+
     private Fragment refuelingHistoryFragment = new RefuelingHistoryFragment_();
     private Fragment refuelingSummaryFragment = new RefuelingSummaryFragment_();
     private Fragment refuelingGraphsFragment = new RefuelingGraphsFragment_();
@@ -100,6 +103,8 @@ public class RefuelingFragment extends Fragment{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.refueling_menu, menu);
+        burningGraphItem = menu.findItem(R.id.chart_burning);
+        priceGraphItem = menu.findItem(R.id.chart_price);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -108,6 +113,12 @@ public class RefuelingFragment extends Fragment{
         switch (item.getItemId()) {
             case R.id.action_add_refueling:
                 showNewRefuelingDialog();
+                break;
+            case R.id.chart_price:
+                refuelingCallbacks.showPriceChart(refuelingGraphsFragment);
+                break;
+            case R.id.chart_burning:
+                refuelingCallbacks.showBurningChart(refuelingGraphsFragment);
                 break;
             default:
                 break;
@@ -133,6 +144,28 @@ public class RefuelingFragment extends Fragment{
         adapter.addFragment(refuelingHistoryFragment, getActivity().getString(R.string.history));
         adapter.addFragment(refuelingSummaryFragment, getActivity().getString(R.string.summary));
         adapter.addFragment(refuelingGraphsFragment, getActivity().getString(R.string.graphs));
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(position != 2){
+                    burningGraphItem.setVisible(false);
+                    priceGraphItem.setVisible(false);
+                } else {
+                    burningGraphItem.setVisible(true);
+                    priceGraphItem.setVisible(true);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setAdapter(adapter);
     }
 
