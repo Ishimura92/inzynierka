@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
 import com.example.luki.inzynierka.databaseUtils.Variables;
+import com.example.luki.inzynierka.fragments.ServiceFragment;
+import com.example.luki.inzynierka.models.Notification;
 import com.example.luki.inzynierka.models.Service;
 import com.example.luki.inzynierka.utils.Preferences_;
 
@@ -61,11 +64,13 @@ public class NewServiceDialog extends Dialog {
 
     private int serviceOdometer;
     private Float servicePrice;
+    private Float notificationKilometers;
     private String serviceTitle;
     private String tempPrice;
     private String tempOdometer;
     private String tempDescription;
     private String tempTitle;
+    private String tempNotificationKilometers;
     private DateTime serviceDate;
 
     private DateTimeFormatter formatter;
@@ -86,6 +91,9 @@ public class NewServiceDialog extends Dialog {
     private DatePickerDialog.OnDateSetListener date;
 
     private Fragment callingFragment;
+    private ServiceFragment callingServiceFragment;
+    private boolean isDateSetting;
+    private DateTime notificationDate;
 
     public NewServiceDialog(Context context) {
         super(context);
@@ -124,7 +132,7 @@ public class NewServiceDialog extends Dialog {
         getServiceDataFromDialogs();
         if(validate()){
             prepareServiceToAddToRealm();
-            Snackbar.make(textViewServiceDate, R.string.service_saved, Snackbar.LENGTH_SHORT).show();
+            callingServiceFragment.showSavedServiceSnackbar();
             this.dismiss();
         }
         clearData();
@@ -140,6 +148,7 @@ public class NewServiceDialog extends Dialog {
         editTextServicePrice.setError(null);
         editTextServiceTitle.setError(null);
         editTextOdometerServiceValue.setError(null);
+        editTextNotificationKilometers.setError(null);
     }
 
     private boolean validate(){
@@ -158,6 +167,17 @@ public class NewServiceDialog extends Dialog {
             return false;
         }else if(!tempPrice.matches(getContext().getString(R.string.numberAndDotMatcher))){
             editTextServicePrice.setError(getContext().getString(R.string.youCanEnterHereOnlyNumbersOrDot));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateNotificationKilometers() {
+        if(editTextNotificationKilometers.length() == 0 && radioButtonNotificationKilometers.isChecked()){
+            editTextNotificationKilometers.setError(getContext().getString(R.string.fillField));
+            return false;
+        }else if(!editTextNotificationKilometers.getText().toString().matches(getContext().getString(R.string.numberAndDotMatcher))){
+            editTextNotificationKilometers.setError(getContext().getString(R.string.youCanEnterHereOnlyNumbersOrDot));
             return false;
         }
         return true;
@@ -203,11 +223,23 @@ public class NewServiceDialog extends Dialog {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
+
+                if(isDateSetting) {
+                    updateLabel();
+                } else {
+                    updateNotificationLabel();
+                }
             }
         };
 
         serviceDate = DateTime.now();
+    }
+
+    private void updateNotificationLabel() {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        buttonNotificationDate.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void updateLabel() {
@@ -221,6 +253,10 @@ public class NewServiceDialog extends Dialog {
         tempPrice = editTextServicePrice.getText().toString();
         tempOdometer = editTextOdometerServiceValue.getText().toString();
         tempTitle = editTextServiceTitle.getText().toString();
+        if(radioButtonNotificationKilometers.isChecked())
+            tempNotificationKilometers = editTextNotificationKilometers.getText().toString();
+        if(radioButtonNotificationDate.isChecked())
+            notificationDate = formatter.parseDateTime(buttonNotificationDate.getText().toString());
         serviceDate = formatter.parseDateTime(textViewServiceDate.getText().toString());
     }
 
@@ -229,22 +265,50 @@ public class NewServiceDialog extends Dialog {
         final int serviceID = preferences.lastServiceID().get() + 1;
         preferences.lastServiceID().put(serviceID);
 
+        final int notificationID = preferences.lastNotificationID().get() + 1;
+        preferences.lastRefuelingID().put(notificationID);
+
         serviceTitle = tempTitle;
         servicePrice = Float.valueOf(tempPrice);
         serviceOdometer = Integer.valueOf(tempOdometer);
 
+        Notification notification = new Notification();
+        notification = setupNotification(notificationID, notification);
+
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
         String date = dtfOut.print(serviceDate);
 
-        final Service service = new Service(serviceID, serviceTitle, serviceOdometer, servicePrice, date);
+        final Service service = new Service(serviceID, serviceTitle, serviceOdometer, servicePrice, date, notification);
+        callingServiceFragment.notifyNewService(service);
 
         databaseConnector.addNewServiceToRealm(service);
+    }
+
+    @Nullable
+    private Notification setupNotification(int notificationID, Notification notification) {
+        notification.setId(notificationID);
+        notification.setName(serviceTitle);
+
+        if(radioButtonNotificationKilometers.isChecked()){
+            notificationKilometers = Float.valueOf(tempNotificationKilometers);
+            notification.setIsDateNotification(false);
+            notification.setKilometers(notificationKilometers);
+        } else if (radioButtonNotificationDate.isChecked()) {
+            notification.setIsDateNotification(true);
+            final DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
+            final String date = dtfOut.print(notificationDate);
+            notification.setDate(date);
+        } else {
+            notification = null;
+        }
+        return notification;
     }
 
     private void setDialogOnClickListeners() {
         serviceDateLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isDateSetting = true;
                 new DatePickerDialog(getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -265,21 +329,30 @@ public class NewServiceDialog extends Dialog {
                 dismiss();
             }
         });
-    }
 
-    private void takePhoto() {
-        final Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        final File imagesFolder = new File(Environment.getExternalStorageDirectory(), "SerwisantPhotos");
-        imagesFolder.mkdirs();
+        buttonNotificationDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isDateSetting = false;
+                new DatePickerDialog(getContext(), date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
-        final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        radioButtonNotificationKilometers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                radioButtonNotificationDate.setChecked(false);
+            }
+        });
 
-        final File image = new File(imagesFolder, "Serwisant_" + timeStamp + ".png");
-        final Uri uriSavedImage = Uri.fromFile(image);
-        variables.setPhotoUri(uriSavedImage);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
-
-        callingFragment.startActivityForResult(intent, TAKE_PHOTO_REQUEST);
+        radioButtonNotificationDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                radioButtonNotificationKilometers.setChecked(false);
+            }
+        });
     }
 
     private void clearData() {
@@ -287,6 +360,8 @@ public class NewServiceDialog extends Dialog {
         editTextServicePrice.setText("");
         editTextServiceTitle.setText("");
         textViewServiceDate.setText(DateTime.now().toString("dd/MM/yyyy"));
+        editTextNotificationKilometers.setText("");
+        buttonNotificationDate.setText("Wybierz datę");
     }
 
     private void setupOnTextChangeListeners() {
@@ -302,6 +377,24 @@ public class NewServiceDialog extends Dialog {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempTitle = editTextServiceTitle.getText().toString();
                 if(validateTitle()) editTextServiceTitle.setError(null);
+            }
+        });
+
+        editTextNotificationKilometers.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tempNotificationKilometers = editTextNotificationKilometers.getText().toString();
+                if(validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tempNotificationKilometers = editTextNotificationKilometers.getText().toString();
+                if(validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
             }
         });
 
@@ -351,5 +444,6 @@ public class NewServiceDialog extends Dialog {
 
     public void setCallingFragment(Fragment callingFragment) {
         this.callingFragment = callingFragment;
+        this.callingServiceFragment = (ServiceFragment) callingFragment;
     }
 }

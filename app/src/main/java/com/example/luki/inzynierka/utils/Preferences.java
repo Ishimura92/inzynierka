@@ -23,4 +23,7 @@ public interface Preferences {
 
     @DefaultInt(0)
     int lastWorkshopID();
+
+    @DefaultInt(0)
+    int lastNotificationID();
 }

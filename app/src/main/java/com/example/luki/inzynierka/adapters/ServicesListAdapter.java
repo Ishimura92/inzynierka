@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.models.Notification;
 import com.example.luki.inzynierka.models.Service;
 
 import java.util.ArrayList;
@@ -47,6 +49,19 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
         customViewHolder.textViewServiceDate.setText(service.getDate());
         customViewHolder.textViewServiceOdometer.setText(String.valueOf(service.getOdometer()) + this.context.getText(R.string.kilometersShortcut));
 
+        if(service.getNotification() != null){
+            final Notification serviceNotification = service.getNotification();
+            customViewHolder.layoutServiceNotification.setVisibility(View.VISIBLE);
+            if(serviceNotification.isDateNotification()) {
+                customViewHolder.textViewServiceNotification.setText(serviceNotification.getDate());
+            } else {
+                final float notificationKm = serviceNotification.getKilometers() + service.getOdometer();
+                customViewHolder.textViewServiceNotification.setText(context.getString(R.string.at) + notificationKm + this.context.getText(R.string.kilometersShortcut));
+            }
+        } else {
+            customViewHolder.layoutServiceNotification.setVisibility(View.GONE);
+        }
+
         customViewHolder.serviceItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -78,8 +93,9 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView textViewServiceCost, textViewServiceDate, textViewServiceOdometer, textViewServiceTitle, textViewServiceDescription;
+        protected TextView textViewServiceCost, textViewServiceDate, textViewServiceOdometer, textViewServiceNotification, textViewServiceTitle, textViewServiceDescription;
         protected CardView serviceItemLayout;
+        protected LinearLayout layoutServiceNotification;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -87,7 +103,9 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
             textViewServiceDate = (TextView) view.findViewById(R.id.textViewServiceDate);
             textViewServiceOdometer = (TextView) view.findViewById(R.id.textViewServiceOdometer);
             textViewServiceTitle = (TextView) view.findViewById(R.id.textViewServiceTitle);
+            textViewServiceNotification = (TextView) view.findViewById(R.id.textViewServiceNotification);
             serviceItemLayout = (CardView) view.findViewById(R.id.serviceItemLayout);
+            layoutServiceNotification = (LinearLayout) view.findViewById(R.id.layoutServiceNotification);
         }
     }
 

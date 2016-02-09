@@ -11,16 +11,18 @@ public class Service extends RealmObject{
     private float odometer;
     private float price;
     private String date;
+    private Notification notification;
 
     public Service(){
     }
 
-    public Service(int id, String serviceType, float odometer, float price, String date) {
+    public Service(int id, String serviceType, float odometer, float price, String date, Notification notification) {
         this.id = id;
         this.serviceType = serviceType;
         this.odometer = odometer;
         this.price = price;
         this.date = date;
+        this.notification = notification;
     }
 
     public String getDate() {
@@ -61,5 +63,13 @@ public class Service extends RealmObject{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
     }
 }

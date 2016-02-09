@@ -39,6 +39,11 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+//        szczegółowe zapisywanie harmonogramu przeglądów technicznych, kosztów
+//        napraw i części zamiennych, wraz ze zdjęciami faktur i rachunków, zapisywanie lokalizacji i opisu
+//        warsztatów oraz kosztów paliwa wraz z wykresami zużycia. Ponadto program będzie umożliwiał
+//        zapisywanie i eksportowanie kopii zapasowej bazy danych i przenoszenie jej na inne urządzenie.
+
 public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks, RepairCallbacks {
 
     public ListView mDrawerList;

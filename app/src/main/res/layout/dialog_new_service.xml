@@ -199,7 +199,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/editTextNotificationKilometers"
                         android:layout_weight="1"
-                        android:hint="podaj kilometry"
+                        android:inputType="number"
+                        android:hint="podaj km."
                         android:textAlignment="center" />
                 </LinearLayout>
 

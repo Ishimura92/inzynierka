@@ -39,4 +39,5 @@
     <string name="repair">Naprawa</string>
     <string name="service">Serwis</string>
     <string name="service_saved">Zapisano serwis</string>
+    <string name="at">"przy "</string>
 </resources>

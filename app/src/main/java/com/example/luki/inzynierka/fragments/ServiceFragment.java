@@ -2,6 +2,7 @@ package com.example.luki.inzynierka.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -104,6 +105,7 @@ public class ServiceFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_service:
+                newServiceDialog.setCallingFragment(this);
                 newServiceDialog.show();
                 break;
             default:
@@ -168,6 +170,11 @@ public class ServiceFragment extends Fragment {
         if (!serviceList.isEmpty()) {
             textViewNoService.setVisibility(View.GONE);
         }
+    }
+
+    public void showSavedServiceSnackbar() {
+        Snackbar.make(view, R.string.service_saved, Snackbar.LENGTH_SHORT).show();
+
     }
 }
 

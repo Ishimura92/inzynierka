@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.adapters.VehicleListAdapter;
+import com.example.luki.inzynierka.models.Notification;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Service;
@@ -110,6 +111,7 @@ public class VehicleChooser extends AppCompatActivity {
     private RealmList<Refueling> refuelings = new RealmList<>();
     private RealmList<Repair> repairs = new RealmList<>();
     private RealmList<Service> services = new RealmList<>();
+    private RealmList<Notification> notifications = new RealmList<>();
     private Vehicle editedVehicle;
 
     @AfterViews
@@ -179,7 +181,7 @@ public class VehicleChooser extends AppCompatActivity {
 
         realm.beginTransaction();
         editedVehicle = new Vehicle(editedVehicle.getId(), vehicleBrand, vehicleModel, productionDate, "0xffffff",
-                engine, engineCapacity, odometer, top, refuelings, repairs, services);
+                engine, engineCapacity, odometer, top, refuelings, repairs, services, notifications);
         setVehicleImage(editedVehicle);
         realm.copyToRealmOrUpdate(editedVehicle);
         realm.commitTransaction();
@@ -203,7 +205,7 @@ public class VehicleChooser extends AppCompatActivity {
         preferences.lastVehicleID().put(vehicleID);
 
         Vehicle newVehicle = new Vehicle(vehicleID, vehicleBrand, vehicleModel, productionDate, "0xffffff",
-                engine, engineCapacity, odometer, top, refuelings, repairs, services);
+                engine, engineCapacity, odometer, top, refuelings, repairs, services, notifications);
 
         setVehicleImage(newVehicle);
 
@@ -434,8 +436,8 @@ public class VehicleChooser extends AppCompatActivity {
     }
 
     private void generateVehiclesToTest(){
-        Vehicle pierwszy = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services);
-        Vehicle drugi = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services);
+        Vehicle pierwszy = new Vehicle(1, "Audi", "Coupe", new Date(1994,11,11), "0xffff", "Benzyna + gaz", 2.0f, 22345, "Coupe", refuelings, repairs, services, notifications);
+        Vehicle drugi = new Vehicle(2, "Opel", "Zafira", new Date(2006,1,19), "0xffff", "Diesel", 1.9f, 31901, "Van", refuelings, repairs, services, notifications);
         vehicleList.add(pierwszy);
         vehicleList.add(drugi);
 

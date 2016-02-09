@@ -23,11 +23,12 @@ public class Vehicle extends RealmObject {
     private RealmList<Refueling> refuelings;
     private RealmList<Repair> repairs;
     private RealmList<Service> services;
+    private RealmList<Notification> notifications;
 
     public Vehicle() {
     }
 
-    public Vehicle(int id, String brand, String model, Date productionDate, String color, String engineType, float engineCapacity, float odometer, String bodyType, RealmList<Refueling> refuelings, RealmList<Repair> repairs, RealmList<Service> services) {
+    public Vehicle(int id, String brand, String model, Date productionDate, String color, String engineType, float engineCapacity, float odometer, String bodyType, RealmList<Refueling> refuelings, RealmList<Repair> repairs, RealmList<Service> services, RealmList<Notification> notifications) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -40,6 +41,7 @@ public class Vehicle extends RealmObject {
         this.refuelings = refuelings;
         this.repairs = repairs;
         this.services = services;
+        this.notifications = notifications;
     }
 
     public int getImage() {
@@ -144,5 +146,13 @@ public class Vehicle extends RealmObject {
 
     public void setServices(RealmList<Service> services) {
         this.services = services;
+    }
+
+    public RealmList<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(RealmList<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
