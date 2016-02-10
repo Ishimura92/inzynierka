@@ -11,5 +11,7 @@ public interface MainActivityCallbacks {
 
     void changeToServiceFragment(String fragmentTitle);
 
+    void changeToWorkshopFragment(String fragmentTitle);
+
     Vehicle getCurrentVehicle();
 }

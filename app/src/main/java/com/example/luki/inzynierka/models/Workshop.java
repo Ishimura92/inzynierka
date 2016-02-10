@@ -1,20 +1,23 @@
 package com.example.luki.inzynierka.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Workshop extends RealmObject{
 
+    @PrimaryKey
     private int id;
+
     private String name;
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private String phoneNumber;
     private String address;
 
     public Workshop(){
     }
 
-    public Workshop(int id, String name, String firstName, String lastName, int phoneNumber, String address) {
+    public Workshop(int id, String name, String firstName, String lastName, String phoneNumber, String address) {
         this.id = id;
         this.name = name;
         this.firstName = firstName;
@@ -47,11 +50,11 @@ public class Workshop extends RealmObject{
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -40,4 +40,6 @@
     <string name="service">Serwis</string>
     <string name="service_saved">Zapisano serwis</string>
     <string name="at">"przy "</string>
+    <string name="workshop_saved">Warsztat zapisany</string>
+    <string name="workshop">Warsztat</string>
 </resources>

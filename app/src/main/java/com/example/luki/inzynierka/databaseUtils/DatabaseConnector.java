@@ -10,6 +10,7 @@ import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Service;
 import com.example.luki.inzynierka.models.Vehicle;
+import com.example.luki.inzynierka.models.Workshop;
 
 import org.androidannotations.annotations.EBean;
 
@@ -74,6 +75,12 @@ public class DatabaseConnector {
     public void addNewServiceToRealm(Service service) {
         realm.beginTransaction();
         currentVehicle.getServices().add(service);
+        realm.commitTransaction();
+    }
+
+    public void addNewWorkshopToRealm(Workshop workshop) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(workshop);
         realm.commitTransaction();
     }
 

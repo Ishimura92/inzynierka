@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
-import com.example.luki.inzynierka.adapters.ServicesListAdapter;
+import com.example.luki.inzynierka.adapters.WorkshopsListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
-import com.example.luki.inzynierka.dialogs.NewServiceDialog;
-import com.example.luki.inzynierka.models.Service;
+import com.example.luki.inzynierka.dialogs.NewWorkshopDialog;
+import com.example.luki.inzynierka.models.Workshop;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
 
@@ -40,39 +40,39 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-@EFragment(R.layout.fragment_service)
-public class ServiceFragment extends Fragment {
+@EFragment(R.layout.fragment_workshop)
+public class WorkshopFragment extends Fragment {
 
     @Pref
     Preferences_ preferences;
 
     @ViewById
-    TextView textViewNoService;
+    TextView textViewNoWorkshop;
 
     @Bean
-    NewServiceDialog newServiceDialog;
+    NewWorkshopDialog newWorkshopDialog;
 
     @Bean
     DatabaseConnector databaseConnector;
 
     private MainActivityCallbacks mainActivityCallbacks;
     private View view;
-    private ServicesListAdapter adapter;
-    private List<Service> serviceList;
-    private RecyclerView recyclerViewService;
+    private WorkshopsListAdapter adapter;
+    private List<Workshop> workshopList;
+    private RecyclerView recyclerViewWorkshop;
     private Realm realm;
     private Vehicle currentVehicle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_service, container, false);
+        view = inflater.inflate(R.layout.fragment_workshop, container, false);
 
         realm = Realm.getInstance(getActivity());
         currentVehicle = mainActivityCallbacks.getCurrentVehicle();
-        serviceList = new ArrayList<>();
+        workshopList = new ArrayList<>();
         setHasOptionsMenu(true);
         initViews();
-        getServiceListFromRealm();
+        getWorkshopListFromRealm();
         setDatabaseConnector();
         setAdapter();
         return view;
@@ -90,22 +90,22 @@ public class ServiceFragment extends Fragment {
     }
 
     private void initViews() {
-        recyclerViewService = (RecyclerView) view.findViewById(R.id.recyclerViewService);
-        textViewNoService = (TextView) view.findViewById(R.id.textViewNoService);
+        recyclerViewWorkshop = (RecyclerView) view.findViewById(R.id.recyclerViewWorkshop);
+        textViewNoWorkshop = (TextView) view.findViewById(R.id.textViewNoWorkshop);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.service_menu, menu);
+        inflater.inflate(R.menu.workshop_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_service:
-                newServiceDialog.setCallingFragment(this);
-                newServiceDialog.show();
+            case R.id.action_add_workshop:
+                newWorkshopDialog.setCallingFragment(this);
+                newWorkshopDialog.show();
                 break;
             default:
                 break;
@@ -114,65 +114,64 @@ public class ServiceFragment extends Fragment {
     }
 
     private void setAdapter() {
-        if (!serviceList.isEmpty()) textViewNoService.setVisibility(View.GONE);
-        sortServiceListByDate();
-        adapter = new ServicesListAdapter(serviceList, getContext());
-        recyclerViewService.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewService.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
-        recyclerViewService.setAdapter(adapter);
+        if (!workshopList.isEmpty()) textViewNoWorkshop.setVisibility(View.GONE);
+        sortWorkshopListByName();
+        adapter = new WorkshopsListAdapter(workshopList, getContext());
+        recyclerViewWorkshop.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewWorkshop.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
+        recyclerViewWorkshop.setAdapter(adapter);
     }
 
-    public void notifyNewService(Service service) {
-        serviceList.add(service);
-        sortServiceListByDate();
+    public void notifyNewWorkshop(Workshop workshop) {
+        workshopList.add(workshop);
+        sortWorkshopListByName();
         adapter.notifyDataSetChanged();
-        textViewNoService.setVisibility(View.GONE);
+        textViewNoWorkshop.setVisibility(View.GONE);
     }
 
-    private void sortServiceListByDate() {
-        Collections.sort(serviceList, new Comparator<Service>() {
+    private void sortWorkshopListByName() {
+        Collections.sort(workshopList, new Comparator<Workshop>() {
             @Override
-            public int compare(Service lhs, Service rhs) {
-                final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
-                final DateTime lhsDate = dtf.parseDateTime(lhs.getDate());
-                final DateTime rhsDate = dtf.parseDateTime(rhs.getDate());
-                return rhsDate.compareTo(lhsDate);
+            public int compare(Workshop lhs, Workshop rhs) {
+                final String lhsName = lhs.getName();
+                final String rhsName = rhs.getName();
+                return lhsName.compareTo(rhsName);
             }
         });
     }
 
-    public void deleteService(int ID) {
+    public void deleteWorkshop(int ID) {
         realm.beginTransaction();
-        final RealmQuery<Service> query = realm.where(Service.class);
+        final RealmQuery<Workshop> query = realm.where(Workshop.class);
         query.equalTo("id", ID);
-        final RealmResults<Service> results = query.findAll();
+        final RealmResults<Workshop> results = query.findAll();
         results.removeLast();
         realm.commitTransaction();
 
-        textViewNoService.setVisibility(View.VISIBLE);
-        getServiceListFromRealm();
-        sortServiceListByDate();
+        textViewNoWorkshop.setVisibility(View.VISIBLE);
+        getWorkshopListFromRealm();
+        sortWorkshopListByName();
         adapter.notifyDataSetChanged();
     }
 
-    private void getServiceListFromRealm() {
-        serviceList.clear();
+    private void getWorkshopListFromRealm() {
+        workshopList.clear();
         realm.beginTransaction();
-        final RealmQuery<Vehicle> query = realm.where(Vehicle.class).equalTo("id", currentVehicle.getId());
-        final RealmResults<Vehicle> results = query.findAll();
+        final RealmQuery<Workshop> query = realm.where(Workshop.class);
+        final RealmResults<Workshop> results = query.findAll();
         realm.commitTransaction();
 
-        for (Service service : results.first().getServices()) {
-            serviceList.add(service);
+        for (Workshop workshop : results) {
+            workshopList.add(workshop);
         }
 
-        if (!serviceList.isEmpty()) {
-            textViewNoService.setVisibility(View.GONE);
+        if (!workshopList.isEmpty()) {
+            textViewNoWorkshop.setVisibility(View.GONE);
         }
     }
 
-    public void showSavedServiceSnackbar() {
-        Snackbar.make(view, R.string.service_saved, Snackbar.LENGTH_SHORT).show();
+    public void showSavedWorkshopSnackbar() {
+        Snackbar.make(view, R.string.workshop_saved, Snackbar.LENGTH_SHORT).show();
 
     }
 }

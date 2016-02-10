@@ -28,6 +28,8 @@ import com.example.luki.inzynierka.fragments.RepairFragment_;
 import com.example.luki.inzynierka.fragments.RepairHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
 import com.example.luki.inzynierka.fragments.ServiceFragment_;
+import com.example.luki.inzynierka.fragments.WorkshopFragment;
+import com.example.luki.inzynierka.fragments.WorkshopFragment_;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private RefuelingGraphsFragment_ refuelingGraphsFragment;
     private RefuelingFragment_ refuelingFragment;
     private ServiceFragment_ serviceFragment;
+    private WorkshopFragment_ workshopFragment;
     private RepairFragment_ repairFragment;
     private RepairHistoryFragment_ repairHistoryFragment;
     private RepairSummaryFragment_ repairSummaryFragment;
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         refuelingSummaryFragment = new RefuelingSummaryFragment_();
         refuelingGraphsFragment = new RefuelingGraphsFragment_();
         serviceFragment = new ServiceFragment_();
+        workshopFragment = new WorkshopFragment_();
         repairFragment = new RepairFragment_();
         repairHistoryFragment = new RepairHistoryFragment_();
         repairSummaryFragment = new RepairSummaryFragment_();
@@ -202,9 +206,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
+            case 3:
+                changeToWorkshopFragment("Warsztaty");
+                mDrawerLayout.closeDrawer(mDrawerPane);
+                break;
+
             case 4:
                 Intent intent = new Intent(this, VehicleChooser_.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                this.finishAffinity(); todo ?
                 this.startActivity(intent);
                 break;
         }
@@ -243,6 +253,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         setTitle(fragmentTitle);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_content, serviceFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
+
+    @Override
+    public void changeToWorkshopFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, workshopFragment);
         transaction.addToBackStack(fragmentTitle);
         transaction.commit();
     }
