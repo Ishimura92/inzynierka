@@ -83,6 +83,7 @@ public class NewRepairDialog extends Dialog {
     private DatePickerDialog.OnDateSetListener date;
 
     private Fragment callingFragment;
+    private boolean photoTaken;
 
     public NewRepairDialog(Context context) {
         super(context);
@@ -231,8 +232,10 @@ public class NewRepairDialog extends Dialog {
 
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
         String date = dtfOut.print(repairDate);
-
-        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null, "");
+        String photoPath = null;
+        if(photoTaken)
+            photoPath = variables.getProperPhotoPath();
+        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null, photoPath);
 
         databaseConnector.addNewRepairToRealm(repair);
     }
@@ -281,12 +284,14 @@ public class NewRepairDialog extends Dialog {
         final Uri uriSavedImage = Uri.fromFile(image);
         variables.setPhotoUri(uriSavedImage);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
         callingFragment.startActivityForResult(intent, TAKE_PHOTO_REQUEST);
     }
 
     public void receivePhotoData(String path, Uri photoUri){
         buttonTakePhoto.setText(new File(path).getName());
+        photoTaken = true;
     }
 
     private void clearData() {

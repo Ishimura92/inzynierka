@@ -33,6 +33,7 @@ dependencies {
     compile 'io.realm:realm-android:0.84.1'
     compile 'joda-time:joda-time:2.8.2'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 apt {

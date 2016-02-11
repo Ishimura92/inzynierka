@@ -11,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.dialogs.PhotoPreviewDialog;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment;
 import com.example.luki.inzynierka.fragments.RepairHistoryFragment;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +59,22 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         customViewHolder.textViewRepairDate.setText(repair.getDate());
         customViewHolder.textViewRepairOdometer.setText(String.valueOf(repair.getOdometer()) + this.context.getText(R.string.kilometersShortcut));
         customViewHolder.textViewRepairDescription.setText(repair.getDescription());
+
+        if(!repair.getReceiptPhotoPath().equals("")) {
+            customViewHolder.photoReceiptLayout.setVisibility(View.VISIBLE);
+            Picasso.with(repairHistoryFragment.getContext()).load(new File(repair.getReceiptPhotoPath())).resize(300,900).centerCrop().into(customViewHolder.imageViewReceipt);
+        } else {
+            customViewHolder.photoReceiptLayout.setVisibility(View.GONE);
+        }
+
+        customViewHolder.imageViewReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoPreviewDialog photoPreviewDialog = new PhotoPreviewDialog(context);
+                Picasso.with(context).load(new File(repair.getReceiptPhotoPath())).resize(1500,1000).centerInside().into(photoPreviewDialog.getImageView());
+                photoPreviewDialog.show();
+            }
+        });
 
         customViewHolder.repairItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -103,7 +123,8 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         protected TextView textViewRepairCost, textViewRepairDate, textViewRepairOdometer, textViewRepairTitle, textViewRepairDescription;
         protected CardView repairItemLayout;
         protected ImageButton imageButtonExpandRepair;
-        protected LinearLayout expandedRepairLayout;
+        protected LinearLayout expandedRepairLayout, photoReceiptLayout;
+        protected ImageView imageViewReceipt;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -115,6 +136,8 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
             repairItemLayout = (CardView) view.findViewById(R.id.repairItemLayout);
             imageButtonExpandRepair = (ImageButton) view.findViewById(R.id.imageButtonExpandRepair);
             expandedRepairLayout = (LinearLayout) view.findViewById(R.id.expandedRepairLayout);
+            photoReceiptLayout = (LinearLayout) view.findViewById(R.id.photoReceiptLayout);
+            imageViewReceipt = (ImageView) view.findViewById(R.id.imageViewReceipt);
         }
     }
 
