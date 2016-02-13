@@ -10,21 +10,27 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.adapters.PartsListAdapter;
 import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
 import com.example.luki.inzynierka.databaseUtils.Variables;
+import com.example.luki.inzynierka.models.Part;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.utils.Preferences_;
 
@@ -40,7 +46,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import io.realm.RealmList;
 
 @EBean
 public class NewRepairDialog extends Dialog {
@@ -73,6 +82,9 @@ public class NewRepairDialog extends Dialog {
     private EditText editTextRepairTitle;
     private EditText editTextRepairDescription;
     private EditText editTextRepairPrice;
+    private EditText editTextNewPartName;
+    private EditText editTextNewPartBrand;
+    private EditText editTextNewPartPrice;
     private EditText editTextOdometerRepairValue;
     private Button buttonSaveRepair;
     private Button buttonCancelRepair;
@@ -81,9 +93,12 @@ public class NewRepairDialog extends Dialog {
     private LinearLayout repairDateLayout;
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener date;
+    private RecyclerView listViewPartsList;
 
     private Fragment callingFragment;
     private boolean photoTaken;
+    private RealmList<Part> parts;
+    private PartsListAdapter partListAdapter;
 
     public NewRepairDialog(Context context) {
         super(context);
@@ -109,10 +124,20 @@ public class NewRepairDialog extends Dialog {
         repairDateLayout = (LinearLayout) this.findViewById(R.id.repairDateLayout);
 
         textViewRepairDate.setText(repairDate.toString("dd/MM/yyyy"));
+        editTextNewPartName = (EditText) this.findViewById(R.id.editTextNewPartName);
+        editTextNewPartBrand = (EditText) this.findViewById(R.id.editTextNewPartBrand);
+        editTextNewPartPrice = (EditText) this.findViewById(R.id.editTextNewPartPrice);
+        listViewPartsList = (RecyclerView) this.findViewById(R.id.listViewPartsList);
 
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
         setupOnTextChangeListeners();
         setDialogOnClickListeners();
+
+        parts = new RealmList<>();
+
+        listViewPartsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        partListAdapter = new PartsListAdapter(parts, getContext());
+        listViewPartsList.setAdapter(partListAdapter);
     }
 
     private void saveRepair(){
@@ -235,7 +260,7 @@ public class NewRepairDialog extends Dialog {
         String photoPath = null;
         if(photoTaken)
             photoPath = variables.getProperPhotoPath();
-        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, null, date, null, photoPath);
+        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, parts, date, null, photoPath);
 
         databaseConnector.addNewRepairToRealm(repair);
     }
@@ -271,6 +296,34 @@ public class NewRepairDialog extends Dialog {
                 takePhoto();
             }
         });
+
+        buttonNewPart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editTextNewPartName.setError(null);
+                if (validateNewPartInfo())
+                    addNewPart();
+            }
+        });
+    }
+
+    private boolean validateNewPartInfo() {
+        if(editTextNewPartName.getText().toString().equals("")) {
+            editTextNewPartName.setError("Wypełnij pole");
+            return false;
+        }
+        return true;
+    }
+
+    private void addNewPart() {
+        final int partID = preferences.lastPartID().get() + 1;
+        preferences.lastPartID().put(partID);
+        Part part = new Part(partID, editTextNewPartName.getText().toString(),
+                Float.valueOf(editTextNewPartPrice.getText().toString()),
+                editTextNewPartBrand.getText().toString());
+
+        parts.add(part);
+        partListAdapter.notifyDataSetChanged();
     }
 
     private void takePhoto() {

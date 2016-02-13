@@ -1,0 +1,41 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/partItemLayout"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Klocki hamulcowe"
+            android:textStyle="bold"
+            android:id="@+id/textViewPartName"
+            android:layout_weight="2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Brembo"
+            android:id="@+id/textViewPartBrand"
+            android:layout_weight="1.5" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="350zł"
+            android:id="@+id/textViewPartPrice"
+            android:layout_weight="0.5"  />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -153,7 +153,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:id="@+id/expandedRepairLayout"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -234,7 +234,24 @@
                     android:layout_height="wrap_content"
                     android:text="Lista części"
                     android:id="@+id/textView9" />
+
             </LinearLayout>
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/coordinatorLayoutRepairRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/partsList">
+                </android.support.v7.widget.RecyclerView>
+
+            </android.support.design.widget.CoordinatorLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

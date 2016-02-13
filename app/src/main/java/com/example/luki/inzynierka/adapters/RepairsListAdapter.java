@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.dialogs.PhotoPreviewDialog;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment;
 import com.example.luki.inzynierka.fragments.RepairHistoryFragment;
+import com.example.luki.inzynierka.models.Part;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.squareup.picasso.Picasso;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.CustomViewHolder> {
 
@@ -53,6 +57,12 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
     @Override
     public void onBindViewHolder(final CustomViewHolder customViewHolder, int position) {
         final Repair repair = repairs.get(position);
+        final RealmList<Part> parts = repair.getParts();
+
+        customViewHolder.partsList.setLayoutManager(new LinearLayoutManager(context));
+        final PartsListAdapter adapter = new PartsListAdapter(parts, context);
+        customViewHolder.partsList.setAdapter(adapter);
+        customViewHolder.partsList.setHasFixedSize(true);
 
         customViewHolder.textViewRepairTitle.setText(repair.getTitle());
         customViewHolder.textViewRepairCost.setText(String.valueOf(repair.getTotalCost()) + this.context.getText(R.string.zlotysShortcut));
@@ -60,7 +70,7 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         customViewHolder.textViewRepairOdometer.setText(String.valueOf(repair.getOdometer()) + this.context.getText(R.string.kilometersShortcut));
         customViewHolder.textViewRepairDescription.setText(repair.getDescription());
 
-        if(!repair.getReceiptPhotoPath().equals("")) {
+        if(repair.getReceiptPhotoPath() != null && !repair.getReceiptPhotoPath().equals("")) {
             customViewHolder.photoReceiptLayout.setVisibility(View.VISIBLE);
             Picasso.with(repairHistoryFragment.getContext()).load(new File(repair.getReceiptPhotoPath())).resize(300,900).centerCrop().into(customViewHolder.imageViewReceipt);
         } else {
@@ -125,6 +135,7 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         protected ImageButton imageButtonExpandRepair;
         protected LinearLayout expandedRepairLayout, photoReceiptLayout;
         protected ImageView imageViewReceipt;
+        protected RecyclerView partsList;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -138,6 +149,7 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
             expandedRepairLayout = (LinearLayout) view.findViewById(R.id.expandedRepairLayout);
             photoReceiptLayout = (LinearLayout) view.findViewById(R.id.photoReceiptLayout);
             imageViewReceipt = (ImageView) view.findViewById(R.id.imageViewReceipt);
+            partsList = (RecyclerView) view.findViewById(R.id.partsList);
         }
     }
 

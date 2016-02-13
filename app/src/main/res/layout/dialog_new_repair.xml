@@ -45,7 +45,7 @@
                 android:inputType="textPersonName"
                 android:nextFocusDown="@+id/editTextRepairPrice"
                 android:textSize="15sp"
-                android:maxLength="25"/>
+                android:maxLength="50"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -60,7 +60,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Opis"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
                 android:nextFocusDown="@+id/editTextRepairPrice"
                 android:textSize="15sp"
                 android:maxLength="200"/>
@@ -198,18 +199,97 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ListView
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextNewPartName"
+                        android:layout_weight="2"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textPersonName"
+                        android:maxLength="100" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextNewPartBrand"
+                        android:layout_marginRight="10dp"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:layout_weight="1"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textPersonName"
+                        android:maxLength="20" />
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextNewPartPrice"
+                        android:layout_weight="0.7"
+                        android:layout_marginRight="10dp"
+                        android:textAppearance="@android:style/TextAppearance.Small"
+                        android:layout_marginTop="5dp"
+                        android:inputType="numberDecimal"
+                        android:maxLength="5" />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:id="@+id/buttonNewPart"
+                        android:layout_height="30dp"
+                        android:background="@android:color/white"
+                        android:textColor="@color/colorAccent"
+                        android:text="+"
+                        android:layout_weight="0.5"
+                        android:layout_marginRight="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="nazwa"
+                        android:id="@+id/textView10"
+                        android:layout_weight="2"
+                        android:layout_marginLeft="5dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="marka"
+                        android:id="@+id/textView16"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="cena"
+                        android:id="@+id/textView15"
+                        android:layout_weight="0.7"
+                        android:layout_marginLeft="5dp" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/listViewPartsList"
                     android:layout_height="wrap_content">
-                </ListView>
+                </android.support.v7.widget.RecyclerView>
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:id="@+id/buttonNewPart"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:text="Dodaj część"/>
             </LinearLayout>
         </LinearLayout>
 
