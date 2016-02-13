@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.fragments.WorkshopFragment;
 import com.example.luki.inzynierka.models.Notification;
 import com.example.luki.inzynierka.models.Workshop;
 
@@ -26,10 +27,12 @@ public class WorkshopsListAdapter extends RecyclerView.Adapter<WorkshopsListAdap
     private final Context context;
     private List<Workshop> workshops = new ArrayList<>();
     private Realm realm;
+    private WorkshopFragment workshopFragment;
 
-    public WorkshopsListAdapter(List<Workshop> workshops, Context context) {
+    public WorkshopsListAdapter(List<Workshop> workshops, Context context, WorkshopFragment workshopFragment) {
         this.workshops = workshops;
         this.context = context;
+        this.workshopFragment = workshopFragment;
     }
 
     @Override
@@ -57,7 +60,7 @@ public class WorkshopsListAdapter extends RecyclerView.Adapter<WorkshopsListAdap
                         .setMessage(context.getString(R.string.doYouWantToDeleteThisEntry))
                         .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //todo delete workshop
+                                workshopFragment.deleteWorkshop(workshop.getId());
                             }
                         })
                         .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {

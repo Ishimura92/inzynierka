@@ -32,12 +32,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac072988-73ab-4bc1-aafa-a99d5bb12e85" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewRepairDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewRepairDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewWorkshopDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewWorkshopDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/RepairFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/RepairFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/RepairsListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/RepairsListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_new_repair.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_new_repair.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/repair_list_row.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/repair_list_row.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -60,77 +59,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="repair_list_row.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/repair_list_row.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.214286">
-              <caret line="158" column="0" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RepairsListAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/RepairsListAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="162" column="13" selection-start-line="162" selection-start-column="13" selection-end-line="162" selection-end-column="13" />
-              <folding>
-                <element signature="e#6359#6764#0" expanded="true" />
-                <element signature="e#6763#6764#0" expanded="true" />
-                <element signature="e#6833#7944#0" expanded="true" />
-                <element signature="e#7224#7488#0" expanded="true" />
-                <element signature="e#7487#7488#0" expanded="true" />
-                <element signature="e#7565#7795#0" expanded="true" />
-                <element signature="e#7794#7795#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="WorkshopsListAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-29.107143">
-              <caret line="82" column="55" selection-start-line="82" selection-start-column="55" selection-end-line="82" selection-end-column="55" />
-              <folding>
-                <element signature="e#1959#3043#0" expanded="true" />
-                <element signature="e#3042#3043#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PartsListAdapter.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/PartsListAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12292359">
-              <caret line="56" column="63" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewWorkshopDialog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewWorkshopDialog.java">
+      <file leaf-file-name="WorkshopFragment.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="119" column="28" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
-              <folding>
-                <element signature="e#4274#4332#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538">
-              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+            <state vertical-scroll-proportion="-0.45182723">
+              <caret line="111" column="9" selection-start-line="111" selection-start-column="9" selection-end-line="111" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -1654,19 +1597,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/models/Notification.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_new_service.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/utils/Preferences.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/callbacks/ServiceCallbacks.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewServiceDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_workshop.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/databaseUtils/DatabaseConnector.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_new_workshop.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/callbacks/MainActivityCallbacks.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/workshop_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/workshop_list_row.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/models/Workshop.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
@@ -1682,6 +1621,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/repair_list_row.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewWorkshopDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java" />
       </list>
     </option>
   </component>
@@ -2239,13 +2182,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/RefuelingFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2294,14 +2230,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49825785">
           <caret line="32" column="54" selection-start-line="32" selection-start-column="54" selection-end-line="32" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="31" selection-start-line="42" selection-start-column="31" selection-end-line="42" selection-end-column="31" />
           <folding />
         </state>
       </provider>
@@ -2370,16 +2298,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="16" selection-start-line="58" selection-start-column="16" selection-end-line="58" selection-end-column="16" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36212623">
-          <caret line="160" column="58" selection-start-line="160" selection-start-column="58" selection-end-line="160" selection-end-column="58" />
-          <folding>
-            <element signature="e#5824#5847#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2653,14 +2571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/RefuelingsListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/repair_list_row.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2688,39 +2598,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/PartsListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="63" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538">
-          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.5277778">
+          <caret line="35" column="49" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="49" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/dialogs/NewWorkshopDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="119" column="28" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.33222592">
+          <caret line="264" column="20" selection-start-line="264" selection-start-column="20" selection-end-line="264" selection-end-column="20" />
           <folding>
-            <element signature="e#4274#4332#0" expanded="true" />
+            <element signature="e#3584#3585#0" expanded="true" />
+            <element signature="e#3636#3637#0" expanded="true" />
+            <element signature="e#4127#4169#0" expanded="true" />
+            <element signature="e#4254#4301#0" expanded="true" />
+            <element signature="e#4335#4394#0" expanded="true" />
+            <element signature="e#4597#4639#0" expanded="true" />
+            <element signature="e#4739#4803#0" expanded="true" />
+            <element signature="e#4852#4921#0" expanded="true" />
+            <element signature="e#5118#5160#0" expanded="true" />
+            <element signature="e#5322#5391#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/RefuelingsListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/ServicesListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="75" column="52" selection-start-line="75" selection-start-column="52" selection-end-line="75" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/ServiceFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.30564785">
+          <caret line="122" column="5" selection-start-line="122" selection-start-column="5" selection-end-line="122" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/WorkshopsListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-29.107143">
-          <caret line="82" column="55" selection-start-line="82" selection-start-column="55" selection-end-line="82" selection-end-column="55" />
-          <folding>
-            <element signature="e#1959#3043#0" expanded="true" />
-            <element signature="e#3042#3043#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="23" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/adapters/PartsListAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/luki/inzynierka/fragments/WorkshopFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12292359">
-          <caret line="56" column="63" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+        <state vertical-scroll-proportion="-0.45182723">
+          <caret line="111" column="9" selection-start-line="111" selection-start-column="9" selection-end-line="111" selection-end-column="9" />
           <folding />
         </state>
       </provider>

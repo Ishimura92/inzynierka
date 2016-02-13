@@ -33,6 +33,7 @@
     <string name="lettersAndNumbersMatcher">[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ 0-9]+</string>
     <string name="lettersMatcher">[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*</string>
     <string name="dotSpaceAndLettersMatcher">[. A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*</string>
+    <string name="numberDotSpaceAndLettersMatcher">[. 0-9A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]*</string>
     <string name="youCanEnterHereOnlyLettersAndNumbers">Możesz tu wpisać tylko litery i cyfry</string>
     <string name="youCanEnterHereOnlyLetters">Możesz tu wpisać tylko litery</string>
     <string name="save">Zapisz</string>

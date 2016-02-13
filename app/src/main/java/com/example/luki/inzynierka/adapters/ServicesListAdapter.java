@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.fragments.ServiceFragment;
 import com.example.luki.inzynierka.models.Notification;
 import com.example.luki.inzynierka.models.Service;
 
@@ -26,10 +27,12 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
     private final Context context;
     private List<Service> services = new ArrayList<>();
     private Realm realm;
+    private ServiceFragment serviceFragment;
 
-    public ServicesListAdapter(List<Service> services, Context context) {
+    public ServicesListAdapter(List<Service> services, Context context, ServiceFragment serviceFragment) {
         this.services = services;
         this.context = context;
+        this.serviceFragment = serviceFragment;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class ServicesListAdapter extends RecyclerView.Adapter<ServicesListAdapte
                         .setMessage(context.getString(R.string.doYouWantToDeleteThisEntry))
                         .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //todo delete service
+                                serviceFragment.deleteService(service.getId());
                             }
                         })
                         .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {

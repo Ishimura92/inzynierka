@@ -111,10 +111,10 @@ public class NewWorkshopDialog extends Dialog {
 
     private boolean validate(){
         int counter = 0;
-        if (!validateText(editTextWorkshopTitle)) counter++;
-        if (!validateText(editTextWorkshopAddress)) counter++;
         if (!validateText(editTextWorkshopFirstName)) counter++;
         if (!validateText(editTextWorkshopSurname)) counter++;
+        if (!validateText(editTextWorkshopTitle)) counter++;
+        if (!validateAddress()) counter++;
         if (!validatePhone()) counter++;
 
         return counter == 0;
@@ -125,8 +125,19 @@ public class NewWorkshopDialog extends Dialog {
         if(editText.length() == 0){
             editText.setError(getContext().getString(R.string.fillField));
             return false;
-        }else if(!editText.getText().toString().matches(getContext().getString(R.string.dotSpaceAndLettersMatcher))){
+        }else if(!editText.getText().toString().matches(getContext().getString(R.string.lettersMatcher))){
             editText.setError(getContext().getString(R.string.youCanEnterHereOnlyLetters));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateAddress() {
+        if(editTextWorkshopAddress.length() == 0){
+            editTextWorkshopAddress.setError(getContext().getString(R.string.fillField));
+            return false;
+        }else if(!editTextWorkshopAddress.getText().toString().matches(getContext().getString(R.string.numberDotSpaceAndLettersMatcher))){
+            editTextWorkshopAddress.setError(getContext().getString(R.string.youCanEnterHereOnlyLettersAndNumbers));
             return false;
         }
         return true;
@@ -251,7 +262,7 @@ public class NewWorkshopDialog extends Dialog {
         editTextWorkshopAddress.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempAddress = editTextWorkshopAddress.getText().toString();
-                if (validateText(editTextWorkshopAddress)) editTextWorkshopAddress.setError(null);
+                if (validateAddress()) editTextWorkshopAddress.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -259,7 +270,7 @@ public class NewWorkshopDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempAddress = editTextWorkshopAddress.getText().toString();
-                if (validateText(editTextWorkshopAddress)) editTextWorkshopAddress.setError(null);
+                if (validateAddress()) editTextWorkshopAddress.setError(null);
             }
         });
     }

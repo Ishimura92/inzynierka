@@ -116,7 +116,7 @@ public class WorkshopFragment extends Fragment {
     private void setAdapter() {
         if (!workshopList.isEmpty()) textViewNoWorkshop.setVisibility(View.GONE);
         sortWorkshopListByName();
-        adapter = new WorkshopsListAdapter(workshopList, getContext());
+        adapter = new WorkshopsListAdapter(workshopList, getContext(), this);
         recyclerViewWorkshop.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewWorkshop.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
         recyclerViewWorkshop.setAdapter(adapter);

@@ -116,7 +116,7 @@ public class ServiceFragment extends Fragment {
     private void setAdapter() {
         if (!serviceList.isEmpty()) textViewNoService.setVisibility(View.GONE);
         sortServiceListByDate();
-        adapter = new ServicesListAdapter(serviceList, getContext());
+        adapter = new ServicesListAdapter(serviceList, getContext(), this);
         recyclerViewService.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewService.setBackgroundColor(getResources().getColor(R.color.colorCardViewBackground));
         recyclerViewService.setAdapter(adapter);
