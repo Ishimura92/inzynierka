@@ -62,7 +62,10 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         customViewHolder.partsList.setLayoutManager(new LinearLayoutManager(context));
         final PartsListAdapter adapter = new PartsListAdapter(parts, context);
         customViewHolder.partsList.setAdapter(adapter);
-        customViewHolder.partsList.setHasFixedSize(true);
+
+        ViewGroup.LayoutParams params = customViewHolder.partsList.getLayoutParams();
+        params.height = parts.size()*150;
+        customViewHolder.partsList.setLayoutParams(params);
 
         customViewHolder.textViewRepairTitle.setText(repair.getTitle());
         customViewHolder.textViewRepairCost.setText(String.valueOf(repair.getTotalCost()) + this.context.getText(R.string.zlotysShortcut));
