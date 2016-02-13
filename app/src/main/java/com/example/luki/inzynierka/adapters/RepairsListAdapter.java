@@ -59,13 +59,20 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         final Repair repair = repairs.get(position);
         final RealmList<Part> parts = repair.getParts();
 
-        customViewHolder.partsList.setLayoutManager(new LinearLayoutManager(context));
-        final PartsListAdapter adapter = new PartsListAdapter(parts, context);
-        customViewHolder.partsList.setAdapter(adapter);
+        final PartsListAdapter partsListAdapter = new PartsListAdapter(context, R.layout.part_list_row, parts);
+        customViewHolder.partsList.setAdapter(partsListAdapter);
+
+        int totalHeight = 0;
+        for (int i = 0; i < partsListAdapter.getCount(); i++) {
+            View listItem = partsListAdapter.getView(i, null, customViewHolder.partsList);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
 
         ViewGroup.LayoutParams params = customViewHolder.partsList.getLayoutParams();
-        params.height = parts.size()*150;
+        params.height = totalHeight + (customViewHolder.partsList.getDividerHeight() * (partsListAdapter.getCount() - 1));
         customViewHolder.partsList.setLayoutParams(params);
+        customViewHolder.partsList.requestLayout();
 
         customViewHolder.textViewRepairTitle.setText(repair.getTitle());
         customViewHolder.textViewRepairCost.setText(String.valueOf(repair.getTotalCost()) + this.context.getText(R.string.zlotysShortcut));
@@ -80,6 +87,10 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
             customViewHolder.photoReceiptLayout.setVisibility(View.GONE);
         }
 
+        setOnClickListeners(customViewHolder, repair);
+    }
+
+    private void setOnClickListeners(final CustomViewHolder customViewHolder, final Repair repair) {
         customViewHolder.imageViewReceipt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +149,7 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
         protected ImageButton imageButtonExpandRepair;
         protected LinearLayout expandedRepairLayout, photoReceiptLayout;
         protected ImageView imageViewReceipt;
-        protected RecyclerView partsList;
+        protected ListView partsList;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -152,7 +163,7 @@ public class RepairsListAdapter extends RecyclerView.Adapter<RepairsListAdapter.
             expandedRepairLayout = (LinearLayout) view.findViewById(R.id.expandedRepairLayout);
             photoReceiptLayout = (LinearLayout) view.findViewById(R.id.photoReceiptLayout);
             imageViewReceipt = (ImageView) view.findViewById(R.id.imageViewReceipt);
-            partsList = (RecyclerView) view.findViewById(R.id.partsList);
+            partsList = (ListView) view.findViewById(R.id.partsList);
         }
     }
 

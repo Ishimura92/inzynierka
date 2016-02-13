@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -63,7 +64,7 @@ public class NewRepairDialog extends Dialog {
     @Bean
     Variables variables;
 
-    private static final float DIALOG_WIDTH_TO_SCREEN_WIDTH_RATIO = 0.85f;
+    private static final float DIALOG_WIDTH_TO_SCREEN_WIDTH_RATIO = 0.90f;
     private static final float DIALOG_HEIGHT_TO_SCREEN_HEIGHT_RATIO = 0.8f;
     private static final int TAKE_PHOTO_REQUEST = 200;
 
@@ -93,7 +94,7 @@ public class NewRepairDialog extends Dialog {
     private LinearLayout repairDateLayout;
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener date;
-    private RecyclerView listViewPartsList;
+    private ListView listViewPartsList;
 
     private Fragment callingFragment;
     private boolean photoTaken;
@@ -127,7 +128,7 @@ public class NewRepairDialog extends Dialog {
         editTextNewPartName = (EditText) this.findViewById(R.id.editTextNewPartName);
         editTextNewPartBrand = (EditText) this.findViewById(R.id.editTextNewPartBrand);
         editTextNewPartPrice = (EditText) this.findViewById(R.id.editTextNewPartPrice);
-        listViewPartsList = (RecyclerView) this.findViewById(R.id.listViewPartsList);
+        listViewPartsList = (ListView) this.findViewById(R.id.listViewPartsList);
 
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
         setupOnTextChangeListeners();
@@ -135,8 +136,7 @@ public class NewRepairDialog extends Dialog {
 
         parts = new RealmList<>();
 
-        listViewPartsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        partListAdapter = new PartsListAdapter(parts, getContext());
+        partListAdapter = new PartsListAdapter(getContext(), R.layout.part_small_list_row, parts);
         listViewPartsList.setAdapter(partListAdapter);
     }
 
@@ -323,7 +323,24 @@ public class NewRepairDialog extends Dialog {
                 editTextNewPartBrand.getText().toString());
 
         parts.add(part);
+
+        int totalHeight = 0;
+        for (int i = 0; i < partListAdapter.getCount(); i++) {
+            View listItem = partListAdapter.getView(i, null, listViewPartsList);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listViewPartsList.getLayoutParams();
+        params.height = totalHeight + (listViewPartsList.getDividerHeight() * (partListAdapter.getCount() - 1));
+        listViewPartsList.setLayoutParams(params);
+        listViewPartsList.requestLayout();
+
         partListAdapter.notifyDataSetChanged();
+
+        editTextNewPartName.setText("");
+        editTextNewPartPrice.setText("");
+        editTextNewPartBrand.setText("");
     }
 
     private void takePhoto() {

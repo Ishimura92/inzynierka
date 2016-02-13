@@ -4,90 +4,87 @@ package com.example.luki.inzynierka.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
 import com.example.luki.inzynierka.models.Part;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.Realm;
 import io.realm.RealmList;
 
-public class PartsListAdapter extends RecyclerView.Adapter<PartsListAdapter.CustomViewHolder> {
+public class PartsListAdapter extends ArrayAdapter<Part> {
 
-    private final Context context;
-    private RealmList<Part> parts = new RealmList<>();
+    private RealmList<Part> parts;
+    private int layoutResID;
 
-    public PartsListAdapter(RealmList<Part> parts, Context context) {
-        this.parts = parts;
-        this.context = context;
+    public PartsListAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
     }
 
-    @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.part_list_row, parent, false);
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
-        return viewHolder;
+    public PartsListAdapter(Context context, int resource, RealmList<Part> items) {
+        super(context, resource, items);
+        this.parts = items;
+        this.layoutResID = resource;
     }
 
-    @Override
-    public void onBindViewHolder(final CustomViewHolder customViewHolder, int position) {
-        final Part part = parts.get(position);
+@Override
+public View getView(int position, View convertView, ViewGroup parent) {
 
-        customViewHolder.textViewPartName.setText(part.getName());
-        customViewHolder.textViewPartPrice.setText(part.getPrice() + "zł.");
-        customViewHolder.textViewPartBrand.setText(part.getBrand());
+        View view = convertView;
 
-        customViewHolder.partItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Część")
-                        .setMessage(context.getString(R.string.doYouWantToDeleteThisEntry))
-                        .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                //todo delete part
-                            }
-                        })
-                        .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(R.drawable.car_placeholder)
-                        .show();
-                return false;
-            }
-        });
+        TextView textViewPartName, textViewPartPrice, textViewPartBrand;
+        LinearLayout partItemLayout;
 
-    }
+        if (view == null) {
+        LayoutInflater vi;
+        vi = LayoutInflater.from(getContext());
+            view = vi.inflate(layoutResID, null);
+        }
 
+        Part part = getItem(position);
 
-    @Override
-    public int getItemCount() {
-        return parts.size();
-    }
-
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView textViewPartName, textViewPartPrice, textViewPartBrand;
-        protected CardView partItemLayout;
-
-        public CustomViewHolder(View view) {
-            super(view);
+        if (part != null) {
             textViewPartName = (TextView) view.findViewById(R.id.textViewPartName);
             textViewPartBrand = (TextView) view.findViewById(R.id.textViewPartBrand);
             textViewPartPrice = (TextView) view.findViewById(R.id.textViewPartPrice);
+            partItemLayout = (LinearLayout) view.findViewById(R.id.partItemLayout);
 
-            partItemLayout = (CardView) view.findViewById(R.id.partItemLayout);
+            textViewPartName.setText(part.getName());
+            textViewPartPrice.setText(part.getPrice() + "zł.");
+            textViewPartBrand.setText(part.getBrand());
+
+            textViewPartName.setSelected(true);
+            textViewPartPrice.setSelected(true);
+            textViewPartBrand.setSelected(true);
+
+            partItemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Część")
+                            .setMessage(getContext().getString(R.string.doYouWantToDeleteThisEntry))
+                            .setPositiveButton(getContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //todo delete part
+                                }
+                            })
+                            .setNegativeButton(getContext().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(R.drawable.car_placeholder)
+                            .show();
+                    return false;
+                }
+            });
         }
-    }
 
+        return view;
+    }
 }
+

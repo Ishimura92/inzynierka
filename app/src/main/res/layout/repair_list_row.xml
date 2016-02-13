@@ -237,21 +237,12 @@
 
             </LinearLayout>
 
-            <android.support.design.widget.CoordinatorLayout
-                android:id="@+id/coordinatorLayoutRepairRow"
+            <ListView
+                android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center">
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginRight="20dp"
-                    android:id="@+id/partsList">
-                </android.support.v7.widget.RecyclerView>
-
-            </android.support.design.widget.CoordinatorLayout>
+                android:id="@+id/partsList"
+                android:layout_height="wrap_content">
+            </ListView>
 
             <LinearLayout
                 android:orientation="horizontal"
