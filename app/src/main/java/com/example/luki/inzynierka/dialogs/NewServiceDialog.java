@@ -292,7 +292,7 @@ public class NewServiceDialog extends Dialog {
         if(radioButtonNotificationKilometers.isChecked()){
             notificationKilometers = Float.valueOf(tempNotificationKilometers);
             notification.setIsDateNotification(false);
-            notification.setKilometers(notificationKilometers);
+            notification.setKilometers(serviceOdometer + notificationKilometers);
         } else if (radioButtonNotificationDate.isChecked()) {
             notification.setIsDateNotification(true);
             final DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");

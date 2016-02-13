@@ -1,12 +1,18 @@
 package com.example.luki.inzynierka;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.NotificationCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,7 +41,12 @@ import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -45,6 +56,7 @@ import io.realm.RealmResults;
 //        napraw i części zamiennych, wraz ze zdjęciami faktur i rachunków, zapisywanie lokalizacji i opisu
 //        warsztatów oraz kosztów paliwa wraz z wykresami zużycia. Ponadto program będzie umożliwiał
 //        zapisywanie i eksportowanie kopii zapasowej bazy danych i przenoszenie jej na inne urządzenie.
+
 
 public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks, RepairCallbacks {
 
@@ -92,6 +104,60 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         setupNavigationDrawer();
 
         changeToMainFragment("Aktualności");
+
+        checkNotifications();
+    }
+
+    private void checkNotifications() {
+        realm.beginTransaction();
+        RealmQuery<com.example.luki.inzynierka.models.Notification> query
+                = realm.where(com.example.luki.inzynierka.models.Notification.class).equalTo("id", currentVehicle.getId());
+        RealmResults<com.example.luki.inzynierka.models.Notification> results = query.findAll();
+
+        final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd/MM/yyyy");
+        final DateTime today = DateTime.now();
+
+        List<com.example.luki.inzynierka.models.Notification> usedNotifications = new ArrayList<>();
+
+        for(com.example.luki.inzynierka.models.Notification notification : results){
+            if(notification.isDateNotification()){
+                final DateTime notificationDate = dtf.parseDateTime(notification.getDate());
+
+                if(today.getYear() == notificationDate.getYear()
+                    && today.getDayOfYear() == notificationDate.getDayOfYear()){
+                    triggerNotification("Serwisant", notification.getName());
+                    usedNotifications.add(notification);
+                }
+
+            } else {
+                final float notificationKilometers = notification.getKilometers();
+                final float currentVehicleKilometers = currentVehicle.getOdometer();
+
+                if(notificationKilometers < currentVehicleKilometers
+                        || currentVehicleKilometers - notificationKilometers < 500){
+                    triggerNotification("Serwisant", notification.getName());
+                    usedNotifications.add(notification);
+                }
+            }
+        }
+
+        for(com.example.luki.inzynierka.models.Notification notification : usedNotifications){
+            notification.removeFromRealm();
+        }
+
+        realm.commitTransaction();
+    }
+
+    private void triggerNotification(String title, String message) {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.car_placeholder_small)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, mBuilder.build());
     }
 
     private void initView() {
