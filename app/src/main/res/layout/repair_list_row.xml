@@ -153,7 +153,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:id="@+id/expandedRepairLayout"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -165,7 +165,8 @@
                 android:layout_marginRight="50dp"
                 android:background="@color/colorPrimary"
                 android:elevation="10dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/layoutDescBanner">
 
                 <TextView
                     android:textSize="20sp"
@@ -181,10 +182,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:textColor="@color/cardview_dark_background"
                 android:text="Ta naprawa miała na celu wyeliminowanie wadliwie działającej klimatyzacji. Wymieniono uszczelki i inne chuje muje. Teraz działa jak złoto."
-                android:id="@+id/textViewRepairDescription" />
+                android:id="@+id/textViewRepairDescription"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="30dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -194,7 +198,8 @@
                 android:layout_marginRight="50dp"
                 android:background="@color/colorPrimary"
                 android:elevation="10dp"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:id="@+id/layoutWorkshopBanner">
 
                 <TextView
                     android:textSize="20sp"
@@ -207,13 +212,55 @@
                     android:id="@+id/textView5" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MotoKlinika ul.Piłsudskiego 31"
-                android:textColor="@color/cardview_dark_background"
-                android:id="@+id/textView13"
-                android:layout_margin="10dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutWorkshopInfo"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MotoKlinika"
+                    android:textStyle="bold"
+                    android:textColor="@color/cardview_dark_background"
+                    android:id="@+id/textViewWorkshopName"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ul.Piłsudskiego 31"
+                    android:textColor="@color/cardview_dark_background"
+                    android:id="@+id/textViewWorkshopAddress"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adam Słodowy"
+                    android:textColor="@color/cardview_dark_background"
+                    android:id="@+id/textViewWorkshopFirstAndLastName"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="510-023-122"
+                    android:textColor="@color/cardview_dark_background"
+                    android:id="@+id/textViewWorkshopPhone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -223,7 +270,8 @@
                 android:layout_marginRight="50dp"
                 android:background="@color/colorPrimary"
                 android:elevation="10dp"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:id="@+id/layoutPartsListBanner">
 
                 <TextView
                     android:textSize="20sp"

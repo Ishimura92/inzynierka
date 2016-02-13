@@ -125,7 +125,7 @@ public class NewWorkshopDialog extends Dialog {
         if(editText.length() == 0){
             editText.setError(getContext().getString(R.string.fillField));
             return false;
-        }else if(!editText.getText().toString().matches(getContext().getString(R.string.lettersMatcher))){
+        }else if(!editText.getText().toString().matches(getContext().getString(R.string.dotSpaceAndLettersMatcher))){
             editText.setError(getContext().getString(R.string.youCanEnterHereOnlyLetters));
             return false;
         }

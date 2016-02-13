@@ -89,6 +89,7 @@ public class RepairFragment extends Fragment{
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
         setDatabaseConnector();
         newRepairDialog.setCallingFragment(this);
+        newRepairDialog.passRealm(realm);
     }
 
     @Override

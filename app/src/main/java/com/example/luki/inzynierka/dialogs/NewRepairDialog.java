@@ -25,6 +25,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.luki.inzynierka.R;
@@ -33,6 +34,8 @@ import com.example.luki.inzynierka.databaseUtils.DatabaseConnector;
 import com.example.luki.inzynierka.databaseUtils.Variables;
 import com.example.luki.inzynierka.models.Part;
 import com.example.luki.inzynierka.models.Repair;
+import com.example.luki.inzynierka.models.Vehicle;
+import com.example.luki.inzynierka.models.Workshop;
 import com.example.luki.inzynierka.utils.Preferences_;
 
 import org.androidannotations.annotations.AfterViews;
@@ -45,12 +48,16 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 @EBean
 public class NewRepairDialog extends Dialog {
@@ -77,6 +84,7 @@ public class NewRepairDialog extends Dialog {
     private String tempDescription;
     private String tempTitle;
     private DateTime repairDate;
+    private Realm realm;
 
     private DateTimeFormatter formatter;
     private TextView textViewRepairDate;
@@ -95,6 +103,7 @@ public class NewRepairDialog extends Dialog {
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener date;
     private ListView listViewPartsList;
+    private Spinner spinnerWorkshop;
 
     private Fragment callingFragment;
     private boolean photoTaken;
@@ -129,6 +138,7 @@ public class NewRepairDialog extends Dialog {
         editTextNewPartBrand = (EditText) this.findViewById(R.id.editTextNewPartBrand);
         editTextNewPartPrice = (EditText) this.findViewById(R.id.editTextNewPartPrice);
         listViewPartsList = (ListView) this.findViewById(R.id.listViewPartsList);
+        spinnerWorkshop = (Spinner) this.findViewById(R.id.spinnerWorkshop);
 
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
         setupOnTextChangeListeners();
@@ -136,8 +146,28 @@ public class NewRepairDialog extends Dialog {
 
         parts = new RealmList<>();
 
+        setSpinner();
         partListAdapter = new PartsListAdapter(getContext(), R.layout.part_small_list_row, parts);
         listViewPartsList.setAdapter(partListAdapter);
+    }
+
+    private void setSpinner() {
+        realm.beginTransaction();
+        RealmQuery<Workshop> query = realm.where(Workshop.class);
+        RealmResults<Workshop> results = query.findAll();
+        realm.commitTransaction();
+
+        List<String> workshops = new ArrayList<>();
+
+        for(Workshop workshop : results){
+            workshops.add(workshop.getName());
+        }
+
+        String[] spinnerFuelTypeItems = new String[workshops.size()+1];
+        workshops.toArray(spinnerFuelTypeItems);
+        spinnerFuelTypeItems[workshops.size()] = "brak";
+        ArrayAdapter<String> fuelAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, spinnerFuelTypeItems);
+        spinnerWorkshop.setAdapter(fuelAdapter);
     }
 
     private void saveRepair(){
@@ -255,12 +285,21 @@ public class NewRepairDialog extends Dialog {
         repairPrice = Float.valueOf(tempPrice);
         repairOdometer = Integer.valueOf(tempOdometer);
 
+        final String workshop = spinnerWorkshop.getSelectedItem().toString();
+        Workshop chosenWorkshop = null;
+        if (!workshop.equals("brak")) {
+            realm.beginTransaction();
+            RealmQuery<Workshop> query = realm.where(Workshop.class).equalTo("name", workshop);
+            chosenWorkshop = query.findFirst();
+            realm.commitTransaction();
+        }
+
         DateTimeFormatter dtfOut = DateTimeFormat.forPattern("dd/MM/yyyy");
         String date = dtfOut.print(repairDate);
         String photoPath = null;
         if(photoTaken)
             photoPath = variables.getProperPhotoPath();
-        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, parts, date, null, photoPath);
+        final Repair repair = new Repair(repairID, repairTitle, tempDescription, repairPrice, repairOdometer, parts, date, chosenWorkshop, photoPath);
 
         databaseConnector.addNewRepairToRealm(repair);
     }
@@ -376,7 +415,7 @@ public class NewRepairDialog extends Dialog {
         editTextRepairTitle.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempTitle = editTextRepairTitle.getText().toString();
-                if(validateTitle()) editTextRepairTitle.setError(null);
+                if (validateTitle()) editTextRepairTitle.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -384,14 +423,14 @@ public class NewRepairDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempTitle = editTextRepairTitle.getText().toString();
-                if(validateTitle()) editTextRepairTitle.setError(null);
+                if (validateTitle()) editTextRepairTitle.setError(null);
             }
         });
 
         editTextRepairDescription.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempDescription = editTextRepairDescription.getText().toString();
-                if(validateTitle()) editTextRepairDescription.setError(null);
+                if (validateTitle()) editTextRepairDescription.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -399,14 +438,14 @@ public class NewRepairDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempDescription = editTextRepairDescription.getText().toString();
-                if(validateTitle()) editTextRepairDescription.setError(null);
+                if (validateTitle()) editTextRepairDescription.setError(null);
             }
         });
 
         editTextRepairPrice.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempPrice = editTextRepairPrice.getText().toString();
-                if(validatePrice()) editTextRepairPrice.setError(null);
+                if (validatePrice()) editTextRepairPrice.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -414,7 +453,7 @@ public class NewRepairDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempPrice = editTextRepairPrice.getText().toString();
-                if(validatePrice()) editTextRepairPrice.setError(null);
+                if (validatePrice()) editTextRepairPrice.setError(null);
             }
         });
 
@@ -449,5 +488,9 @@ public class NewRepairDialog extends Dialog {
 
     public void setCallingFragment(Fragment callingFragment) {
         this.callingFragment = callingFragment;
+    }
+
+    public void passRealm(Realm realm) {
+        this.realm = realm;
     }
 }
