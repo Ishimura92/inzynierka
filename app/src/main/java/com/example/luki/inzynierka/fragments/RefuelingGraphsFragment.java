@@ -106,6 +106,7 @@ public class RefuelingGraphsFragment extends Fragment {
 
         LineData data = new LineData(xVals, dataSets);
         burningChart.setData(data);
+        burningChart.setDescription("Spalanie");
         burningChart.invalidate(); // refresh
     }
 
@@ -137,6 +138,7 @@ public class RefuelingGraphsFragment extends Fragment {
 
         BarData data = new BarData(xVals, dataSets);
         chart.setData(data);
+        burningChart.setDescription("Cena paliwa");
         chart.invalidate(); // refresh
     }
 

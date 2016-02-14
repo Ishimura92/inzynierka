@@ -28,6 +28,9 @@ public interface Preferences {
     @DefaultInt(0)
     int lastNotificationID();
 
+    @DefaultInt(-1)
+    int choosenVehicleID();
+
     @DefaultBoolean(true)
     boolean areNotificationsTurned();
 }

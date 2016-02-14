@@ -2,12 +2,10 @@ package com.example.luki.inzynierka;
 
 import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,6 +27,7 @@ import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
+import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.MainFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
@@ -42,7 +41,6 @@ import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
 import com.example.luki.inzynierka.fragments.ServiceFragment;
 import com.example.luki.inzynierka.fragments.ServiceFragment_;
 import com.example.luki.inzynierka.fragments.SettingsFragment_;
-import com.example.luki.inzynierka.fragments.StatsFragment;
 import com.example.luki.inzynierka.fragments.StatsFragment_;
 import com.example.luki.inzynierka.fragments.WorkshopFragment_;
 import com.example.luki.inzynierka.models.Refueling;
@@ -50,8 +48,6 @@ import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
 import com.example.luki.inzynierka.utils.Preferences_;
-import com.google.gson.Gson;
-import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -80,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     public ListView mDrawerList;
     public RelativeLayout mDrawerPane;
+    private Snackbar exitSnackbar;
 
     private int vehicleID;
 
@@ -113,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         setContentView(R.layout.activity_main);
         realm = Realm.getDefaultInstance();
         preferences = new Preferences_(this);
+
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -128,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         changeToMainFragment("Aktualności");
 
         checkNotifications();
+        exitSnackbar = Snackbar.make(imageViewAvatar, "Naciśnij ponownie Wstecz aby wyjść", Snackbar.LENGTH_SHORT);
     }
 
     private void checkNotifications() {
@@ -347,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
             case 5:
                 Intent intent = new Intent(this, VehicleChooser_.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.putExtra("COMING_BACK_FROM_MAIN", true);
 //                this.finishAffinity(); todo ?
                 this.startActivity(intent);
                 break;
@@ -460,7 +460,36 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     @Override
     public void onBackPressed() {
         this.finishAffinity();
-        //TODO dodać info, że jeśli się kliknie dwa razy to dopiero wyjść
+//        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+//
+//            final List<Fragment> fragments = getSupportFragmentManager().getFragments();
+//            final Fragment currentFragment = fragments.get(fragments.size() - 1);
+//
+//            if(currentFragment instanceof MainFragment) {
+//                if (exitSnackbar.isShown()) {
+//                    exitSnackbar.dismiss();
+//                    this.finishAffinity();
+//                } else {
+//                    exitSnackbar.show();
+//                }
+//            } else {
+//                changeToMainFragment("Aktualności");
+//                if (exitSnackbar.isShown()) {
+//                    exitSnackbar.dismiss();
+//                    this.finishAffinity();
+//                } else {
+//                    exitSnackbar.show();
+//                }
+//            }
+//
+//        } else {
+//            if (exitSnackbar.isShown()) {
+//                exitSnackbar.dismiss();
+//                this.finishAffinity();
+//            } else {
+//                exitSnackbar.show();
+//            }
+//        }
     }
 
     @Override

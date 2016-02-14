@@ -67,6 +67,8 @@ public class DatabaseConnector {
     public void addNewRefuelingToRealm(Refueling refueling) {
         realm.beginTransaction();
         currentVehicle.getRefuelings().add(refueling);
+        if(refueling.getOdometer() > currentVehicle.getOdometer())
+            currentVehicle.setOdometer(refueling.getOdometer());
         realm.commitTransaction();
 
         refuelingCallbacks.notifyRefuelingDatasetChanged(refuelingHistoryFragment, refuelingSummaryFragment, refueling);
@@ -74,6 +76,8 @@ public class DatabaseConnector {
 
     public void addNewServiceToRealm(Service service) {
         realm.beginTransaction();
+        if(service.getOdometer() > currentVehicle.getOdometer())
+            currentVehicle.setOdometer(service.getOdometer());
         currentVehicle.getServices().add(service);
         realm.commitTransaction();
     }
@@ -86,6 +90,8 @@ public class DatabaseConnector {
 
     public void addNewRepairToRealm(Repair repair) {
         realm.beginTransaction();
+        if(repair.getOdometer() > currentVehicle.getOdometer())
+            currentVehicle.setOdometer(repair.getOdometer());
         currentVehicle.getRepairs().add(repair);
         realm.commitTransaction();
 

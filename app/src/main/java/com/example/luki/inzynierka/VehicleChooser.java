@@ -1,6 +1,8 @@
 package com.example.luki.inzynierka;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -113,9 +115,18 @@ public class VehicleChooser extends AppCompatActivity {
     private RealmList<Service> services = new RealmList<>();
     private RealmList<Notification> notifications = new RealmList<>();
     private Vehicle editedVehicle;
+    private boolean comingFromMain;
 
     @AfterViews
     void init(){
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            comingFromMain = extras.getBoolean("COMING_BACK_FROM_MAIN");
+        }
+
+        if(!comingFromMain)
+            checkIfCarWasChoosenAlready();
+
         setRealm();
         if(getSupportActionBar() != null) getSupportActionBar().setTitle(R.string.garage);
         vehicleList = new ArrayList<>();
@@ -124,6 +135,16 @@ public class VehicleChooser extends AppCompatActivity {
         getVehicleListFromRealm();
         setAdapter();
         setupDatepicker();
+    }
+
+    private void checkIfCarWasChoosenAlready() {
+        final int choosenVehicleID = preferences.choosenVehicleID().get();
+        if(choosenVehicleID > -1) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            intent.putExtra("CHOSEN_VEHICLE_ID", choosenVehicleID);
+            this.startActivity(intent);
+        }
     }
 
     private void setSpinners() {

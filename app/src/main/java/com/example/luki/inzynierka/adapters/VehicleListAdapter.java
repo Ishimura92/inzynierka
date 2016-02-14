@@ -16,6 +16,8 @@ import com.example.luki.inzynierka.MainActivity;
 import com.example.luki.inzynierka.VehicleChooser;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.R;
+import com.example.luki.inzynierka.utils.Preferences;
+import com.example.luki.inzynierka.utils.Preferences_;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
     private Context context;
     private List<Vehicle> vehicles = new ArrayList<>();
     private Realm realm;
+    private Preferences_ preferences;
 
     public VehicleListAdapter(List<Vehicle> vehicles, Context context) {
         this.vehicles = vehicles;
@@ -38,6 +41,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.vehicle_list_row, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
+        preferences = new Preferences_(context);
         return viewHolder;
     }
 
@@ -79,6 +83,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         customViewHolder.cardViewVehicleItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                preferences.choosenVehicleID().put(vehicle.getId());
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("CHOSEN_VEHICLE_ID", vehicle.getId());
