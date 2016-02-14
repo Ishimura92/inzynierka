@@ -149,6 +149,8 @@ public class NewRepairDialog extends Dialog {
         setSpinner();
         partListAdapter = new PartsListAdapter(getContext(), R.layout.part_small_list_row, parts);
         listViewPartsList.setAdapter(partListAdapter);
+
+        clearAllErrors();
     }
 
     private void setSpinner() {
@@ -184,7 +186,6 @@ public class NewRepairDialog extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
-        clearAllErrors();
     }
 
     private void clearAllErrors() {

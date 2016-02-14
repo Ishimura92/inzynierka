@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewNoRepairs"
-                android:text="Brak zapisanych napraw.\nUżyj pomarańczowej ikonki u góry aby dodać nowe."
+                android:text="Brak zapisanych napraw.\nUżyj pomarańczowej ikonki u góry aby dodać nową."
                 android:gravity="center_vertical|center_horizontal"
                 android:textSize="20sp"
                 android:textColor="@color/colorPrimaryDark"

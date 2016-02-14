@@ -26,14 +26,20 @@ import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
 import com.example.luki.inzynierka.fragments.MainFragment;
+import com.example.luki.inzynierka.fragments.MainFragment_;
+import com.example.luki.inzynierka.fragments.RefuelingFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingGraphsFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingSummaryFragment_;
+import com.example.luki.inzynierka.fragments.RepairFragment;
 import com.example.luki.inzynierka.fragments.RepairFragment_;
 import com.example.luki.inzynierka.fragments.RepairHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
+import com.example.luki.inzynierka.fragments.ServiceFragment;
 import com.example.luki.inzynierka.fragments.ServiceFragment_;
+import com.example.luki.inzynierka.fragments.SettingsFragment;
+import com.example.luki.inzynierka.fragments.SettingsFragment_;
 import com.example.luki.inzynierka.fragments.WorkshopFragment;
 import com.example.luki.inzynierka.fragments.WorkshopFragment_;
 import com.example.luki.inzynierka.models.Refueling;
@@ -73,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private Vehicle currentVehicle;
     private RelativeLayout profileBox;
 
-    private MainFragment mainFragment;
+    private MainFragment_ mainFragment;
+    private SettingsFragment_ settingsFragment;
     private RefuelingHistoryFragment_ refuelingHistoryFragment;
     private RefuelingSummaryFragment_ refuelingSummaryFragment;
     private RefuelingGraphsFragment_ refuelingGraphsFragment;
@@ -175,13 +182,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     private void initFragments() {
-        mainFragment = new MainFragment();
+        mainFragment = new MainFragment_();
         refuelingFragment = new RefuelingFragment_();
         refuelingHistoryFragment = new RefuelingHistoryFragment_();
         refuelingSummaryFragment = new RefuelingSummaryFragment_();
         refuelingGraphsFragment = new RefuelingGraphsFragment_();
         serviceFragment = new ServiceFragment_();
         workshopFragment = new WorkshopFragment_();
+        settingsFragment = new SettingsFragment_();
         repairFragment = new RepairFragment_();
         repairHistoryFragment = new RepairHistoryFragment_();
         repairSummaryFragment = new RepairSummaryFragment_();
@@ -198,12 +206,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     private void setupNavigationDrawer() {
+        mNavItems.add(new NavItem("Aktualności", "Strona główna aplikacji", R.drawable.ic_home_black_36dp));
         mNavItems.add(new NavItem("Naprawy", "Przeglądaj swoje naprawy", R.drawable.ic_repair_black_small));
         mNavItems.add(new NavItem("Tankowania", "Zarządzaj tankowaniem", R.drawable.ic_fuel_black_small));
         mNavItems.add(new NavItem("Serwisy", "Spis dokonanych serwisów", R.drawable.ic_service_black_small));
         mNavItems.add(new NavItem("Warsztaty", "Twoi mechanicy", R.drawable.ic_mechanic_black_small));
 
         mNavItems.add(new NavItem("Garaż", "Widok wyboru pojazdów", R.drawable.car_placeholder_small));
+        mNavItems.add(new NavItem("Ustawienia", "Konfiguruj aplikację", R.drawable.ic_settings_black_36dp));
 
         imageViewAvatar.setImageResource(currentVehicle.getImage());
         textViewCarModel.setText(currentVehicle.getModel());
@@ -229,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         profileBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //todo Strona ze statystykami pojazdu
                 changeToMainFragment("Aktualności");
                 mDrawerLayout.closeDrawer(mDrawerPane);
             }
@@ -258,30 +269,40 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
         switch (position){
             case 0:
-                changeToRepairFragment("Naprawy");
+                changeToMainFragment("Aktualności");
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
             case 1:
-                changeToRefuelingFragment("Tankowania");
+                changeToRepairFragment("Naprawy");
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
             case 2:
-                changeToServiceFragment("Serwisy");
+                changeToRefuelingFragment("Tankowania");
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
             case 3:
-                changeToWorkshopFragment("Warsztaty");
+                changeToServiceFragment("Serwisy");
                 mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
 
             case 4:
+                changeToWorkshopFragment("Warsztaty");
+                mDrawerLayout.closeDrawer(mDrawerPane);
+                break;
+
+            case 5:
                 Intent intent = new Intent(this, VehicleChooser_.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 //                this.finishAffinity(); todo ?
                 this.startActivity(intent);
+                break;
+
+            case 6:
+                changeToSettingsFragment("Ustawienia");
+                mDrawerLayout.closeDrawer(mDrawerPane);
                 break;
         }
     }
@@ -311,6 +332,30 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         transaction.replace(R.id.fragment_content, mainFragment);
         transaction.addToBackStack(fragmentTitle);
         transaction.commit();
+    }
+
+    @Override
+    public void changeToSettingsFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, settingsFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
+    @Override
+    public RefuelingFragment getRefuelingFragment() {
+        return refuelingFragment;
+    }
+
+    @Override
+    public RepairFragment getRepairFragment() {
+        return repairFragment;
+    }
+
+    @Override
+    public ServiceFragment getServiceFragment() {
+        return serviceFragment;
     }
 
 

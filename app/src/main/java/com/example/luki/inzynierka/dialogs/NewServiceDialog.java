@@ -125,6 +125,8 @@ public class NewServiceDialog extends Dialog {
         formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
         setupOnTextChangeListeners();
         setDialogOnClickListeners();
+
+        clearAllErrors();
     }
 
     private void saveService(){
@@ -141,7 +143,6 @@ public class NewServiceDialog extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
-        clearAllErrors();
     }
 
     private void clearAllErrors() {
@@ -368,7 +369,7 @@ public class NewServiceDialog extends Dialog {
         editTextServiceTitle.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempTitle = editTextServiceTitle.getText().toString();
-                if(validateTitle()) editTextServiceTitle.setError(null);
+                if (validateTitle()) editTextServiceTitle.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -376,7 +377,7 @@ public class NewServiceDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempTitle = editTextServiceTitle.getText().toString();
-                if(validateTitle()) editTextServiceTitle.setError(null);
+                if (validateTitle()) editTextServiceTitle.setError(null);
             }
         });
 
@@ -384,7 +385,7 @@ public class NewServiceDialog extends Dialog {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 tempNotificationKilometers = editTextNotificationKilometers.getText().toString();
-                if(validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
+                if (validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
             }
 
             @Override
@@ -394,14 +395,14 @@ public class NewServiceDialog extends Dialog {
             @Override
             public void afterTextChanged(Editable s) {
                 tempNotificationKilometers = editTextNotificationKilometers.getText().toString();
-                if(validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
+                if (validateNotificationKilometers()) editTextNotificationKilometers.setError(null);
             }
         });
 
         editTextServicePrice.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 tempPrice = editTextServicePrice.getText().toString();
-                if(validatePrice()) editTextServicePrice.setError(null);
+                if (validatePrice()) editTextServicePrice.setError(null);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -409,7 +410,7 @@ public class NewServiceDialog extends Dialog {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 tempPrice = editTextServicePrice.getText().toString();
-                if(validatePrice()) editTextServicePrice.setError(null);
+                if (validatePrice()) editTextServicePrice.setError(null);
             }
         });
 
@@ -445,5 +446,9 @@ public class NewServiceDialog extends Dialog {
     public void setCallingFragment(Fragment callingFragment) {
         this.callingFragment = callingFragment;
         this.callingServiceFragment = (ServiceFragment) callingFragment;
+    }
+
+    public void setCallingServiceFragment(ServiceFragment serviceFragment) {
+        this.callingServiceFragment = serviceFragment;
     }
 }

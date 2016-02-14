@@ -56,11 +56,11 @@ public class ServiceFragment extends Fragment {
     DatabaseConnector databaseConnector;
 
     private MainActivityCallbacks mainActivityCallbacks;
+    private Realm realm;
     private View view;
     private ServicesListAdapter adapter;
     private List<Service> serviceList;
     private RecyclerView recyclerViewService;
-    private Realm realm;
     private Vehicle currentVehicle;
 
     @Override
