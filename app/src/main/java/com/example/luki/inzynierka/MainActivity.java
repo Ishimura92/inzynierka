@@ -1,18 +1,22 @@
 package com.example.luki.inzynierka;
 
-import android.app.Notification;
+import android.app.Activity;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.NotificationCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +29,6 @@ import com.example.luki.inzynierka.adapters.DrawerListAdapter;
 import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.callbacks.RefuelingCallbacks;
 import com.example.luki.inzynierka.callbacks.RepairCallbacks;
-import com.example.luki.inzynierka.fragments.MainFragment;
 import com.example.luki.inzynierka.fragments.MainFragment_;
 import com.example.luki.inzynierka.fragments.RefuelingFragment;
 import com.example.luki.inzynierka.fragments.RefuelingFragment_;
@@ -38,19 +41,26 @@ import com.example.luki.inzynierka.fragments.RepairHistoryFragment_;
 import com.example.luki.inzynierka.fragments.RepairSummaryFragment_;
 import com.example.luki.inzynierka.fragments.ServiceFragment;
 import com.example.luki.inzynierka.fragments.ServiceFragment_;
-import com.example.luki.inzynierka.fragments.SettingsFragment;
 import com.example.luki.inzynierka.fragments.SettingsFragment_;
-import com.example.luki.inzynierka.fragments.WorkshopFragment;
+import com.example.luki.inzynierka.fragments.StatsFragment;
+import com.example.luki.inzynierka.fragments.StatsFragment_;
 import com.example.luki.inzynierka.fragments.WorkshopFragment_;
 import com.example.luki.inzynierka.models.Refueling;
 import com.example.luki.inzynierka.models.Repair;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.NavItem;
+import com.example.luki.inzynierka.utils.Preferences_;
+import com.google.gson.Gson;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +76,8 @@ import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements MainActivityCallbacks, RefuelingCallbacks, RepairCallbacks {
 
+    private static final int FILE_PICKER_CODE = 200;
+
     public ListView mDrawerList;
     public RelativeLayout mDrawerPane;
 
@@ -78,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     private TextView textViewCarBrand, textViewCarModel;
     private Vehicle currentVehicle;
     private RelativeLayout profileBox;
+    private Preferences_ preferences;
 
     private MainFragment_ mainFragment;
+    private StatsFragment_ statsFragment;
     private SettingsFragment_ settingsFragment;
     private RefuelingHistoryFragment_ refuelingHistoryFragment;
     private RefuelingSummaryFragment_ refuelingSummaryFragment;
@@ -98,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         realm = Realm.getDefaultInstance();
+        preferences = new Preferences_(this);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
@@ -156,15 +171,51 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
     }
 
     private void triggerNotification(String title, String message) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.car_placeholder_small)
-                        .setContentTitle(title)
-                        .setContentText(message)
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        if(preferences.areNotificationsTurned().get()) {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.ic_time_to_leave_white_24dp)
+                            .setContentTitle(title)
+                            .setContentText(message)
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, mBuilder.build());
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(1, mBuilder.build());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 131272 && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            final String properFilePath = prepareProperFilePath(uri.getPath());
+
+            try {
+                InputStream is = new FileInputStream(new File(properFilePath));
+                realm.beginTransaction();
+                realm.createAllFromJson(Vehicle.class, is);
+                realm.commitTransaction();
+            } catch (IOException e) {
+                realm.cancelTransaction();
+            }
+
+            Snackbar.make(mDrawerLayout, "Pojazd dodany do Garażu.", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    @NonNull
+    public String prepareProperFilePath(String path) {
+        String properFilePath = "";
+        if (path.split(":").length > 1) {
+            final String[] fileNameArray = path.split(":");
+            for (int i = 1; i < fileNameArray.length; i++) {
+                properFilePath += fileNameArray[i] + ":";
+            }
+            properFilePath = properFilePath.substring(0, properFilePath.length() - 1);
+        } else {
+            properFilePath = path;
+        }
+        return properFilePath;
     }
 
     private void initView() {
@@ -183,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
 
     private void initFragments() {
         mainFragment = new MainFragment_();
+        statsFragment = new StatsFragment_();
         refuelingFragment = new RefuelingFragment_();
         refuelingHistoryFragment = new RefuelingHistoryFragment_();
         refuelingSummaryFragment = new RefuelingSummaryFragment_();
@@ -239,8 +291,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         profileBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo Strona ze statystykami pojazdu
-                changeToMainFragment("Aktualności");
+                changeToStatsFragment("Statystyki");
                 mDrawerLayout.closeDrawer(mDrawerPane);
             }
         });
@@ -330,6 +381,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityCallb
         setTitle(fragmentTitle);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_content, mainFragment);
+        transaction.addToBackStack(fragmentTitle);
+        transaction.commit();
+    }
+
+    @Override
+    public void changeToStatsFragment(String fragmentTitle) {
+        setTitle(fragmentTitle);
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_content, statsFragment);
         transaction.addToBackStack(fragmentTitle);
         transaction.commit();
     }

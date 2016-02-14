@@ -18,6 +18,8 @@ public interface MainActivityCallbacks {
 
     void changeToSettingsFragment(String fragmentTitle);
 
+    void changeToStatsFragment(String fragmentTitle);
+
     RefuelingFragment getRefuelingFragment();
 
     RepairFragment getRepairFragment();

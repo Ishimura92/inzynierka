@@ -2,6 +2,7 @@ package com.example.luki.inzynierka.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import com.example.luki.inzynierka.callbacks.MainActivityCallbacks;
 import com.example.luki.inzynierka.models.Vehicle;
 import com.example.luki.inzynierka.utils.Preferences_;
 import com.google.gson.Gson;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -33,6 +35,7 @@ import io.realm.Realm;
 @EFragment(R.layout.fragment_settings)
 public class SettingsFragment extends Fragment{
 
+    private static final int FILE_PICKER_CODE = 200;
     @Pref
     Preferences_ preferences;
 
@@ -68,10 +71,24 @@ public class SettingsFragment extends Fragment{
         exportVehicle();
     }
 
-    private void importVehicle(){
+    @Click(R.id.buttonImport)
+    void onImportClicked(){
+        importVehicle();
+    }
 
-        Gson gson = new Gson();
-//       odbieranie final FormListObject tempObject = gson.fromJson(preferences.storedListForms().get(), FormListObject.class);
+    private void importVehicle(){
+        Intent i = new Intent(getContext(), FilePickerActivity.class);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath() + File.separator + "Serwisant_files");
+
+        startActivityForResult(i, FILE_PICKER_CODE);
+    }
+
+    @Click(R.id.checkBoxEnableNotifications)
+    void onCheckboxClicked(){
+        preferences.areNotificationsTurned().put(checkBoxEnableNotifications.isChecked());
     }
 
     private void exportVehicle(){
@@ -82,7 +99,8 @@ public class SettingsFragment extends Fragment{
         final File exportedFile = new File(vehiclesFolder, currentVehicle.getBrand() + currentVehicle.getModel() + timeStamp + ".txt");
 
         Gson gson = new Gson();
-        String vehicleToExport = gson.toJson(currentVehicle);
+//        String vehicleToExport = gson.toJson(currentVehicle);
+        String vehicleToExport = currentVehicle.toString();
 
         FileOutputStream fos = null;
 
